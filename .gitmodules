@@ -1,0 +1,33 @@
+[submodule "sources/huonw.github.io"]
+	path = sources/huonw.github.io
+	url = https://github.com/huonw/huonw.github.io.git
+[submodule "sources/rust-learning"]
+	path = sources/rust-learning
+	url = https://github.com/ctjhoa/rust-learning.git
+[submodule "sources/blog"]
+	path = sources/blog
+	url = https://github.com/BurntSushi/blog.git
+[submodule "sources/hoverbear.org"]
+	path = sources/hoverbear.org
+	url = https://github.com/Hoverbear/hoverbear.org
+[submodule "sources/pnkfx-blog"]
+	path = sources/pnkfx-blog
+	url = https://github.com/pnkfelix/pnkfx-blog
+[submodule "sources/blog.rust-lang.org"]
+	path = sources/blog.rust-lang.org
+	url = https://github.com/rust-lang/blog.rust-lang.org
+[submodule "sources/llogiq.github.io"]
+	path = sources/llogiq.github.io
+	url = https://github.com/llogiq/llogiq.github.io
+[submodule "sources/manishearth.github.io"]
+	path = sources/manishearth.github.io
+	url = https://github.com/Manishearth/manishearth.github.io
+[submodule "sources/rustlog"]
+	path = sources/rustlog
+	url = https://github.com/lifthrasiir/rustlog
+[submodule "sources/hjr3.github.io"]
+	path = sources/hjr3.github.io
+	url = https://github.com/hjr3/hjr3.github.io
+[submodule "sources/DanielKeep.github.io"]
+	path = sources/DanielKeep.github.io
+	url = https://github.com/DanielKeep/DanielKeep.github.io
