@@ -2,6 +2,7 @@ https://github.com/ctjhoa/rust-learning
 
 - http://nbaksalyar.github.io/2015/07/10/writing-chat-in-rust.html
 - https://ricardomartins.cc/2016/06/08/interior-mutability
+  - vote from skade
 - http://chrismorgan.info/blog/rust-fizzbuzz.html
 - http://blog.burntsushi.net/rust-error-handling/
 - http://hoverbear.org/2015/07/10/reading-rust-function-signatures/
@@ -163,4 +164,23 @@ Is new Rust book going to use these?
 - Error Handling in Rust - Andrew Gallant
 - Wrapper Types in Rust: Choosing Your Guarantees - Manish
 
+# Topics
 
+# Profiling
+
+# Candidates
+
+- llogiq
+  - Benchmarking in Rust
+  - Holy std::borrow::Cow
+  - Holy Cow Redux
+  - Profiling Rust applications on Linux
+  - Rust's Built-in Traits
+  - Rust Faster
+  - Where are you From::from
+  - Type-Level Shenanigans
+  - More Type-Level Shenanigans
+  - Rustic Bits
+  - Mapping Over Arrays
+
+What about Too Many Linked Lists?

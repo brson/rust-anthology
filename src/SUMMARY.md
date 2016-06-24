@@ -25,7 +25,7 @@
 - [The `Sized` Trait](the-sized-trait.md)
 - [Object Safety](object-safety.md)
 - [Where `Self` meets `Sized`: Revisiting Object Safety](where-self-meets-sized-revisiting-object-safety.md)
-
+- [Rust's Built-in Traits, the When, How & Why](rusts-built-in-traits.md)
 
 - [Working With C Unions in Rust FFI](unions-rust-ffi.md)
 - [Terminal Window Size With Rust FFI](terminal-window-size-with-rust-ffi.md)
@@ -39,4 +39,8 @@
 - [Creating a Rust Function That Accepts `String` or `&str`](creating-a-rust-function-that-accepts-string-or-str.md)
 - [Creating a Rust Function That Returns `String` or `&str`](creating-a-rust-function-that-returns-string-or-str.md)
 - [Understanding Over Guesswork](understanding-over-guesswork.md)
-
+- [Rust, Lifetimes, and Collections](rust-lifetimes-and-collections.md)
+- [Rust, Generics, and Collections](rust-generics-and-collections.md)
+- [Rust Collections Case Study: BTreeMap](rust-btree-case.md)
+- [Pre-pooping Your Pants With Rust](everyone-poops.md)
+- [The Many Kinds of Code Reuse in Rust](rust-reuse-and-recycle.md)

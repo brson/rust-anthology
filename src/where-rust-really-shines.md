@@ -23,7 +23,7 @@ isn't deallocated by the time I'm done with it, and more importantly, to be sure
 capacity it will be reallocated, invalidating any other pointers to its contents).
 
 For a smaller codebase this might be possible, but in this specific case it could have taken me a while to become sure of this.
-The code was related to the "expansion" portion of compilation, where the AST is expanded to a bigger AST. A lot of things change and get
+    The code was related to the "expansion" portion of compilation, where the AST is expanded to a bigger AST. A lot of things change and get
 moved around, so it is reasonable to assume that it might not be possible to safely use it.
 I would have had to find out where the vector is originally stored; all the entry points for the code I was
 modifying, and make sure it isn't being mutated (not as hard in Rust, but I would
