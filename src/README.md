@@ -3,10 +3,10 @@
 ## Ownership and Borrowing
 
 [__Where Rust Really Shines__] ★ [Manish Goregaokar]. A tale of
-hacking in Rust that illustrates how Rust's strong type system and
-memory safety makes refactoring easy. Don't understand how this
-pointer is used? That's fine. The compiler won't let you do anything
-bogus, and it's going to guide you to the correct solution.
+hacking that illustrates how Rust's strong type system and memory
+safety makes it simple to modify difficult code. Don't understand how
+this pointer is accessed? That's fine. The compiler won't let you do
+anything bogus, and it's going to guide you to the correct solution.
 
 [__Where Rust Really Shines__]: where-rust-really-shines.html
 
@@ -21,10 +21,6 @@ data. But isn't this too strict for single-threaded programs? Actually,
 mutable references solve subtle problems for those too.
 
 [__The Problem With Single-threaded Shared Mutability__]: the-problem-with-shared-mutability.html
-
-[__Strategies for Solving "cannot move out of" Borrowing Errors__] ★ [Herman J. Radtke III]
-
-[__Strategies for Solving "cannot move out of" Borrowing Errors__]: strategies-for-solving-cannot-move-out-of-borrowing-errors.html
 
 ## Concurrency
 
@@ -60,7 +56,7 @@ mutable references solve subtle problems for those too.
 
 [__Finding Closure in Rust__] ★ [Huon Wilson]. Closures are functions
 that can directly use variables from their enclosing scope. They are a
-powerful tool in Rust, and come in several forms reflecting Rust's
+powerful tool in Rust, and come in several forms, reflecting Rust's
 ownership-based design. This chapter covers all the details, including
 the `Fn`, `FnMut`, and `FnOnce` traits, captures and the `move` keyword.
 
@@ -103,6 +99,16 @@ the `Fn`, `FnMut`, and `FnOnce` traits, captures and the `move` keyword.
 [__Where `Self` meets `Sized`: Revisiting Object Safety__]: where-self-meets-sized-revisiting-object-safety.html
 
 [__Rust's Built-in Traits, the When, How & Why__] ★ [Llogiq]
+
+Traits make all kinds of magic happen in Rust, from operator
+overloading, to thread-safety. Traits are shared vocabulary between
+Rust types, so the standard library defines a bunch of them, and you
+need to know them. Unravel the mystery of `PartialEq`, `Eq`,
+`PartialOrd`, `Ord`, `Add`, `Sub` and other operators, `Index`, `IndexMut`,
+the closure types `Fn`, `FnMut`, `FnOnce`, formatting with `Display` and `Debug`,
+`Copy` and `Clone`, `Drop`, `Default`, `Error`, `Hash`, `Iterator`,
+`From`, `Into`, `Deref`, `DerefMut`, `AsRef`, `AsMut`, `Borrow`,
+`BorrowMut`, `ToOwned`, `Send`, `Sync`.
 
 [__Rust's Built-in Traits, the When, How & Why__]: rusts-built-in-traits.html
 
@@ -175,6 +181,12 @@ the `Fn`, `FnMut`, and `FnOnce` traits, captures and the `move` keyword.
 [__The Many Kinds of Code Reuse in Rust__] ★ [Alexis Beingessner]
 
 [__The Many Kinds of Code Reuse in Rust__]: rust-reuse-and-recycle.html
+
+# Candidates
+
+[__Strategies for Solving "cannot move out of" Borrowing Errors__] ★ [Herman J. Radtke III]
+
+[__Strategies for Solving "cannot move out of" Borrowing Errors__]: strategies-for-solving-cannot-move-out-of-borrowing-errors.html
 
 [Aaron Turon]: authors.html#Aaron%20Turon
 [Alexis Beingessner]: authors.html#Alexis%20Beingessner

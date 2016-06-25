@@ -184,3 +184,14 @@ Is new Rust book going to use these?
   - Mapping Over Arrays
 
 What about Too Many Linked Lists?
+
+# Editing
+
+## rust built in traits
+
+Section on Deref could emphasize that it is for smart pointers. And it should
+say that it is the only one of these the language treats specially and how.
+
+> Note that this does not necessarily mean consuming the value – maybe we take a reference to it in the same expression, e.g. &*x (which you will likely find in code that deals with special kinds of pointers, e.g. syntax::ptr::P is widely used in clippy and other lints / compiler plugins. Perhaps as_ref() would be clearer in those cases (see below), but here we are.
+
+I don't understand this sentence, and it's criticizing Rust in some way.
