@@ -98,17 +98,17 @@ the `Fn`, `FnMut`, and `FnOnce` traits, captures and the `move` keyword.
 
 [__Where `Self` meets `Sized`: Revisiting Object Safety__]: where-self-meets-sized-revisiting-object-safety.html
 
-[__Rust's Built-in Traits, the When, How & Why__] ★ [Llogiq]
-
+[__Rust's Built-in Traits, the When, How & Why__] ★ [Llogiq].
 Traits make all kinds of magic happen in Rust, from operator
 overloading, to thread-safety. Traits are shared vocabulary between
 Rust types, so the standard library defines a bunch of them, and you
 need to know them. Unravel the mystery of `PartialEq`, `Eq`,
-`PartialOrd`, `Ord`, `Add`, `Sub` and other operators, `Index`, `IndexMut`,
-the closure types `Fn`, `FnMut`, `FnOnce`, formatting with `Display` and `Debug`,
-`Copy` and `Clone`, `Drop`, `Default`, `Error`, `Hash`, `Iterator`,
-`From`, `Into`, `Deref`, `DerefMut`, `AsRef`, `AsMut`, `Borrow`,
-`BorrowMut`, `ToOwned`, `Send`, `Sync`.
+`PartialOrd`, `Ord`, `Add`, `Sub` and other operators, `Index`,
+`IndexMut`, the closure types `Fn`, `FnMut`, `FnOnce`, formatting with
+`Display` and `Debug`, `Copy` and `Clone`, `Drop`, `Default`, `Error`,
+`Hash`, `Iterator`, `From`, `Into`, the pointer conversions `Deref`,
+`DerefMut`, `AsRef`, `AsMut`, `Borrow`, `BorrowMut`, `ToOwned`,
+and thread-safety markers `Send`, `Sync`.
 
 [__Rust's Built-in Traits, the When, How & Why__]: rusts-built-in-traits.html
 
