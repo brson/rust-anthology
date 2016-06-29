@@ -1,10 +1,4 @@
----
-layout: post
-title: "Where Rust really shines"
-date: 2015-05-03 03:49:49 +0530
-comments: true
-categories: [Rust, Mozilla, Programming]
----
+# Where Rust Really Shines
 
 Yesterday I was working on a [small feature](https://github.com/rust-lang/rust/pull/25027)
 for the Rust compiler, and came across a situation which really showcased Rust's
@@ -177,4 +171,6 @@ with much cognitive overhead; I could just follow the compiler and it fixed ever
 [^1]: Some people have pointed out that a shared pointer to the vector itself would work here too. This is correct, but a shared pointer also has a runtime overhead, and more importantly doesn't prevent iterator invalidation. I had no idea how the vector was being used elsewhere, so this was a risk I didn't want to take. Additionally, whilst a shared pointer to the vector itself is immune to the issue of the vector being moved, since this was an API, someone consuming the API might take a reference of an attribute and hold on to it long enough for it to become invalidated. This is something we can't have either -- an API consumer should not have to worry about where the pointers will invalidate.
 [^2]: Note: This is not the lifetime of the reference `&self`, which is the lifetime of the pointer (`&'b self`), but the lifetime parameter of `self`, a `TraitDef<'a>`, which has a lifetime parameter for its child fields.
 
-
+> [_Originally published 2015-05-03_](https://manishearth.github.io/blog/2015/05/03/where-rust-really-shines/)
+>
+> _License: TBD_

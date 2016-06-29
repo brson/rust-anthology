@@ -1,10 +1,4 @@
----
-layout: post
-title: "The problem with single-threaded shared mutability"
-date: 2015-05-17 16:56:59 +0530
-comments: true
-categories: rust mozilla programming
----
+# The Problem with Single-threaded Shared Mutability
 
 This is a post that I've been meaning to write for a while now; and the release of Rust 1.0 gives
 me the perfect impetus to go ahead and do it.
@@ -293,3 +287,7 @@ also okay to use runtime checks and asserts to maintain your invariants; perform
 But this _is_ an issue in programming; and make sure you think of it when designing your code.
 
 <small>Discuss: [HN](https://news.ycombinator.com/item?id=9560158), [Reddit](http://www.reddit.com/r/rust/comments/369jnx/the_problem_with_singlethreaded_shared_mutability/)</small>
+
+> [_Originally published 2015-05-17_](https://manishearth.github.io/blog/2015/05/17/the-problem-with-shared-mutability/)
+>
+> _License: TBD_

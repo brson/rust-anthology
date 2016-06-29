@@ -1,9 +1,4 @@
----
-layout: post
-title: "Fearless Concurrency with Rust"
-author: Aaron Turon
-description: "Rust's vision for concurrency"
----
+# Fearless Concurrency with Rust
 
 The Rust project was initiated to solve two thorny problems:
 
@@ -621,3 +616,7 @@ months. Stay tuned!
 [crossbeam-doc]: http://aturon.github.io/crossbeam-doc/crossbeam/fn.scope.html
 [scoped-threadpool-crate]: https://crates.io/crates/scoped_threadpool
 [scoped-threadpool-doc]: http://kimundi.github.io/scoped-threadpool-rs/scoped_threadpool/index.html#examples:
+
+> [_Originally published 2015-04-10_](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html)
+>
+> _License: TBD_

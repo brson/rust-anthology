@@ -1,6 +1,4 @@
----
-title: Rust's Built-in Traits, the When, How & Why
----
+# Rust's Built-in Traits, the When, How & Why
 
 As the title not quite subtly hints, today I'm going to write about the
 *traits* that come with [Rust](http://rust-lang.org)'s standard library,
@@ -530,3 +528,7 @@ Have I missed, or worse, misunderstood a trait (or a facet of one)? Please
 write your extension requests on
 [/r/rust](https://www.reddit.com/r/rust/comments/3f77j0/blog_rusts_builtin_traits_the_when_how_why/) 
 or [rust-lang users](https://users.rust-lang.org/t/blog-rusts-built-in-traits-the-when-how-and-why/2268).
+
+> [_Originally published 2015-07-30_](https://huonw.github.io/blog/2015/05/finding-closure-in-rust/)
+>
+> _License: TBD_
