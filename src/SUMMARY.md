@@ -44,3 +44,5 @@
 - [Rust Collections Case Study: BTreeMap](rust-btree-case.md)
 - [Pre-pooping Your Pants With Rust](everyone-poops.md)
 - [The Many Kinds of Code Reuse in Rust](rust-reuse-and-recycle.md)
+
+- [Appendix: Additional Reading](additional-reading.md)
