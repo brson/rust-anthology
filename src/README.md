@@ -2,11 +2,12 @@
 
 ## Ownership and Borrowing
 
-[__Where Rust Really Shines__] ★ [Manish Goregaokar]. A tale of
-hacking that illustrates how Rust's strong type system and memory
-safety makes it simple to modify difficult code. Don't understand how
-this pointer is accessed? That's fine. The compiler won't let you do
-anything bogus, and it's going to guide you to the correct solution.
+[__Where Rust Really Shines__] ★ [Manish Goregaokar].
+A tale of hacking that illustrates how Rust's strong type system and
+memory safety makes it simple to modify difficult code. Don't
+understand how this pointer is accessed? That's fine. The compiler
+won't let you do anything bogus, and it's going to guide you to the
+correct solution.
 
 [__Where Rust Really Shines__]: where-rust-really-shines.html
 
@@ -24,7 +25,11 @@ mutable references solve subtle problems for those too.
 
 ## Concurrency
 
-[__Fearless Concurrency with Rust__] ★ [Aaron Turon]
+[__Fearless Concurrency with Rust__] ★ [Aaron Turon] Memory safety
+bugs and concurrency bugs often come down to code accessing data when
+it shouldn't. And the same feature that makes Rust memory safe -
+ownership - also let the compiler statically prevent common errors
+with conncurrent code.
 
 [__Fearless Concurrency with Rust__]: fearless-concurrency.html
 
@@ -54,11 +59,12 @@ mutable references solve subtle problems for those too.
 
 ## The Rust Language
 
-[__Finding Closure in Rust__] ★ [Huon Wilson]. Closures are functions
-that can directly use variables from their enclosing scope. They are a
-powerful tool in Rust, and come in several forms, reflecting Rust's
-ownership-based design. This chapter covers all the details, including
-the `Fn`, `FnMut`, and `FnOnce` traits, captures and the `move` keyword.
+[__Finding Closure in Rust__] ★ [Huon Wilson].
+Closures are functions that can directly use variables from their
+enclosing scope. They are a powerful tool in Rust, and come in several
+forms, reflecting Rust's ownership-based design. This chapter covers
+all the details, including the `Fn`, `FnMut`, and `FnOnce` traits,
+captures and the `move` keyword.
 
 [__Finding Closure in Rust__]: finding-closure-in-rust.html
 
@@ -182,7 +188,7 @@ and thread-safety markers `Send`, `Sync`.
 
 [__The Many Kinds of Code Reuse in Rust__]: rust-reuse-and-recycle.html
 
-# Candidates
+## Additional reading
 
 [__Strategies for Solving "cannot move out of" Borrowing Errors__] ★ [Herman J. Radtke III]
 
