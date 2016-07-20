@@ -123,6 +123,7 @@ https://chrismorgan.info/blog/tags/rust.html CC-BY
 https://huonw.github.io/blog/
 https://blog.rust-lang.org
 https://manishearth.github.io
+http://fredrik.anderzon.se/rust-for-node-js-developers-part-3-crates-modules-and-the-web/
 
 # Additional reading
 
@@ -157,6 +158,19 @@ https://manishearth.github.io
 - Practical Introduction to Rust Macros - Daniel Keep
 
 - Travis Heroku, AWS - , huon and hoverbear have articles
+
+- Why Your First FizzBuzz May Not Work
+
+- Have you considered rewriting it in Rust?
+  - http://transitiontech.ca/random/RIIR
+  - http://robert.ocallahan.org/2016/02/rewrite-everything-in-rust.html
+
+- Stability as a deliverable
+
+- Rust means never having to close a socket
+  - http://blog.skylight.io/rust-means-never-having-to-close-a-socket/
+
+- It's not rocket science
 
 # From Rust Book
 

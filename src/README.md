@@ -29,11 +29,11 @@ mutable references solve subtle problems for those too.
 
 ## Concurrency
 
-[__Fearless Concurrency with Rust__] ★ [Aaron Turon] Memory safety
-bugs and concurrency bugs often come down to code accessing data when
-it shouldn't. And the same feature that makes Rust memory safe -
-ownership - also let the compiler statically prevent common errors
-with conncurrent code.
+[__Fearless Concurrency with Rust__] ★ [Aaron Turon]
+Memory safety bugs and concurrency bugs often come down to code
+accessing data when it shouldn't. And the same feature that makes Rust
+memory safe - ownership - also let the compiler statically prevent
+common errors with conncurrent code.
 
 [__Fearless Concurrency with Rust__]: fearless-concurrency.html
 

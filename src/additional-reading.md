@@ -3,7 +3,8 @@
 ## Ownership and Borrowing
 
 [__Strategies for Solving "cannot move out of" Borrowing Errors__] ★ [Herman J. Radtke III]
-TODO: summary
+
+TODO: summarize
 
 [__Strategies for Solving "cannot move out of" Borrowing Errors__]: strategies-for-solving-cannot-move-out-of-borrowing-errors.html
 
