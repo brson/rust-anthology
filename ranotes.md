@@ -100,8 +100,8 @@
   - RIIR
     - [Rewrite Everything In Rust](http://robert.ocallahan.org/2016/02/rewrite-everything-in-rust.html)
     - [Have You Considered Rewriting it In Rust?](http://transitiontech.ca/random/RIIR)
-  - Would be nice to have something about community
-  - Maybe Manish's post about contributor engagement
+  - [Making Your Open Source Project Newcomer Friendly](http://manishearth.github.io/blog/2016/01/03/making-your-open-source-project-newcomer-friendly/)
+  - [Rust Discovery, or: How I Figure Things Out](http://carol-nichols.com/2015/08/01/rustc-discovery/)
 - Cheat Sheets
   - [Periodic Table of Rust Types](http://cosmic.mearie.org/2014/01/periodic-table-of-rust-types)
   - [Rust String Conversions Cheat Sheet](https://docs.google.com/spreadsheets/d/19vSPL6z2d50JlyzwxariaYD6EU2QQUQqIDOGbiGQC7Y/pubhtml?gid=0&single=true)
