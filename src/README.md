@@ -1,21 +1,38 @@
 # Rust Anthology
 
-TODO: intro, historical context,
-      [Authors](authors.html),
-      [Additional reading](additional-reading.html)
+TODO: 1 paragraph intro.
 
-## Ownership and Borrowing
+Something, something [about the authors](authors.html).
 
-[__Where Rust Really Shines__] ★ [Manish Goregaokar].
+## Introduction to Rust
+
+[__Understanding Over Guesswork__](understanding-over-guesswork.html)
+★ [Andrew Hobden].
+Some bugs are just that &mdash; a one off. A wayward moth that just
+happens to be innocently fluttering through the wrong relay at the
+wrong time. But some kinds of bugs aren't like that. Instead, they
+have risen to superstar status, plaguing veterans and newcomers alike.
+But what if these aren't bugs at all? What if they are actual
+deficiencies in safety and robustness offered by the C programming
+language as a consequence of the degree to which guesswork is
+introduced? This chapter, a proposal to teach an operating systems
+course in Rust at the University of Victoria, shows why Rust
+is a superior language for writing reliable systems software.
+
+
+## Ownership
+
+[__Where Rust Really Shines__](where-rust-really-shines.html)
+★ [Manish Goregaokar].
 A tale of hacking that illustrates how Rust's strong type system and
 memory safety makes it simple to modify difficult code. Don't
 understand how this pointer is accessed? That's fine. The compiler
 won't let you do anything bogus, and it's going to guide you to the
 correct solution.
 
-[__Where Rust Really Shines__]: where-rust-really-shines.html
 
-[__The Problem With Single-threaded Shared Mutability__] ★ [Manish Goregaokar].
+[__The Problem With Single-threaded Shared Mutability__](the-problem-with-shared-mutability.html)
+★ [Manish Goregaokar].
 In Rust, `&mut T` is a mutable reference, but it might be better
 considered an _unaliased_ reference, guaranteeing that there are no
 other live pointers to that data, and no other code will access
@@ -25,31 +42,21 @@ programs, where simultaneous access to data can result in bogus
 data. But isn't this too strict for single-threaded programs? Actually,
 mutable references solve subtle problems for those too.
 
-[__The Problem With Single-threaded Shared Mutability__]: the-problem-with-shared-mutability.html
 
 ## Concurrency
 
-[__Fearless Concurrency with Rust__] ★ [Aaron Turon]
+[__Fearless Concurrency with Rust__](fearless-concurrency.html)
+★ [Aaron Turon]
 Memory safety bugs and concurrency bugs often come down to code
 accessing data when it shouldn't. And the same feature that makes Rust
 memory safe - ownership - also let the compiler statically prevent
 common errors with conncurrent code.
 
-[__Fearless Concurrency with Rust__]: fearless-concurrency.html
 
+## Traits
 
-## The Rust Language
-
-[__Finding Closure in Rust__] ★ [Huon Wilson].
-Closures are functions that can directly use variables from their
-enclosing scope. They are a powerful tool in Rust, and come in several
-forms, reflecting Rust's ownership-based design. This chapter covers
-all the details, including the `Fn`, `FnMut`, and `FnOnce` traits,
-captures and the `move` keyword.
-
-[__Finding Closure in Rust__]: finding-closure-in-rust.html
-
-[__Rust's Built-in Traits, the When, How & Why__] ★ [Llogiq].
+[__Rust's Built-in Traits, the When, How & Why__](rusts-built-in-traits.html)
+★ [Andre Bogus].
 Traits make all kinds of magic happen in Rust, from operator
 overloading, to thread-safety. Traits are shared vocabulary between
 Rust types, so the standard library defines a bunch of them, and you
@@ -61,18 +68,33 @@ need to know them. Unravel the mystery of `PartialEq`, `Eq`,
 `DerefMut`, `AsRef`, `AsMut`, `Borrow`, `BorrowMut`, `ToOwned`,
 and thread-safety markers `Send`, `Sync`.
 
-[__Rust's Built-in Traits, the When, How & Why__]: rusts-built-in-traits.html
+
+## The Rust Language
+
+[__Finding Closure in Rust__](finding-closure-in-rust.html)
+★ [Huon Wilson].
+Closures are functions that can directly use variables from their
+enclosing scope. They are a powerful tool in Rust, and come in several
+forms, reflecting Rust's ownership-based design. This chapter covers
+all the details, including the `Fn`, `FnMut`, and `FnOnce` traits,
+captures and the `move` keyword.
+
+
+## `unsafe` Rust
 
 ## Rust in Practice
 
-TODO
+## The Rust Toolbox
 
+## `mio`
+
+## Rust Culture
 
 [Aaron Turon]: authors.html#Aaron%20Turon
 [Alexis Beingessner]: authors.html#Alexis%20Beingessner
+[Andre Bogus]: authors.html#Andre%20Bogus
 [Andrew Hobden]: authors.html#Andrew%20Hobden
 [Felix S. Klock II]: authors.html#Felix%20S.%20Klock%20II
 [Herman J. Radtke III]: authors.html#Herman%20J.%20Radtke%20III
 [Huon Wilson]: authors.html#Huon%20Wilson
-[Llogiq]: authors.html#Llogiq
 [Manish Goregaokar]: authors.html#Manish%20aGoregaokar

@@ -1,13 +1,6 @@
----
-layout: post
-title: "Understanding Over Guesswork"
-tags:
- - Rust
- - Papers
-image: /assets/images/2015/09/mountains.jpg
----
+# Understanding Over Guesswork
 
-# Evolving How We Learn Systems with Lessons from Programming in the Large
+Or, Evolving How We Learn Systems with Lessons from Programming in the Large.
 
 > Some bugs are just that---a one off.  A wayward moth that just happens to be innocently fluttering through the wrong relay at the wrong time.  But some kinds of bugs aren't like that.  Instead, they have risen to superstar status, plaguing veterans and newcomers alike.  But what if these aren't bugs at all?  What if they are actual deficiencies in safety and robustness offered by the C programming language as a consequence of the degree to which guesswork is introduced.  Here we explore a more explicit approach to systems level programming supported by Rust, which we believe will better promote understanding of design intent, and eliminate some of the guesswork.  Guided by a set of classic, but still relevant, bugs identified almost 15 years ago by Engler, we consider this in the context of the new generation of students learning about systems in a typical OS course, where students often first encounter these deficiencies.
 
@@ -358,3 +351,8 @@ In this work we have overviewed some of the reasons to consider Rust as the lanu
 [raft]: http://ramcloud.stanford.edu/raft.pdf "In Search of an Understandable Consensus Algorithm"
 [crossbeam]: http://aturon.github.io/crossbeam-doc/crossbeam/struct.Scope.html#method.spawn "crossbeam::Scope::spawn"
 [lock-freedom]: http://aturon.github.io/blog/2015/08/27/epoch/ "Lock-freedom without garbage collection"
+
+
+> [_Originally published 2015-09-12_](https://www.hoverbear.org/2015/09/12/understand-over-guesswork/)
+>
+> _License: TBD_
