@@ -41,7 +41,7 @@ Rust does, however, have significant semantic differences compared to C-like lan
 
 As well, function definitions differ from C-like languages. This change makes function definitions easier to comprehend when dealing with complex parameters, generics, and return values. Numerous reasoning for why C's declaration syntax is inadequate were well explained by Rob Pike [*(ref)*][go-fn].
 
-```rust
+```rust,ignore
 fn example_simple()
 fn example_params(x: u64, y: &u64, z: &mut u64)
 fn example_returns(x: u64) -> u64
@@ -130,13 +130,15 @@ let val_or_desc = match success {
 It is a compiler warning to perform an action such as `file.read_to_string(buf)` which returns a `Result<usize, Error>` and to not handle the error in some way. In Rust is it idiomatic for any recoverable error to be passed up the call stack to where it can be sensibly handled. While approaching this idea newcomers typically struggle with the fact that an `io::Error` and a `Utf8Error` are different types and cannot be returned in the same `Result<T,E>`, since the `E` value would differ and violate Rust's strong typing. This is typically solved by creating a new `Error` which is an enumeration over the possible underlaying errors as well as any the programmer may wish to include themselves. Then there are the `Into<T>` and `From<T>` traits which can be implemented to provide seamless interaction.
 
 ```rust
+# use std::io;
+# use std::str::Utf8Error;
 pub enum MyError {
     Io(io::Error),
     Utf8(Utf8Error)
 }
 impl From<io::Error> for MyError {
-    fn from(err: io::Error) -> Error {
-        Error::Io(err)
+    fn from(err: io::Error) -> MyError {
+        MyError::Io(err)
     }
 }
 // ...
@@ -145,6 +147,16 @@ impl From<io::Error> for MyError {
 When working with functions which may return a `Result<T, E>` it is common to use the `try!()` macro. This macro expands to either unwrap the `T` value inside and assign it, or return the error up the call stack. This helps reduce visual 'noise' and assist in composition.
 
 ```rust
+# use std::fs::File;
+# use std::io::{self, Read};
+# pub enum MyError {
+#     Io(io::Error),
+# }
+# impl From<io::Error> for MyError {
+#     fn from(err: io::Error) -> MyError {
+#         MyError::Io(err)
+#     }
+# }
 fn open_and_read() -> Result<String, MyError> {
     let mut f = try!(File::open("foo.txt"));
     let mut s = String::new();
@@ -162,7 +174,7 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
 
 This makes it simple for a programmer to observe a function signature and determine which values the function may mutate or consume, and which it may return. Using this information the compiler is able to determine the lifetime constraints of almost any value without additional notations. In (rare, complex) cases where it does require additional information, the programmer can annotate lifetimes just as they would generic type parameters.
 
-```rust
+```rust,ignore
 fn main() {
     // An owned, growable,
     // non-copyable string.
@@ -233,6 +245,7 @@ Harnessing the power of ownership semantics, the type system, the standard libra
 ```rust
 use std::sync::mpsc::{channel, Sender, Receiver};
 let (send, receive) = channel();
+# let send: Sender<u8> = send;
 ```
 
 **Locks** can encapsulate data such that access is only granted if the lock is held. In Rust, you **don't lock code, you lock data**, and it is safer because of it. Locks are typically represented by `Mutex`s and shared between threads with an Atomically Reference Counted structure (`Arc`). It should be noted that this design of locking data prevents a lock from being acquired and never given up, identified as common by Engler [*(ref)*][deviant].
@@ -253,7 +266,7 @@ use std::marker::Send;
 
 Rust's concurrency primitives are powerful and composable, allowing users to implement other, more fearless forms of concurrency such as **sharing stack frames**. For example, here's a demonstration of a third-party crate called **crossbeam** that allows us to safely operate concurrently on stack-allocated data: [*(ref)*][crossbeam]
 
-```rust
+```rust,ignore
 extern crate crossbeam;
 
 fn main() {

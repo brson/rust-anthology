@@ -174,6 +174,8 @@
 - http://blog.adamperry.me/rust/2016/07/24/profiling-rust-perf-flamegraph/
   - good writing supposedly
 - http://sunjay.ca/2016/07/25/rust-code-coverage
+- http://xion.io/post/code/rust-for-loop.html
+  - details about for loops and iterators
 
 # Editing
 

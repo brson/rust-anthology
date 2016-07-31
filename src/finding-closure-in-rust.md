@@ -44,12 +44,12 @@ example, `|a, b| a + b` defines a closure that takes two arguments and
 returns their sum. It's just like a normal function declaration, with
 more inference:
 
-{% highlight rust linenos %}
+```rust,ignore
 // function:
 fn foo(a: i32, b: i32) -> i32 { a + b }
 // closure:
       |a,      b|               a + b
-{% endhighlight %}
+```
 
 Just like a normal function, they can be called with parentheses:
 `closure(arguments...)`.
@@ -74,7 +74,7 @@ return value of the call.
 
 [Option::map]: http://doc.rust-lang.org/std/option/enum.Option.html#method.map
 
-{% highlight rust linenos %}
+```rust,ignore
 fn main() {
     let option = Some(2);
 
@@ -88,7 +88,7 @@ fn main() {
     let new2 = option.map(|val| val * y);
     println!("{:?}", new2); // Some(20)
 }
-{% endhighlight %}
+```
 
 The closures are capturing the `x` and `y` variables, allowing them to
 be used while mapping. (To be more convincing, imagine they were only
@@ -103,14 +103,14 @@ didn't have closures?
 
 The functionality of `Option::map` we're trying to duplicate is (equivalently):
 
-{% highlight rust linenos %}
+```rust,ignore
 fn map<X, Y>(option: Option<X>, transformer: ...) -> Option<Y> {
     match option {
         Some(x) => Some(transformer(x)), // (closure syntax for now)
         None => None,
     }
 }
-{% endhighlight %}
+```
 
 We need to fill in the `...` with something that transforms an `X` into
 a `Y`. The biggest constraint for perfectly replacing `Option::map` is
@@ -118,11 +118,11 @@ that it needs to be generic in some way, so that it works with
 absolutely any way we wish to do the transformation. In Rust, that
 calls for a generic bounded by a trait.
 
-{% highlight rust linenos %}
+```rust,ignore
 fn map<X, Y, T>(option: Option<X>, transform: T) -> Option<Y>
     where T: /* the trait */
 {
-{% endhighlight %}
+```
 
 
 This trait needs to have a method that converts some specific type
@@ -150,13 +150,13 @@ type.[^assoc-vs-not]
 
 So, our trait looks something like:
 
-{% highlight rust linenos %}
+```rust,ignore
 trait Transform<Input> {
     type Output;
 
     fn transform(/* self?? */, input: Input) -> Self::Output;
 }
-{% endhighlight %}
+```
 
 The last question is what sort of `self` (if any) the method should
 take?
@@ -200,7 +200,7 @@ by-value `self` works perfectly.
 
 In summary, our `map` and its trait look like:
 
-{% highlight rust linenos %}
+```rust,ignore
 trait Transform<Input> {
     type Output;
 
@@ -215,14 +215,14 @@ fn map<X, Y, T>(option: Option<X>, transform: T) -> Option<Y>
         None => None,
     }
 }
-{% endhighlight %}
+```
 
 
 The example from before can then be reimplemented rather verbosely, by
 creating structs and implementing `Transform` to do the appropriate
 conversion for that struct.
 
-{% highlight rust linenos %}
+```rust,ignore
 // replacement for |val| val + x
 struct Adder { x: i32 }
 
@@ -258,7 +258,7 @@ fn main() {
     let new2 = map(option, Multiplier { y: y });
     println!("{:?}", new2); // Some(20)
 }
-{% endhighlight %}
+```
 
 We've manually implemented something that seems to have the same
 semantics as Rust closures, using traits and some structs to store and
@@ -271,7 +271,7 @@ variables that need to be used in the body of `transform`.
 Just like that, plus a little more flexibility and syntactic
 sugar. The real definition of `Option::map` is:
 
-{% highlight rust linenos %}
+```rust,ignore
 impl<X> Option<X> {
     pub fn map<Y, F: FnOnce(X) -> Y>(self, f: F) -> Option<Y> {
         match self {
@@ -280,7 +280,7 @@ impl<X> Option<X> {
         }
     }
 }
-{% endhighlight %}
+```
 
 `FnOnce(X) -> Y` is another name for our `Transform<X, Output = Y>`
 bound, and, `f(x)` for `transform.transform(x)`.
@@ -368,7 +368,7 @@ is preferred, then `&mut` and lastly by-value), and that still works
 for all their uses within the closure. This analysis happens on a
 per-variable basis, e.g.:
 
-{% highlight rust linenos %}
+```rust,ignore
 struct T { ... }
 
 fn by_value(_: T) {}
@@ -391,7 +391,7 @@ let closure = || {
     // forces `z` to be captured by value
     by_value(z);
 };
-{% endhighlight %}
+```
 
 To focus on the flexibility: since `x` is only captured by shared
 reference, it is legal for it be used while `closure` exists, and
@@ -401,7 +401,7 @@ since `y` is borrowed (by mutable reference) it can be used once
 
 The compiler would create code that looks a bit like:
 
-{% highlight rust linenos %}
+```rust,ignore
 struct Environment<'x, 'y> {
     x: &'x T,
     y: &'y mut T,
@@ -415,7 +415,7 @@ let closure = Environment {
     y: &mut y,
     z: z
 };
-{% endhighlight %}
+```
 
 The struct desugaring allows the full power of Rust's type system is
 brought to bear on ensuring it isn't possible to accidentally get a
@@ -446,7 +446,7 @@ closures can be useful and so should be possible; for example[^trait-object]:
 
 [rfc105]: https://github.com/rust-lang/rfcs/pull/105
 
-{% highlight rust linenos %}
+```rust,ignore
 /// Returns a closure that will add `x` to its argument.
 fn make_adder(x: i32) -> Box<Fn(i32) -> i32> {
     Box::new(|y| x + y)
@@ -458,26 +458,26 @@ fn main() {
     println!("{}", f(1)); // 4
     println!("{}", f(10)); // 13
 }
-{% endhighlight %}
+```
 
 <div class="join"></div>
 
 Looks good, except... it doesn't actually compile:
 
-{% highlight text linenos %}
+```text
 ...:3:14: 3:23 error: closure may outlive the current function, but it borrows `x`, which is owned by the current function [E0373]
 ...:3     Box::new(|y| x + y)
                    ^~~~~~~~~
 ...:3:18: 3:19 note: `x` is borrowed here
 ...:3     Box::new(|y| x + y)
                        ^
-{% endhighlight %}
+```
 
 The problem is clearer when everything is written as explicit structs:
 `x` only needs to be captured by reference to be used with `+`, so the
 compiler is inferring that the code can look like:
 
-{% highlight rust linenos %}
+```rust,ignore
 struct Closure<'a> {
     x: &'a i32
 }
@@ -487,7 +487,7 @@ struct Closure<'a> {
 fn make_adder(x: i32) -> Box<Fn(i32) -> i32> {
     Box::new(Closure { x: &x })
 }
-{% endhighlight %}
+```
 
 `x` goes out of scope at the end of `make_adder` so it is illegal to
 return something that holds a reference to it.
@@ -497,10 +497,10 @@ us...
 
 Well, actually, I omitted the last two lines of the error message above:
 
-{% highlight text linenos %}
+```text
 ...:3:14: 3:23 help: to force the closure to take ownership of `x` (and any other referenced variables), use the `move` keyword, as shown:
 ...:      Box::new(move |y| x + y)
-{% endhighlight %}
+```
 
 A new keyword! The `move` keyword can be placed in front of a closure
 declaration, and overrides the inference to capture all variables by
@@ -508,13 +508,13 @@ value. Going back to the previous section, if the code used `let
 closure = move || { /* same code */ }` the environment struct would
 look like:
 
-{% highlight rust linenos %}
+```rust,ignore
 struct Environment {
     x: T,
     y: T,
     z: T
 }
-{% endhighlight %}
+```
 
 Capturing entirely by value is also strictly more general than
 capturing by reference: the reference types are first-class in Rust,
@@ -527,7 +527,7 @@ To demonstrate, the following code will have the same behaviour and
 same environment as the first version, by capturing references using
 `move`:
 
-{% highlight rust linenos %}
+```rust,ignore
 let x: T = ...;
 let mut y: T = ...;
 let mut z: T = ...;
@@ -545,7 +545,7 @@ let closure = move || {
 
     by_value(z);
 };
-{% endhighlight %}
+```
 
 The set of variables that are captured is exactly those that are used
 in the body of the closure, there's no fine-grained capture lists like
@@ -559,7 +559,7 @@ to the stack frame of its birth. If we take the compiler's suggestion
 and write `Box::new(move |y| x + y)`, the code inside the compiler
 will look more like:
 
-{% highlight rust linenos %}
+```rust,ignore
 struct Closure {
     x: i32
 }
@@ -569,7 +569,7 @@ struct Closure {
 fn make_adder(x: i32) -> Box<Fn(i32) -> i32> {
     Box::new(Closure { x: x })
 }
-{% endhighlight %}
+```
 
 It is clear that the compiler doesn't infer when `move` is required
 (or else we wouldn't need to write it), but the fact that the `help`
@@ -592,7 +592,7 @@ will actually work for the type.
 Let's start with an example: for the `make_adder` example, the `Fn`
 trait is implemented for the implicit closure struct:
 
-{% highlight rust linenos %}
+```rust,ignore
 // (this is just illustrative, see the footnote for the gory details)
 impl Fn(i32) -> i32 for Closure {
     fn call(&self, y: i32) -> i32 {
@@ -600,13 +600,14 @@ impl Fn(i32) -> i32 for Closure {
         self.x + y
     }
 }
-{% endhighlight %}
+```
 
 [^invalid]: I wrote an invalid `Fn` implementation because the real
             version is ugly and much less clear, and doesn't work with
             stable compilers at the moment. But since you asked, here
             is what's required:
 
+```rust,ignore
         #![feature(unboxed_closures, core)]
 
         impl Fn<(i32,)> for Closure {
@@ -625,12 +626,13 @@ impl Fn(i32) -> i32 for Closure {
                 self.call(args)
             }
         }
+```
 
-    Just looking at that, one might be able to guess at a few of the
-    reasons that manual implementations of the function traits aren't
-    stabilised for general use. The only way to create types
-    implementing those traits with the 1.0 compiler is with a closure
-    expression.
+Just looking at that, one might be able to guess at a few of the
+reasons that manual implementations of the function traits aren't
+stabilised for general use. The only way to create types
+implementing those traits with the 1.0 compiler is with a closure
+expression.
 
 In reality, there are also implicit implementations[^invalid] of
 `FnMut` and `FnOnce` for `Closure`, but `Fn` is the "fundamental" one
@@ -656,11 +658,11 @@ hierarchy is enforced at the type level,
 e.g. [`FnMut`](http://doc.rust-lang.org/std/ops/trait.FnMut.html)
 has declaration:
 
-{% highlight rust linenos %}
+```rust,ignore
 pub trait FnMut<Args>: FnOnce<Args> {
     ...
 }
-{% endhighlight %}
+```
 
 <div class="join"></div>
 In words: anything that implements `FnMut` *must* also implement
@@ -678,7 +680,7 @@ As an example, this code demonstrates a closure for which an
 implementation of `Fn` is illegal but both `FnMut` and `FnOnce` are
 fine.
 
-{% highlight rust linenos %}
+```rust,ignore
 let mut v = vec![];
 
 // nice form
@@ -696,7 +698,7 @@ impl<'v> Fn() for Environment<'v> {
     }
 }
 let closure = Environment { v: &mut v };
-{% endhighlight %}
+```
 
 It is illegal to mutate via a `& &mut ...`, and `&self` is creating
 that outer shared reference. If it was `&mut self` or `self`, it would
@@ -730,7 +732,7 @@ abstract over the closure types means one can opt-in to these features
 and their benefits "on demand", via [trait objects][pito]: returning
 the `Box<Fn(i32) -> i32>` above used a trait object.
 
-{% highlight rust linenos %}
+```rust,ignore
 let mut closures: Vec<Box<Fn()>> = vec![];
 
 let text = "second";
@@ -742,7 +744,7 @@ closures.push(Box::new(|| println!("third")));
 for f in &closures {
     f(); // first / second / third
 }
-{% endhighlight %}
+```
 
 [pito]: {% post_url 2015-01-10-peeking-inside-trait-objects %}
 
@@ -752,14 +754,14 @@ closure calls are doing at each call site, and so has the choice to
 perform key optimisations like inlining. For example, the following
 snippets compile to the same code,
 
-{% highlight rust linenos %}
+```rust,ignore
 x.map(|z| z + 3)
 
 match x {
     Some(z) => Some(z + 3),
     None => None
 }
-{% endhighlight %}
+```
 
 <div class="join"></div>
 
@@ -777,7 +779,7 @@ tackle: by using a trait object instead, one can use dynamically
 dispatched closures to ensure there's only one copy of a function,
 even if it is used with many different closures.
 
-{% highlight rust linenos %}
+```rust,ignore
 fn generic_closure<F: Fn(i32)>(f: F) {
     f(0);
     f(1);
@@ -800,7 +802,7 @@ closure_object(&|x| {
     let y = x + 2;
     println!("{}", y);
 });
-{% endhighlight %}
+```
 
 The final binary will have two copies of `generic_closure`, one for
 `A` and one for `B`, but only one copy of `closure_object`. In fact,

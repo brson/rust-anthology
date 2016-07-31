@@ -13,7 +13,7 @@ to the same data (or a mutable alias when there are active immutable aliases),
 **even from the same thread**. In essence, it disallows one from doing things like:
 
 
-```rust
+```rust,ignore
 let mut x = Vec::new();
 {
     let ptr = &mut x; // Take a mutable reference to `x`
@@ -75,7 +75,7 @@ which gives us a type that can either be a variant `Str`, with an associated str
 
 With such an enum, we could cause a segfault like so:
 
-```rust
+```rust,ignore
 let x = Str("Hi!".to_string()); // Create an instance of the `Str` variant with associated string "Hi!"
 let y = &mut x; // Create a mutable alias to x
 
@@ -109,7 +109,7 @@ Iterator invalidation involves using tools like iterators whilst modifying the u
 For example,
 
 
-```rust
+```rust,ignore
 
 let buf = vec![1,2,3,4];
 
@@ -167,7 +167,7 @@ invalidated after the read to `length` but before the reads elsewhere, possibly 
 However, we can have a situation similar to this (in spirit) in single threaded code. Consider the following:
 
 
-```rust
+```rust,ignore
 let x = some_big_thing();
 let len = x.some_vec.len();
 for i in 0..len {
@@ -236,7 +236,7 @@ Mutable aliasing is important to fix however, because we can make a lot of assum
 Namely, by looking at a line of code we can know what happened wrt the locals. If there is the possibility of mutable aliasing out there; there's the
 possibility that other locals were modified too. A very simple example is:
 
-```rust
+```rust,ignore
 fn look_ma_no_temp_var_l33t_interview_swap(&mut x, &mut y) {
     *x = *x + *y;
     *y = *x - *y;

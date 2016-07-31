@@ -257,7 +257,7 @@ be construed as being "default", it is a good idea to implement this trait.
 A great thing with `struct`s that have a `Default` implementation, is you can
 instantiate them with only the non-default values like:
 
-```Rust
+```rust,ignore
 let x = Foo { bar: baz, ..Default::default() }
 ```
 
@@ -367,7 +367,7 @@ an `Optioned<T>` type, that I may want to convert into an
 [`Option<T>`](http://doc.rust-lang.org/std/option/enum.Option.html). Trying to 
 implement `From`:
 
-```rust
+```rust,ignore
 impl<T: Noned + Copy> From<Optioned<T>> for Option<T> {
 	#[inline]
 	fn from(self) -> Option<T> { self.map_or_else(|| none(), wrap) }

@@ -39,7 +39,7 @@ by very few.
 
 So first I started off by adding a field to the `FieldInfo` struct which was a [slice of attributes](https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R285). Notice that I added a lifetime specifier, [the `'a`](https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R273) to the struct definition.
 
-```rust
+```rust,ignore
 /// Summary of the relevant parts of a struct/enum field.
 pub struct FieldInfo<'a> {
     /// ...
@@ -67,7 +67,7 @@ However, the compiler was smart enough to figure things out for me. It would tel
 
 First, the compiler asked me to add [a lifetime to the `FieldInfo` parts of `SubstructureFields`](https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R297). So, the following:
 
-```rust
+```rust,ignore
 pub enum SubstructureFields<'a> {
     Struct(Vec<FieldInfo>),
     EnumMatching(usize, &'a ast::Variant, Vec<FieldInfo>),
@@ -78,7 +78,7 @@ pub enum SubstructureFields<'a> {
 became
 
 
-```rust
+```rust,ignore
 pub enum SubstructureFields<'a> {
     Struct(Vec<FieldInfo<'a>>),
     EnumMatching(usize, &'a ast::Variant, Vec<FieldInfo<'a>>),
@@ -97,7 +97,7 @@ and [`create_struct_pattern()`](https://github.com/Manishearth/rust/commit/ede7a
 
 Here, the method had a signature of 
 
-```rust
+```rust,ignore
 
 fn create_enum_variant_pattern(&self,
                                cx: &mut ExtCtxt,
@@ -111,7 +111,7 @@ fn create_enum_variant_pattern(&self,
 and I changed it to
 
 
-```rust
+```rust,ignore
 
 fn create_enum_variant_pattern<'a>(&self,
                                cx: &mut ExtCtxt,
@@ -127,7 +127,7 @@ Generally the compiler internally figures out the lifetimes necessary and uses t
 In this case, the compiler suggested I add a `'a` to `&StructDef` and the returned `&[Attribute]`, and I did so. The `'a` lifetime was declared at [the top of the impl](https://github.com/Manishearth/rust/blob/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b/src/libsyntax/ext/deriving/generic/mod.rs#L379), so it was the lifetime parameter of `self`[^2]. This meant that the returned attribute of the function will
 have a lifetime tied to `self` and the input `StructDef`, and due to this it cannot outlive the inputs, which is what we wanted in the first place. In essence, I took a bit of code that was doing:
 
-```rust
+```rust,ignore
 fn minicreate(&self, variant: &ast::Variant) -> &[ast::Attribute] {
     // do stuff
     // return variant.attributes
@@ -136,7 +136,7 @@ fn minicreate(&self, variant: &ast::Variant) -> &[ast::Attribute] {
 
 and changed it to 
 
-```rust
+```rust,ignore
 // we are sure that the returned slice cannot outlive the variant argument
 fn minicreate<'a>(&self, variant: &'a ast::Variant) -> &'a [ast::Attribute] {
     // do stuff
