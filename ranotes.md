@@ -1,4 +1,8 @@
-# TOC
+# Maximal TOC
+
+This is basically every good blog post about Rust, collected and categorized.
+It is a starting point for selecting chapters for the book. Many of these
+must necessarily not be included in the final selection.
 
 - Forward
 - About the Authors
@@ -129,53 +133,17 @@
     - [Five Lists of Six Things About Rust](http://graydon2.dreamwidth.org/214016.html)
     - [Things Rust Shipped Without](http://graydon2.dreamwidth.org/218040.html)
 
-# Links
-
-- [Strategies for Solving "cannot move out of" Borrowing Errors](strategies-for-solving-cannot-move-out-of-borrowing-errors.md)
-- [Abstraction Without Overhead[(abstraction-without-overhead.md)
-- [Defaulting to Thread-safety](defaulting-to-thread-safety.md)
-- [How Rust Achieves Thread Safety](how-rust-achieves-thread-safety.md)
-- [Some Notes on `Send` and `Sync`](some-notes-on-send-and-sync.md)
-- [Comparing k-NN in Rust](comparing-knn-in-rust.md)
-- [`simple_parallel`: Revisiting k-NN](simple-parallel-revisiting-knn.md)
-- [Enums, `match`, Mutations and Moves](enums-match-mutation-and-moves.md)
-- [Reading Rust Function Signatures](reading-rust-function-signatures.md)
-- [Memory Leaks are Memory Safe](memory-leaks-are-memory-safe.md)
-- [Myths and Legends About Integer Overflow in Rust](myths-and-legends-about-integer-overflow-in-rust.md)
-- [What Does Rust's `unsafe` Mean?](what-does-rusts-unsafe-mean.md)
-- [Peeking Inside Trait Objects](peeking-inside-trait-objects.md)
-- [The `Sized` Trait](the-sized-trait.md)
-- [Object Safety](object-safety.md)
-- [Where `Self` meets `Sized`: Revisiting Object Safety](where-self-meets-sized-revisiting-object-safety.md)
-- [Working With C Unions in Rust FFI](unions-rust-ffi.md)
-- [Terminal Window Size With Rust FFI](terminal-window-size-with-rust-ffi.md)
-- [Getting Acquainted with `mio`](getting-acquainted-with-mio.md)
-- [My Basic Understanding of `mio` and Async I/O](my-basic-understanding-of-mio-and-async-io.md)
-- [Creating a Simple Protocol With `mio`](creating-a-simple-protocol-with-mio.md)
-- [Managing Connection State With `mio`](managing-connection-state-with-mio.md)
-- [Get Data From a URL](get-data-from-a-url.md)
-- [Effectively Using Iterators in Rust](effectively-using-iterators.md)
-- [`String` vs. `&str` in Rust Functions](string-vs-str-in-rust-functions.md)
-- [Creating a Rust Function That Accepts `String` or `&str`](creating-a-rust-function-that-accepts-string-or-str.md)
-- [Creating a Rust Function That Returns `String` or `&str`](creating-a-rust-function-that-returns-string-or-str.md)
-- [Understanding Over Guesswork](understanding-over-guesswork.md)
-- [Rust, Lifetimes, and Collections](rust-lifetimes-and-collections.md)
-- [Rust, Generics, and Collections](rust-generics-and-collections.md)
-- [Rust Collections Case Study: BTreeMap](rust-btree-case.md)
-- [Pre-pooping Your Pants With Rust](everyone-poops.md)
-- [The Many Kinds of Code Reuse in Rust](rust-reuse-and-recycle.md)
-
-# Notes
-
-- 'finding closure in rust' needs to come before 'defaulting to thread-safety'
-
-# Candidates
+# More Candidates
 
 - http://blog.adamperry.me/rust/2016/07/24/profiling-rust-perf-flamegraph/
   - good writing supposedly
 - http://sunjay.ca/2016/07/25/rust-code-coverage
 - http://xion.io/post/code/rust-for-loop.html
   - details about for loops and iterators
+
+# Notes
+
+- 'finding closure in rust' needs to come before 'defaulting to thread-safety'
 
 # Editing
 

@@ -1,0 +1,9 @@
+language: rust
+dist: trusty
+rust: nightly
+
+install:
+  - cargo install mdbook
+
+script:
+  - ~/.cargo/bin/mdbook test
