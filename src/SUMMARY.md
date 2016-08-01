@@ -1,6 +1,6 @@
 # Summary
 
-- [README](README.md)
+- [Introduction to the Anthology](intro.md)
 - [About the Authors](authors.md)
 - [Introduction to Rust]()
     - [Understanding Over Guesswork](understanding-over-guesswork.md)

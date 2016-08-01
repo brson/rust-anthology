@@ -33,14 +33,23 @@ the community as instructors.
   into the book's organization.
 - Where chapters should be composed of multiple blog posts from a series, combine
   them into one with sections named "Part X: $post-title".
-- Add them to SUMMARY.md in an appropriate place.
+- Add the chapter to SUMMARY.md in an appropriate place.
+- Add the chapter to intro.md with a 1-paragraph description.
 - Get tests to pass.
 - Edit chapters lightly for technical correctness and style.
 - Append metadata about chapter, including source information and licensing
 - Get approval from original author to use the content.
 
+To get started, we don't have to be too picky. Just get chapters filled
+out and into decent shape. Then we can make a second pass where we are
+actually focused on polishing it into something publishable.
 
 ## On curation
 
+There's a lot of good writing about Rust. Not all of it will make the
+cut. We'll have to make some hard decisions, and some authors will
+probably have their feelings hurt by not being included. That's just
+the reality, and we have to manage it in the most diplomatic way
+possible.
 
 See [ranotes.md] for candidate chapters.
