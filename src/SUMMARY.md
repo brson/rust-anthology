@@ -1,8 +1,8 @@
 # Summary
 
-- [Introduction to the Anthology](intro.md)
+- [Introduction](intro.md)
 - [About the Authors](authors.md)
-- [Introduction to Rust]()
+- [Why Rust?]()
     - [Understanding Over Guesswork](understanding-over-guesswork.md)
     - [An Alternative Introduction to Rust]()
 - [Ownership]()
@@ -21,6 +21,6 @@
 - [`unsafe` Rust]()
 - [Rust in Practice]()
 - [The Rust Toolbox]()
-- [`mio`]()
+- [Async I/O]()
 - [Rust Culture]()
 - [Appendix: Graydon's Lists of Things About Rust]()

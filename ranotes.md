@@ -91,7 +91,7 @@ must necessarily not be included in the final selection.
   - [Rust, Travis and GitHub Pages](http://hoverbear.org/2015/03/07/rust-travis-github-pages/)
   - [Benchmarking In Rust](https://llogiq.github.io/2015/06/16/bench.html)
   - [Profiling Rust Applications on Linux](https://llogiq.github.io/2015/07/15/profiling.html)
-- `mio`
+- Async I/O
   - [Getting Acquainted with `mio`](https://hoverbear.org/2015/03/03/getting-acquainted-with-mio/)
   - [My Basic Understanding of `mio` and Async I/O](http://hermanradtke.com/2015/07/12/my-basic-understanding-of-mio-and-async-io.html)
   - [Creating a Simple Protocol With `mio`](http://hermanradtke.com/2015/09/12/creating-a-simple-protocol-when-using-rust-and-mio.html)
@@ -140,6 +140,7 @@ must necessarily not be included in the final selection.
 - http://sunjay.ca/2016/07/25/rust-code-coverage
 - http://xion.io/post/code/rust-for-loop.html
   - details about for loops and iterators
+- https://ricardomartins.cc/2016/08/03/convenient_and_idiomatic_conversions_in_rust
 
 # Notes
 
