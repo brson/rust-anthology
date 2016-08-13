@@ -1,5 +1,7 @@
 # Rust Anthology 1
 
+_This is a work in progress draft_.
+
 TODO: 1 paragraph intro.
 
 Something, something [about the authors](authors.html).
