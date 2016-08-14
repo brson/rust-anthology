@@ -44,9 +44,9 @@ to be part of this, either file an issue asking to be removed from
 consideration, or contact me privately. We want to respect your
 wishes_.
 
-Authors maintain ownership of their chapters, and each chapter is
-licensed individually according to the author's preference. Ownership
+Authors maintain the copyright to their chapters, and each chapter is
+licensed individually according to the author's preference. Copyright
 of modifications to chapters as part of the editorial process is
 relinquished to the original authors. Additional content, such as
-chapter descriptions is owned by the contributing editor and licensed
+chapter descriptions, is owned by the contributing editor and licensed
 CC-BY-4.0.
