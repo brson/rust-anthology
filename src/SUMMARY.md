@@ -23,4 +23,3 @@
 - [The Rust Toolbox]()
 - [Async I/O]()
 - [Rust Culture]()
-- [Appendix: Graydon's Lists of Things About Rust]()

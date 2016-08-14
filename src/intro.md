@@ -6,7 +6,7 @@ TODO: 1 paragraph intro.
 
 Something, something [about the authors](authors.html).
 
-## Introduction to Rust
+## Why Rust?
 
 [__Understanding Over Guesswork__](understanding-over-guesswork.html)
 ★ [Andrew Hobden].
@@ -88,7 +88,7 @@ captures and the `move` keyword.
 
 ## The Rust Toolbox
 
-## `mio`
+## Async I/O
 
 ## Rust Culture
 
