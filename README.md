@@ -32,8 +32,8 @@ __[Editors needed! How to help.](https://github.com/brson/rust-anthology/issues/
 
 There is a lot of good writing about Rust. Not all of it will make the
 cut. We'll have to make some hard decisions, and some authors will
-probably have their feelings hurt by not being included. That's just
-reality, and we have to manage it as nicely as we can.
+probably be disappointed at not being included. That's just reality,
+and we have to manage it as nicely as we can.
 
 ## Authorship and licensing
 
