@@ -20,7 +20,7 @@ __[Editors needed! How to help.](https://github.com/brson/rust-anthology/issues/
 
 - The _primary_ goal is to collect valuable information into one
   place, get it under test, and present it in a consistent way.
-- Celebrate authors of excellent Rust writing.
+- Celebrate authors of excellent Rust documentation.
 - Create a coherent full-length book.
 - Publish a book in print form to help seed a market lacking in Rust books.
 - Publish a book in print form as a point-of-pride for the community.
