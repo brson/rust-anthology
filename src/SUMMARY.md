@@ -10,7 +10,7 @@
     - [The Problem With Single-threaded Shared Mutability](the-problem-with-shared-mutability.md)
 - [Concurrency]()
     - [Fearless Concurrency with Rust](fearless-concurrency.md)
-    - [How Rust Achieves Thread Safety]()
+    - [How Rust Achieves Thread Safety](how-rust-achieves-thread-safety.md)
     - [Rayon: Data Parellelism in Rust, etc.]()
 - [Traits]()
     - [Abstraction Without Overhead]()

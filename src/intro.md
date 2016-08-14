@@ -55,6 +55,16 @@ memory safe - ownership - also let the compiler statically prevent
 common errors with conncurrent code.
 
 
+[__How Rust Achieves Thread Safety__](how-rust-achieves-thread-safety.html)
+★ [Manish Goregaokar]
+Ownership is the secret, unifying, sauce of Rust. Among other things
+it creates a simple conceptual framework for reasoning about
+concurrency. But under the hood there are mysterious things afoot in
+the type system to make it all work. Two simple traits are telling the
+compiler everything it needs to know about concurrency: `Send` and
+`Sync`. This is their story.
+
+
 ## Traits
 
 [__Rust's Built-in Traits, the When, How & Why__](rusts-built-in-traits.html)

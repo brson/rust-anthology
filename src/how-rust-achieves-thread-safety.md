@@ -1,13 +1,4 @@
----
-layout: post
-title: "How Rust achieves thread safety"
-date: 2015-05-30 04:25:32 +0530
-comments: true
-
-categories: [Rust, Mozilla, Programming]
----
-
-
+# How Rust Achieves Thread Safety
 
 _In every talk I have given till now, the question "how does Rust achieve thread safety?"
 has invariably come up[^1]. I usually just give an overview, but this provides a more comprehensive
@@ -172,3 +163,7 @@ rather it is a perfect storm of small design inconsistencies in the libraries.
 [mutex]: http://doc.rust-lang.org/std/sync/struct.Mutex.html
 [rwlock]: http://doc.rust-lang.org/std/sync/struct.RwLock.html
 [box]: http://doc.rust-lang.org/std/boxed/struct.Box.html
+
+> [_Originally published 2015-05-30_](https://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/)
+>
+> _License: TBD_
