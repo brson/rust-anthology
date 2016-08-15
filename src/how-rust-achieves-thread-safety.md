@@ -76,7 +76,7 @@ to another thread if the shared/borrowed data is synchronous-safe.
 
 Bringing it together, the gatekeeper for all this is [`thread::spawn()`][spawn]. It has the signature
 
-```rust
+```rust,ignore
 pub fn spawn<F, T>(f: F) -> JoinHandle<T> where F: FnOnce() -> T, F: Send + 'static, T: Send + 'static
 ```
 
@@ -84,13 +84,13 @@ Admittedly, this is confusing/noisy, partially because it's allowed to return a 
 it returns a handle from which we can block on a thread join. We can conjure a simpler `spawn` API for our needs though:
 
 
-```rust
+```rust,ignore
 pub fn spawn<F>(f: F) where F: FnOnce(), F: Send + 'static
 ```
 
 which can be called like:
 
-```rust
+```rust,ignore
 let mut x = vec![1,2,3,4];
 
 // `move` instructs the closure to move out of its environment

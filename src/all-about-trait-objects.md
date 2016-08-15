@@ -50,7 +50,7 @@ types satisfy whatever behaviours the trait is trying to summarise and
 allow polymorphism over. For example, bytes and strings are `Foo`,
 apparently:
 
-```rust
+```rust,ignore
 impl Foo for u8 {
     fn method(&self) -> String { format!("u8: {}", *self) }
 }
@@ -124,7 +124,7 @@ coercions. If `T` is a type that implements a trait `Foo` (e.g. `u8`
 for the `Foo` above), then the two ways to get a `Foo` trait object
 out of a pointer to `T` look like:
 
-```rust
+```rust,ignore
 let ref_to_t: &T = ...;
 
 // `as` keyword for casting
@@ -179,7 +179,7 @@ implementation. A method call like `trait_object.method()` will
 retrieve the correct pointer out of the vtable and then do a dynamic
 call of it. For example:
 
-```rust
+```rust,ignore
 struct FooVtable {
     destructor: fn(*mut ()),
     size: usize,
@@ -246,7 +246,7 @@ Suppose we've got some values that implement `Foo`, the explicit form
 of construction and use of `Foo` trait objects might look a bit like
 (ignoring the type mismatches: they're all just pointers anyway):
 
-```rust
+```rust,ignore
 let a: String = "foo".to_string();
 let x: u8 = 1;
 
@@ -303,8 +303,6 @@ Putting the value behind a pointer means the size of the value is not
 relevant when we are tossing a trait object around, only the size of
 the pointer itself.
 
-```rust
-
 ## Part 2: The `Sized` Trait
 
 
@@ -313,8 +311,6 @@ An important piece in my story about trait objects in
 so I'm slotting in this short post between
 [my discussion of low-level details][previouspost] and
 [the post on "object safety"][nextpost].
-
-```
 
 
 [^version]: Per the [previous post][previouspost], this post is
@@ -456,7 +452,7 @@ trait objects, but what is said applies to any.
 Let's look at an example of the things object safety enables: if we
 have a trait `Foo` and a function like
 
-```rust
+```rust,ignore
 fn func<T: Foo + ?Sized>(x: &T) { ... }
 ```
 
@@ -470,7 +466,7 @@ Take it on faith (for a few paragraphs) that calling a generic method
 is one example of something that can't be done on a trait object. So,
 let's define a trait and a function like:
 
-```rust
+```rust,ignore
 trait Bad {
     fn generic_method<A>(&self, value: A);
 }
@@ -511,7 +507,7 @@ methods as normal, generic function scoped under the type/trait in
 which they are defined, for example, the UFCS function
 `Bad::generic_method` from the trait above effectively has signature:
 
-```rust
+```rust,ignore
 fn Bad::generic_method<Self: Bad + ?Sized, A>(self: &Self, x: A)
 ```
 
@@ -539,7 +535,7 @@ implemented to call into the corresponding method in the vtable. In
 the explicit notation of [my previous post][previouspost], the
 situation might look something like:
 
-```rust
+```rust,ignore
 trait Foo {
     fn method1(&self);
     fn method2(&mut self, x: i32, y: String) -> usize;
@@ -577,7 +573,7 @@ possible ways to be object-unsafe are described
 
 [object-unsafe]: https://github.com/rust-lang/rust/blob/2127e0d56d85ff48aafce90ab762650e46370b63/src/librustc/middle/traits/object_safety.rs#L30-L52
 
-```rust
+```rust,ignore
 pub enum ObjectSafetyViolation<'tcx> {
     /// Self : Sized declared on the trait
     SizedSelf,
@@ -664,7 +660,7 @@ trait Foo {
 There's no way to provide a sensible implementation of `func` as a
 static method on the type `Foo`:
 
-```rust
+```rust,ignore
 impl<'a> Foo for Foo+'a {
     fn func() -> i32 {
         // what goes here??
@@ -694,7 +690,7 @@ The types of the two arguments have to match, but this can't be
 guaranteed with a trait object: the erased types of two separate
 `&Foo` values may not match:
 
-```rust
+```rust,ignore
 impl<'a> Foo for Foo+'a {
     fn method(&self, other: &(Foo+'a))
         (self.vtable.method)(self.data, /* what goes here? */)
@@ -725,7 +721,7 @@ functions in Rust are monomorphised, that is, a copy of the function
 is created for each type used as a generic parameter. An attempted
 implementation might look like
 
-```rust
+```rust,ignore
 impl<'a> Foo for Foo+'a {
     fn method<A>(&self, a: A) {
         (self.vtable./* ... huh ???*/)(self.data, a: A)
@@ -807,7 +803,7 @@ A trait is object safe only if the compiler can automatically
 implement it for itself, by implementing each method as a dynamic
 function call through the vtable stored in a trait object.
 
-```rust
+```rust,ignore
 trait Foo {
     fn method_a(&self) -> u8;
 
@@ -836,7 +832,7 @@ of anything it calls, not the internals---and hence object safety.
 These rules outlaw creating trait objects of, for example, traits with
 generic methods:
 
-```rust
+```rust,ignore
 trait Bar {
     fn bad<T>(&self, x: T);
 }
@@ -884,7 +880,7 @@ something[^associated-type] like:
                     exist. However it doesn't matter: the exact same
                     problems existed, just with different syntax.
 
-```rust
+```rust,ignore
 trait Iterator {
     type Item;
 
@@ -915,7 +911,7 @@ The solution at the time was extension traits: define a new trait
 a blanket implementation to implement it for all `Iterator`s "from the
 outside".
 
-```rust
+```rust,ignore
 trait Iterator {
     type Item;
 
@@ -951,7 +947,7 @@ Fortunately, those methods aren't lost on trait objects, because there
 are implementations like the following, allowing the blanket
 implementation of `IteratorExt` to kick in:
 
-```rust
+```rust,ignore
 // make Box<...> an Iterator by deferring to the contents
 impl<I: Iterator + ?Sized> Iterator for Box<I> {
     type Item = I::Item;
@@ -1019,7 +1015,7 @@ Each of these were designed to define a few extra methods that
 required specific restrictions on the element type of the iterator,
 for example, `OrdIterator` needed `Ord` elements:
 
-```rust
+```rust,ignore
 trait OrdIterator: Iterator {
      fn max(&mut self) -> Option<Self::Item>;
      // ...
@@ -1037,7 +1033,7 @@ cleaner: all the traits above have been merged into `Iterator` itself
 with `where` clauses, e.g.
 [`max`](http://doc.rust-lang.org/nightly/std/iter/trait.Iterator.html#method.max):
 
-```rust
+```rust,ignore
 trait Iterator {
     type Item;
 
@@ -1055,18 +1051,18 @@ Notably, there's no restriction on `Item` for general `Iterator`s,
 only on `max`, so iterators retain full flexibility while still
 gaining a `max` method that only works when it should:
 
-```rust
+```rust,ignore
 struct NotOrd;
 
 fn main() {
     (0..10).max(); // ok
     (0..10).map(|_| NotOrd).max();
 }
-/*
+```
+
+```text
 ...:5:29: 5:34 error: the trait `core::cmp::Ord` is not implemented for the type `NotOrd` [E0277]
 ...:5     (0..10).map(|_| NotOrd).max();
-                                  ^~~~~
-*/
 ```
 
 This approach works fine for normal traits like `Ord`, and also works
@@ -1088,7 +1084,7 @@ safety.
 
 The bad example from the start can be written to compile:
 
-```rust
+```rust,ignore
 trait Bar {
     fn bad<T>(&self, x: T)
         where Self: Sized;
@@ -1110,7 +1106,7 @@ fn main() {
 And also adjusted to not compile: try calling `(&1_u8 as
 &Bar).bad("foo")` in `main` and the compiler spits out an error,
 
-```
+```text
 ...:13:21: 13:31 error: the trait `core::marker::Sized` is not implemented for the type `Bar` [E0277]
 ...:13     (&1_u8 as &Bar).bad("foo")
                            ^~~~~~~~~~
@@ -1123,7 +1119,7 @@ Importantly, this solves the `Iterator` problem: there's no longer a
 need to split methods into extension traits to ensure object safety,
 one can instead just guard the bad ones. `Iterator` now looks like:
 
-```rust
+```rust,ignore
 trait Iterator {
     type Item;
 

@@ -63,7 +63,7 @@ down in the details.
 Rust offers both methods and free-standing functions, which are very
 closely related:
 
-```rust
+```rust,ignore
 struct Point {
     x: f64,
     y: f64,
@@ -92,7 +92,7 @@ The first parameter for a method is always an explicit "self", which is either
 notation familiar from object-oriented programming, and the self parameter is
 *implicitly borrowed* as per the form of `self` used in the method:
 
-```rust
+```rust,ignore
 let p = Point { x: 1.2, y: -3.7 };
 let s1 = point_to_string(&p);  // calling a free function, explicit borrow
 let s2 = p.to_string();        // calling a method, implicit borrow as &p
@@ -101,7 +101,7 @@ let s2 = p.to_string();        // calling a method, implicit borrow as &p
 Methods and their auto-borrowing are an important aspect of the ergonomics of
 Rust, supporting "fluent" APIs like the one for spawning processes:
 
-```rust
+```rust,ignore
 let child = Command::new("/bin/cat")
     .arg("rusty-ideas.txt")
     .current_dir("/Users/aturon")
@@ -126,7 +126,7 @@ trait Hash {
 In order to implement this trait for a given type, you must provide a `hash`
 method with matching signature:
 
-```rust
+```rust,ignore
 impl Hash for bool {
     fn hash(&self) -> u64 {
         if *self { 0 } else { 1 }
@@ -156,7 +156,7 @@ abstracting out a common interface satisfied by more than one type.
 Things get more interesting on the other side -- consuming a trait. The most
 common way of doing so is through *generics*:
 
-```rust
+```rust,ignore
 fn print_hash<T: Hash>(t: &T) {
     println!("The hash is {}", t.hash())
 }
@@ -166,7 +166,7 @@ The `print_hash` function is generic over an unknown type `T`, but requires that
 `T` implements the `Hash` trait. That means we can use it with `bool` and `i64`
 values:
 
-```rust
+```rust,ignore
 print_hash(&true);      // instantiates T = bool
 print_hash(&12_i64);    // instantiates T = i64
 ```
@@ -178,7 +178,7 @@ turn means that the internal call to `t.hash()` -- the point where the
 abstraction is actually used -- has zero cost: it will be compiled to a direct,
 static call to the relevant implementation:
 
-```rust
+```rust,ignore
 // The compiled code:
 __print_hash_bool(&true);  // invoke specialized bool version directly
 __print_hash_i64(&12_i64);   // invoke specialized i64 version directly
@@ -200,7 +200,7 @@ trait for; in `impl Eq for bool` it will refer to `bool`.)
 We can then define a hash map that is generic over a type `T` implementing both
 `Hash` and `Eq`:
 
-```rust
+```rust,ignore
 struct HashMap<Key: Hash + Eq, Value> { ... }
 ```
 
@@ -247,7 +247,7 @@ trait ClickCallback {
 It's also common for GUI elements to allow multiple callbacks to be registered
 for a single event. With generics, you might imagine writing:
 
-```rust
+```rust,ignore
 struct Button<T: ClickCallback> {
     listeners: Vec<T>,
     ...
@@ -266,7 +266,7 @@ group of types, *each one will have a distinct size* -- so how can we even lay
 out the internal vector? The answer is the usual one: indirection. We'll store
 *pointers* to callbacks in the vector:
 
-```rust
+```rust,ignore
 struct Button {
     listeners: Vec<Box<ClickCallback>>,
     ...
@@ -305,7 +305,7 @@ wind up playing a few other important roles in Rust. Here's a taste:
 * **Conditional APIs**. Generics make it possible to implement a trait
   conditionally:
 
-  ```rust
+  ```rust,ignore
   struct Pair<A, B> { first: A, second: B }
   impl<A: Hash, B: Hash> Hash for Pair<A, B> {
       fn hash(&self) -> u64 {
@@ -320,7 +320,7 @@ wind up playing a few other important roles in Rust. Here's a taste:
   pattern in Rust that there is built-in support for generating certain kinds of
   "mechanical" implementations automatically:
 
-  ```rust
+  ```rust,ignore
   #[derive(Hash)]
   struct Pair<A, B> { .. }
   ```
