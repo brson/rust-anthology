@@ -67,6 +67,14 @@ compiler everything it needs to know about concurrency: `Send` and
 
 ## Traits
 
+[__Abstraction Without Overhead__](abstraction-without-overhead.html)
+★ [Aaron Turon]
+The cornerstone of the Rust design philosophy is to enable "zero-cost abstractions".
+That is, the high-level abstractions in Rust optimize into the best low-level
+code you could write by hand. And Rust, perhaps more than any other language,
+comes close to achieving this ideal. This is how.
+
+
 [__Rust's Built-in Traits, the When, How & Why__](rusts-built-in-traits.html)
 ★ [Andre Bogus].
 Traits make all kinds of magic happen in Rust, from operator
