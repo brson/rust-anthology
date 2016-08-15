@@ -1,12 +1,6 @@
----
-layout: default
-title: Peeking inside Trait Objects
-description: >
-    An introduction to the low-level details of trait objects in the Rust programming language.
+# All About Trait Objects
 
-comments:
-    r_rust: "http://www.reddit.com/r/rust/comments/2rutqb/peeking_inside_trait_objects/"
----
+## Peeking Inside Trait Objects
 
 One of the most powerful parts of
 [the Rust programming language](http://rust-lang.org)[^version] is the

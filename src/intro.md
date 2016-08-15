@@ -75,6 +75,11 @@ code you could write by hand. And Rust, perhaps more than any other language,
 comes close to achieving this ideal. This is how.
 
 
+[__All About Trait Objects__](all-about-trait-objects.html)
+★ [Huon Wilson]
+TODO
+
+
 [__Rust's Built-in Traits, the When, How & Why__](rusts-built-in-traits.html)
 ★ [Andre Bogus].
 Traits make all kinds of magic happen in Rust, from operator

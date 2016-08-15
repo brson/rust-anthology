@@ -14,7 +14,7 @@
     - [Rayon: Data Parellelism in Rust, etc.]()
 - [Traits]()
     - [Abstraction Without Overhead](abstraction-without-overhead.md)
-    - [Peeking Inside Trait Objects, etc.]()
+    - [All About Trait Objects](all-about-trait-objects.md)
     - [Rust's Built-in Traits, the When, How & Why](rusts-built-in-traits.md)
 - [The Rust Language]()
     - [Finding Closure in Rust](finding-closure-in-rust.md)
