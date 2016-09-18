@@ -77,7 +77,14 @@ comes close to achieving this ideal. This is how.
 
 [__All About Trait Objects__](all-about-trait-objects.html)
 ★ [Huon Wilson]
-TODO
+One of the most powerful parts of the Rust programming language is the trait
+system. They form the basis of Rust generics via polymorphic functions and
+types, and as so-called "trait objects", they allow for dynamic polymorphism and
+heterogeneous uses of types. This chapter motivates trait objects and takes a
+peek under the hood to see how they are implemented at runtime; then explains
+the important advanced concepts of dynamically sized types and the `Sized`
+trait; finally, it explains in which situations traits can be used as trait
+objects, what is known as "object safety".
 
 
 [__Rust's Built-in Traits, the When, How & Why__](rusts-built-in-traits.html)
