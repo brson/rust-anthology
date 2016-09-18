@@ -48,7 +48,7 @@ mutable references solve subtle problems for those too.
 ## Concurrency
 
 [__Fearless Concurrency with Rust__](fearless-concurrency.html)
-★ [Aaron Turon]
+★ [Aaron Turon].
 Memory safety bugs and concurrency bugs often come down to code
 accessing data when it shouldn't. And the same feature that makes Rust
 memory safe - ownership - also let the compiler statically prevent
@@ -56,7 +56,7 @@ common errors with conncurrent code.
 
 
 [__How Rust Achieves Thread Safety__](how-rust-achieves-thread-safety.html)
-★ [Manish Goregaokar]
+★ [Manish Goregaokar].
 Ownership is the secret, unifying, sauce of Rust. Among other things
 it creates a simple conceptual framework for reasoning about
 concurrency. But under the hood there are mysterious things afoot in
@@ -68,7 +68,7 @@ compiler everything it needs to know about concurrency: `Send` and
 ## Traits
 
 [__Abstraction Without Overhead__](abstraction-without-overhead.html)
-★ [Aaron Turon]
+★ [Aaron Turon].
 The cornerstone of the Rust design philosophy is to enable "zero-cost abstractions".
 That is, the high-level abstractions in Rust optimize into the best low-level
 code you could write by hand. And Rust, perhaps more than any other language,
@@ -76,7 +76,7 @@ comes close to achieving this ideal. This is how.
 
 
 [__All About Trait Objects__](all-about-trait-objects.html)
-★ [Huon Wilson]
+★ [Huon Wilson].
 One of the most powerful parts of the Rust programming language is the trait
 system. They form the basis of Rust generics via polymorphic functions and
 types, and as so-called "trait objects", they allow for dynamic polymorphism and
