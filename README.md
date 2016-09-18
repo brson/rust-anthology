@@ -27,6 +27,17 @@ __[Editors needed! How to help.](https://github.com/brson/rust-anthology/issues/
 - Incentivise yet more high-quality blogging about Rust with the anticipation
   of being selected for next-year's book.
 
+## Building
+
+Rust Anthology is built with [mdbook]. To build:
+
+```
+cargo install mdbook
+mdbook build
+```
+
+[mdbook]: https://github.com/azerupi/mdBook
+
 ## On curation
 
 There is a lot of good writing about Rust. Not all of it will make the
