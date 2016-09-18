@@ -22,7 +22,6 @@ __[Editors needed! How to help.](https://github.com/brson/rust-anthology/issues/
   place, get it under test, and present it in a consistent way.
 - Celebrate authors of excellent Rust documentation.
 - Create a coherent full-length book.
-- Publish a book in print form to help seed a market lacking in Rust books.
 - Publish a book in print form as a point-of-pride for the community.
 - Create a yearly tradition of collecting the best Rust writing.
 - Incentivise yet more high-quality blogging about Rust with the anticipation
@@ -36,13 +35,6 @@ probably be disappointed at not being included. That's just reality,
 and we have to manage it as nicely as we can.
 
 ## Authorship and licensing
-
-Consideration for the anthology is being managed optimistically,
-assuming most authors will be happy to be included. _If you are an
-author, you see your work being considered here, and you do not want
-to be part of this, either file an issue asking to be removed from
-consideration, or contact me privately. We want to respect your
-wishes_.
 
 Authors maintain the copyright to their chapters, and each chapter is
 licensed individually according to the author's preference. Copyright
