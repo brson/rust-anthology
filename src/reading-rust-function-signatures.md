@@ -85,7 +85,7 @@ fn play_with(dog: Dog, game: Game) {}
 
 Great, looking better already. Let's get that awesome day started.
 
-```rust
+```rust,ignore
 fn main() {
     let rover = Dog;
     walk_dog(rover);
@@ -99,7 +99,7 @@ Whoa whoa! That's a perfectly good day the compiler is totally *ruining* for us!
 
 Let's look at the error:
 
-```
+```ignore
 <anon>:11:15: 11:20 error: use of moved value: `rover`
 <anon>:11     play_with(rover, fetch);
                         ^~~~~
@@ -124,7 +124,7 @@ Instead of moving our `Dog` into the `walk_dog()` function we really just want t
 
 Rust uses `&` to symbolize a borrow. Borrowing something tells the compiler that when the function is done the ownership of the value returns back to the caller.
 
-```rust
+```rust,ignore
 fn walk_dog(dog: &Dog) {}
 fn play_with(dog: &Dog, game: Game) {}
 ```
@@ -133,7 +133,7 @@ There are immutable borrows as well as mutable borrows (`&mut`). You can have an
 
 So our new borrowing functions don't really cut it, do they? We can't even mutate the `Dog`! Let's try anyways to see the error message.
 
-```rust
+```rust,ignore
 struct Dog {
     walked: bool
 }
@@ -151,7 +151,7 @@ fn main() {
 
 As we expected:
 
-```
+```ignore
 <anon>:6:5: 6:22 error: cannot assign to immutable field `dog.walked`
 <anon>:6     dog.walked = true;
              ^~~~~~~~~~~~~~~~~
@@ -160,7 +160,7 @@ error: aborting due to previous error
 
 Changing the function signature to `fn walk_dog(dog: &mut Dog) {}` and updating our `main()` we can solve this.
 
-```rust
+```rust,ignore
 fn main() {
     let mut rover = Dog { walked: false };
     walk_dog(&mut rover);
@@ -201,7 +201,7 @@ If you're implementing functions in a trait you also have access the following t
 
 An example:
 
-```rust
+```rust,ignore
 // ... `Dog` struct from before.
 impl Dog {
     pub fn adopt(name: String) -> Self {
@@ -267,7 +267,7 @@ fn main() {
 
 You can also use a different `where` syntax as function signatures with complex generics can get rather long.
 
-```rust
+```rust,ignore
 fn walk_pet<W>(pet: &mut W)
 where W: Walk {
     pet.walk();
@@ -276,7 +276,7 @@ where W: Walk {
 
 If you have multiple generics you can comma seperate them in both cases. If you'd like more than one trait contraint you can use `where W: Walk + Read` or `<W: Walk + Read>`.
 
-```rust
+```rust,ignore
 fn stuff<R, W>(r: &R, w: &mut W)
 where W: Write, R: Read + Clone {}
 ```
@@ -291,7 +291,7 @@ Sometimes it's desirable to pass functions into other functions. In Rust, accept
 
 > You should definitely use the `where` syntax here.
 
-```rust
+```rust,ignore
 struct Dog {
     walked: bool
 }
@@ -347,7 +347,7 @@ So, if you start dealing with a lot of lifetimes, your first step should really 
 
 Here is a function with lifetimes from [`Option`'s implementation](https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.as_slice).
 
-```rust
+```rust,ignore
 as_slice<'a>(&'a self) -> &'a [T]
 ```
 
@@ -361,20 +361,20 @@ Great! I'm really not qualified to write anymore about lifetimes but if you have
 
 Below, you'll find a set of functions pulled from the standard library along with links to their documentation. Can you tell from their function signature what they do? (For added fun, I've removed the function name!)
 
-```rust
+```rust,ignore
 // In `File`
 fn name<P: AsRef<Path>>(path: P) -> Result<File>
 ```
 [Source](https://doc.rust-lang.org/stable/std/fs/struct.File.html#method.create)
 
-```rust
+```rust,ignore
 // In `Option<T>`
 fn name<E, T>(self, err: E) -> Result<T, E>
 ```
 
 [Source](https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.ok_or)
 
-```rust
+```rust,ignore
 // In `Iterator<Item=T>`
 fn name<B: FromIterator<Self::Item>>(self) -> B
 where Self: Sized
@@ -382,7 +382,7 @@ where Self: Sized
 
 [Source](https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.collect)
 
-```rust
+```rust,ignore
 // In `Iterator<Item=T>`
 fn name<B, F>(self, init: B, f: F) -> B
 where Self: Sized, F: FnMut(B, Self::Item) -> B
@@ -390,7 +390,7 @@ where Self: Sized, F: FnMut(B, Self::Item) -> B
 
 [Source](https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.fold)
 
-```rust
+```rust,ignore
 // In `Result<T,E>`
 fn name<F, O: FnOnce(E) -> F>(self, op: O) -> Result<T, F>
 ```

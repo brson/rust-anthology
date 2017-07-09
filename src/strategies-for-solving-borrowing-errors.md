@@ -19,7 +19,7 @@ fn main() {
 
 The only caveat is that I cannot _move_ the `name` variable anymore. If I try to move `name`, the compiler will give me an error: _cannot move out of `name` because it is borrowed_.
 
-```rust
+```rust,ignore
 fn main() {
    let name = " Herman ".to_string();
    let trimmed_name = name.trim();
@@ -44,7 +44,7 @@ fn main() {
 
 That is simple enough, but let us take it a step further. Suppose we wanted to get back the length of the trimmed string from within our scope. If we do that inside our curly braces, then `trimmed_name_len` will no longer exist once we leave that scope.
 
-```rust
+```rust,ignore
 fn main() {
    let name = " Herman ".to_string();
 
@@ -118,7 +118,7 @@ These strategies only work if we are calling immutable functions. We are tempora
 
 You may have wondered if we really did have to specify parameters when using a closure. If we try to access the `name` variable from within the closure, it will create a reference during compile time. That reference will continue to exist, even if we try to remove the closure `f` from scope. Example:
 
-```rust
+```rust,ignore
 fn main() {
    let name = " Herman ".to_string();
 
@@ -134,7 +134,7 @@ fn main() {
 }
 ```
 
-```
+```ignore
 error: cannot move out of `name` because it is borrowed
    let owned_name = name;
                ^~~~~~~~~~
@@ -150,7 +150,7 @@ note: in expansion of closure expansion
 
 The above examples are pretty contrived. However, you will run into this when you are breaking down functions into smaller parts. In this below example, I was using a `find_matches` function that required an input of type `&str`. Given a `PathBuf`, I needed to call the immutable `file_name()` method on it and then convert it to a `&str` by calling `to_str()` before calling `find_matches(file_name)`. In order to return a tuple of `(p, matches)`, I had to make sure reference created by `file_name` was out of scope. I chose to use a function, but could have use curly braces or a closure as we discussed above.
 
-```rust
+```rust,ignore
 fn find_matches(s: &str) -> f64 {
    // ...
 }

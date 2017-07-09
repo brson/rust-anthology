@@ -37,7 +37,7 @@ In this example, we are using `.map()` and `.fold()` to count the number of byte
 
 The closure used in `map()` does not require the `name` parameter to have a type, but I specified the type to show how it is being passed as a reference. Notice that the type of name is `&&str` and not `&str`. The string `"Jane"` is of type `&str`. The `iter()` function creates an iterator that has a _reference_ to each element in the `names` vector. Thus, we have a _reference_ to a _reference_ of a string slice. This can get a little unwieldy and I generally do not worry about the type. However, if we are destructuring the type, we do need to specify the reference:
 
-```rust
+```rust,ignore
 fn main() {
     let player_scores = [
         ("Jack", 20), ("Jane", 23), ("Jill", 18), ("John", 19),
@@ -108,7 +108,7 @@ The concept behind `.into_iter()` is similar to the [core::convert::Into][core::
 
 One of the first errors a new Rustacean will run into is the _move_ error after using a for loop:
 
-```rust
+```rust,ignore
 fn main() {
     let values = vec![1, 2, 3, 4];
 
@@ -122,7 +122,7 @@ fn main() {
 
 The question we immediately ask ourselves is "How do I create a for loop that uses a reference?". A [for loop][for loop] in Rust is really just syntatic sugar around `.into_iter()`. From the manual:
 
-```rust
+```rust,ignore
 // Rough translation of the iteration without a `for` iterator.
 let mut it = values.into_iter();
 loop {

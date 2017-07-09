@@ -228,7 +228,7 @@ integer, carefully justifying why we know more than the compiler, and
 thus why each `unsafe` is safe (in a perfect world all `unsafe` blocks
 would be justified/proved correct).
 
-{% highlight rust linenos %}
+```rust,ignore
 extern crate libc;
 use std::ptr;
 
@@ -268,7 +268,7 @@ fn main() {
 
     // (leaking memory is not `unsafe`.)
 }
-{% endhighlight %}
+```
 
 (Keen eyes will note that `i64` doesn't have a destructor and so the
 [`ptr::write`](http://doc.rust-lang.org/master/std/ptr/fn.write.html)

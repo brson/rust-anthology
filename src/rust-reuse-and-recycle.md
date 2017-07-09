@@ -201,7 +201,7 @@ or you want to copy-paste some code with minor tweaks. The standard library
 [exports a few examples of the former][vec-macro] (`println!`, `thread_local!`,
 `vec!`, `try`, etc):
 
-```rust
+```rust,ignore
 /// Creates a `Vec` containing the arguments.
 ///
 /// `vec!` allows `Vec`s to be defined with the same syntax as array expressions.
@@ -251,7 +251,7 @@ and internally [makes good use of the latter][copy-pasta-macros]
 when implementing lots of repetitive interfaces (primitives, tuples, and arrays
 are common offenders):
 
-```rust
+```rust,ignore
 // Conversion traits for primitive integer and float types
 // Conversions T -> T are covered by a blanket impl and therefore excluded
 // Some conversions from and to usize/isize are not implemented due to portability concerns
@@ -291,7 +291,7 @@ With macros, we can get the spiritual equivalent of "undefined in not a function
 in the compiler.
 
 
-```rust
+```rust,ignore
 macro_rules! make_struct {
     (name: ident) => {
         struct name {
@@ -318,7 +318,7 @@ and always produces literally `struct name { field: u32 }`.
 Further, when a "normal" Rust error happens to occur in the expansion of a macro,
 the resulting output is a mess!
 
-```
+```ignore
 use std::fs::File;
 
 fn main() {
@@ -382,7 +382,7 @@ absolutely certain that you don't care about the possibility of some hypothetica
 IPv8, and honestly you don't have a clue how to define an interface that would
 handle that anyway. One way to be generic over IPv4 and IPv6 is to define an enum:
 
-```rust
+```rust,ignore
 enum IpAddress {
     V4(IPv4Address),
     V6(Ipv6Address),
@@ -513,7 +513,7 @@ can be converted into a virtualized one by the user. We'll see that in a bit.
 Declaring a monomorphic interface is done with what Rust calls generics:
 
 
-```rust
+```rust,ignore
 // Plain struct, for comparison purposes.
 struct Concrete {
     data: u32,
@@ -679,7 +679,7 @@ and implementations will be monomorphized.
 So, at least before optimization passes kick in, the following code
 will be expanded as follows:
 
-```rust
+```rust,ignore
 // Before
 struct Generic<T> { data: T }
 impl<T> Generic<T> {
@@ -694,7 +694,7 @@ fn main() {
 }
 ```
 
-```rust
+```rust,ignore
 // After
 struct Generic_u32 { data: u32 }
 impl Generic_u32 {
@@ -815,7 +815,7 @@ trait Clone {
 This trait defines a function that returns Self by-value. What would happen
 if we tried to write the following?
 
-```
+```ignore
 fn main() {
     let x: &Clone = ...; // doesn't matter
     let y = x.clone();   // Clone the data...?
@@ -1150,7 +1150,7 @@ Although associated types can be generic, they can't be specified to
 be completely independent of all other types. So for instance, this
 is completely invalid code:
 
-```rust
+```rust,ignore
 impl<T> Iterator for RangeIter {
     type Item = T;
     fn next(&mut self) -> Option<Self::Item> {
@@ -1183,7 +1183,7 @@ Ok, so a StateMachine is some type that you can tell do a step, and it
 will turn itself into a new StateMachine of some kind. Let's try to write
 that out as a generic trait:
 
-```rust
+```rust,ignore
 trait StateMachine<NextStep: StateMachine<UHHH_WHAT_GOES_HERE>> {
     fn step(self) -> Option<NextState>;
 }
@@ -1226,7 +1226,7 @@ it does work though! That is, `Box<Iterator>` doesn't work, but
 
 Hey, remember this example?
 
-```rust
+```rust,ignore
 impl<T> Generic<T> {
     // Interesting problem: we've inverted the order on `equal` here
     // (`x == y` is being evaluated as `y == x`). How can we express
@@ -1262,7 +1262,7 @@ fn min<I: Iterator<Item = T>, T: Ord>(mut iter: I) -> Option<I::Item> {
 
 The solution to this problem and more is to use a *where clause*:
 
-```rust
+```rust,ignore
 impl<T> Generic<T> {
     fn my_equal<U>(&self, other: &Generic<U>) -> bool
         where T: Equal<U>
@@ -1376,7 +1376,7 @@ fn main() {
 What, exactly, does `get_first` implement? `Fn(&(u32, i32)) -> &u32`, right?
 Here's the thing: *that's not a thing*. Let's make our own trait to test:
 
-```rust
+```rust,ignore
 trait MyFn<Input> {
     type Output;
 }
@@ -1479,7 +1479,7 @@ with *every* lifetime!
 
 It turns out that `F: Fn(&I::Item) -> bool` is sugar for
 
-```rust
+```rust,ignore
 for<'a> F: Fn(&I::Item) -> bool
 ```
 
@@ -1514,7 +1514,7 @@ which type is used has important semantic consequences.
 *Ideally*, our data structure would be generic over Rc and Arc. That is, we'd
 like to write something like:
 
-```rust
+```rust,ignore
 // NOTE: This code is nonsense and doesn't work!
 
 /// A simple reference-counted linked list.
@@ -1533,7 +1533,7 @@ less composable than just specifying `Rc` or `Arc` themselves.
 Another instance where this would be useful would be talking about generic
 return types that borrow. For instance, today we can express
 
-```rust
+```rust,ignore
 /// An iterator that doesn't allow `next` to be called
 /// again until the last yielded item is disposed of.
 trait RefIterator {
@@ -1556,7 +1556,7 @@ that the reference is the outermost object. This implies that Self::Item
 has to be stored somewhere. What we'd really like to express is the
 following:
 
-```rust
+```rust,ignore
 trait RefIterator {
     type Item;
     fn next<'a>(&'a mut self) -> Self::Item<'a>;
@@ -1573,7 +1573,7 @@ about type-constructors. Sort of. Terribly.
 The key insight is that traits have input types and output types, so they're
 basically type-level functions. In particular:
 
-```
+```ignore,ignore
 trait TypeToType<Input> {
     type Output;
 }

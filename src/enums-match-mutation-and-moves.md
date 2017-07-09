@@ -51,7 +51,7 @@ like, and how does it work?
 
 The `match` expression in Rust has this form:
 
-```rust
+```rust,ignore
 match INPUT_EXPRESSION {
     PATTERNS_1 => RESULT_EXPRESSION_1,
     PATTERNS_2 => RESULT_EXPRESSION_2,
@@ -116,7 +116,7 @@ or that pattern, et cetera.
 These features are illustrated in the following revision to the
 guessing-game answer generation strategy:
 
-```rust
+```rust,ignore
 struct GuessState {
     guess: u32,
     answer: Answer,
@@ -214,7 +214,7 @@ This helps catch bugs in program logic and ensures that the value of a
 
 So, for example, the following code is rejected at compile-time.
 
-```rust
+```rust,ignore
 fn suggest_guess_broken(prior_guess: u32, answer: Answer) {
     let next_guess = match answer {
         Answer::Higher => prior_guess + 10,
@@ -251,7 +251,7 @@ that such expressions always either evaluate to a value of the correct type,
 The following code is a fixed version of the `suggest_guess_broken`
 function we saw above; it directly illustrates "jumping elsewhere":
 
-```rust
+```rust,ignore
 fn suggest_guess_fixed(prior_guess: u32, answer: Answer) {
     let next_guess = match answer {
         Answer::Higher => prior_guess + 10,
@@ -324,7 +324,7 @@ you cannot accidentally interpret the data of a `Leaf` as if it were a
 Here is a function that sums all of the integers in a tree
 using `match`.
 
-```rust
+```rust,ignore
 fn tree_weight_v1(t: BinaryTree) -> i32 {
     match t {
         BinaryTree::Leaf(payload) => payload,
@@ -541,7 +541,7 @@ fn tree_demo_v1_fails() {
 This is *not* a consequence, however, of using `match`; it is rather
 a consequence of the function signature that was chosen:
 
-```rust
+```rust,ignore
 fn tree_weight_v1(t: BinaryTree) -> i32 { 0 }
 //                   ^~~~~~~~~~ this means this function takes ownership of `t`
 ```
@@ -564,7 +564,7 @@ So, if we want a version of `tree_weight` that merely borrows a tree
 rather than taking ownership of it, then we will need to make use of
 this feature of Rust's `match`.
 
-```rust
+```rust,ignore
 fn tree_weight_v2(t: &BinaryTree) -> i32 {
     //               ^~~~~~~~~~~ The `&` means we are *borrowing* the tree
     match *t {
@@ -642,7 +642,7 @@ disjoint parts of the data simultaneously.
 This code demonstrates this concept by incrementing all of the
 values in a given tree.
 
-```rust
+```rust,ignore
 fn tree_grow(t: &mut BinaryTree) {
     //          ^~~~~~~~~~~~~~~ `&mut`: we have exclusive access to the tree
     match *t {
