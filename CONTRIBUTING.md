@@ -1,5 +1,9 @@
 Some notes on Anthology maintenance.
 
+Presently, contributions that fix existing content are welcome.
+Contributions that add chapters are not, as the selection process is
+under reevalution.
+
 ## Evaluating a blog post
 
 - Is there useful content? In particular, is there content that is not
