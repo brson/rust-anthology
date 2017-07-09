@@ -38,6 +38,10 @@ mdbook build
 
 [mdbook]: https://github.com/azerupi/mdBook
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## On curation
 
 There is a lot of good writing about Rust. Not all of it will make the
