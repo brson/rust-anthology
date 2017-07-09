@@ -198,18 +198,22 @@
     - [Breaking Our Latin-1 Assumptions](https://manishearth.github.io/blog/2017/01/15/breaking-our-latin-1-assumptions/)
   - [It's Time for a Memory Safety Intervention](https://tonyarcieri.com/it-s-time-for-a-memory-safety-intervention)
   - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
-- Cheat Sheets
-  - [Periodic Table of Rust Types](http://cosmic.mearie.org/2014/01/periodic-table-of-rust-types)
-  - [Rust String Conversions Cheat Sheet](https://docs.google.com/spreadsheets/d/19vSPL6z2d50JlyzwxariaYD6EU2QQUQqIDOGbiGQC7Y/pubhtml?gid=0&single=true)
-  - [Rust Iterator Cheat Sheet](https://danielkeep.github.io/itercheat_baked.html)
-  - [Rust Container Cheet Sheet](https://docs.google.com/presentation/d/1q-c7UAyrUlM-eZyTo1pd8SZ0qwA_wYxmPZVOQkoDmH4/edit)
-- Additional Reading
-  - [The Book](http://doc.rust-lang.org/nightly/book)
-  - [The Nomicon](https://doc.rust-lang.org/nightly/nomicon/)
-  - [Rust By Example](https://www.rustbyexample.com)
-  - [Writing an OS in Rust](http://os.phil-opp.com/)
-  - [Rust 101](https://www.ralfj.de/projects/rust-101/main.html)
-  - [rustlings](https://github.com/carols10cents/rustlings)
-  - [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
-  - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
-  - [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
+
+# Cheat Sheets
+
+- [Periodic Table of Rust Types](http://cosmic.mearie.org/2014/01/periodic-table-of-rust-types)
+- [Rust String Conversions Cheat Sheet](https://docs.google.com/spreadsheets/d/19vSPL6z2d50JlyzwxariaYD6EU2QQUQqIDOGbiGQC7Y/pubhtml?gid=0&single=true)
+- [Rust Iterator Cheat Sheet](https://danielkeep.github.io/itercheat_baked.html)
+- [Rust Container Cheet Sheet](https://docs.google.com/presentation/d/1q-c7UAyrUlM-eZyTo1pd8SZ0qwA_wYxmPZVOQkoDmH4/edit)
+
+# Additional Reading
+
+- [The Book](http://doc.rust-lang.org/nightly/book)
+- [The Nomicon](https://doc.rust-lang.org/nightly/nomicon/)
+- [Rust By Example](https://www.rustbyexample.com)
+- [Writing an OS in Rust](http://os.phil-opp.com/)
+- [Rust 101](https://www.ralfj.de/projects/rust-101/main.html)
+- [rustlings](https://github.com/carols10cents/rustlings)
+- [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
+- [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
+- [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
