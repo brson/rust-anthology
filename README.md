@@ -9,6 +9,8 @@ single book.
 
 [See the current draft](https://brson.github.io/rust-anthology).
 
+You might also be interested in [the master list](candidates.md).
+
 [![Travis Build Status][travis-build-status-svg]][travis-build-status]
 
 [travis-build-status]: https://travis-ci.org/brson/rust-anthology
@@ -20,7 +22,7 @@ single book.
   place, get it under test, and present it in a consistent way.
 - Celebrate authors of excellent Rust documentation.
 - Create a coherent full-length book.
-- Publish a book in print form as a point-of-pride for the community.
+- Self-publish a book in print form to give away as conference prizes.
 - Create a yearly tradition of collecting the best Rust writing.
 - Incentivise yet more high-quality blogging about Rust with the anticipation
   of being selected for next-year's book.

@@ -1,9 +1,15 @@
 # Anthology 1 candidates
 
 - Introduction
-  - [Understanding Over Guesswork](https://www.hoverbear.org/2015/09/12/understand-over-guesswork/)
+  - [Understanding Over Guesswork](https://hoverbear.org/2015/09/12/understand-over-guesswork/)
   - [An Alternative Introduction to Rust](http://words.steveklabnik.com/a-new-introduction-to-rust)
   - [Rust and CSV Parsing](http://blog.burntsushi.net/csv/)
+  - Graydon's Lists
+    - [Five Lists of Six Things About Rust](http://graydon2.dreamwidth.org/214016.html)
+    - [Things Rust Shipped Without](http://graydon2.dreamwidth.org/218040.html)
+- Experience Reports
+  - [My Experience Writing Enjarify in Rust](https://medium.com/@robertgrosse/my-experience-rewriting-enjarify-in-rust-723089b406ad)
+  - [Rust: A Scala Engineer's Perspective](https://beachape.com/blog/2017/05/24/rust-from-scala/)
 - Ownership
   - [Where Rust Really Shines](https://manishearth.github.io/blog/2015/05/03/where-rust-really-shines/)
   - [Rust Means Never Having to Close a Socket](http://blog.skylight.io/rust-means-never-having-to-close-a-socket/)
@@ -20,36 +26,16 @@
     - [Holy `std::borrow::Cow` Redux!](https://llogiq.github.io/2015/07/10/cow-redux.html)
   - [Graphical Depiction of Ownership and Borrowing in Rust](https://rufflewind.com/2017-02-15/rust-move-copy-borrow)
   - [Wrapper Types in Rust: Choosing Your Guarantees](https://manishearth.github.io/blog/2015/05/27/wrapper-types-in-rust-choosing-your-guarantees/)
-- Concurrency
-  - [Fearless Concurrency with Rust](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html)
-  - [How Rust Achieves Thread Safety](https://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/)
-  - [Defaulting to Thread-safety: Closures and Concurrency](https://huonw.github.io/blog/2015/05/defaulting-to-thread-safety/)
-  - [Some Notes on `Send` and `Sync`](https://huonw.github.io/blog/2015/02/some-notes-on-send-and-sync/)
-  - Niko's Rayon Quadrilogy
-    - [Rayon: Data Parallism in Rust](http://smallcultfollowing.com/babysteps/blog/2015/12/18/rayon-data-parallelism-in-rust/)
-    - [Parallel Iterators in Rust Part 1: Foundations](http://smallcultfollowing.com/babysteps/blog/2016/02/19/parallel-iterators-part-1-foundations/)
-    - [Parallel Iterators in Rust Part 2: Producers](http://smallcultfollowing.com/babysteps/blog/2016/02/25/parallel-iterators-part-2-producers/)
-    - [Parallel Iterators in Rust Part 3: Consumers](http://smallcultfollowing.com/babysteps/blog/2016/11/14/parallel-iterators-part-3-consumers/)
-  - [Parallelizing Enjarify in Go and Rust](https://medium.com/@robertgrosse/parallelizing-enjarify-in-go-and-rust-21055d64af7e)
 - Traits
   - [Abstraction Without Overhead](https://blog.rust-lang.org/2015/05/11/traits.html)
   - [Going Down the Rabbit Hole with Rust Traits](http://www.jonathanturner.org/2016/02/down-the-rabbit-hole-with-traits.html)
-  - Huon's Trait Object Quadrilogy
+  - Huon's Trait Object Quadrilogy (All About Trait Objects)
     - [Peeking Inside Trait Objects](https://huonw.github.io/blog/2015/01/peeking-inside-trait-objects/)
     - [The `Sized` Trait](https://huonw.github.io/blog/2015/01/the-sized-trait/)
     - [Object Safety](http://huonw.github.io/blog/2015/01/object-safety/)
     - [Where `Self` meets `Sized`: Revisiting Object Safety](https://huonw.github.io/blog/2015/05/where-self-meets-sized-revisiting-object-safety/)
   - [Rust's Built-in Traits, the When, How & Why](https://llogiq.github.io/2015/07/30/traits.html)
   - [Rust Traits for Developer Friendly Libraries](https://benashford.github.io/blog/2015/05/24/rust-traits-for-developer-friendly-libraries/)
-- Macros
-  - [A Practical Introduction to Rust Macros](https://danielkeep.github.io/practical-intro-to-macros.html)
-  - Macros In Rust
-    - [Part 1](http://www.ncameron.org/blog/macros-in-rust-pt1/)
-    - [Part 2](http://www.ncameron.org/blog/macros-in-rust-pt2/)
-    - [Part 3](http://www.ncameron.org/blog/macros-in-rust-pt3/)
-    - [Part 4](http://www.ncameron.org/blog/macros-in-rust-pt4/)
-  - [Creating an enum iterator using Macros 1.1](https://cbreeden.github.io/Macros11/)
-  - [An Overview of Macros in Rust](http://words.steveklabnik.com/an-overview-of-macros-in-rust)
 - The Rust Language
   - [Finding Closure in Rust](https://huonw.github.io/blog/2015/05/finding-closure-in-rust/)
   - [Mixing Matching, Mutations and Moves](https://blog.rust-lang.org/2015/04/17/Enums-match-mutation-and-moves.html)
@@ -57,23 +43,19 @@
   - [Myths and Legends About Integer Overflow in Rust](https://huonw.github.io/blog/2016/04/myths-and-legends-about-integer-overflow-in-rust/)
   - [Effectively Using Iterators in Rust](http://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html)
   - [A Journey Into Iterators](https://hoverbear.org/2015/05/02/a-journey-into-iterators/)
-- `unsafe` Rust
-  - [Unsafe Rust: An Intro and Open Questions](http://cglab.ca/~abeinges/blah/rust-unsafe-intro/)
-  - [What Does Rust's `unsafe` Mean?](https://huonw.github.io/blog/2014/07/what-does-rusts-unsafe-mean/)
-  - [Memory Leaks are Memory Safe](https://huonw.github.io/blog/2016/04/memory-leaks-are-memory-safe/)
-  - [On Reference Counting and Leaks](http://smallcultfollowing.com/babysteps/blog/2015/04/29/on-reference-counting-and-leaks/)
-  - [A Few More Remarks on Reference Counting and Leaks](http://smallcultfollowing.com/babysteps/blog/2015/04/30/a-few-more-remarks-on-reference-counting-and-leaks/)
-  - [Pre-pooping Your Pants With Rust](http://cglab.ca/~abeinges/blah/everyone-poops/)
-  - Niko's Unsafe Abstractions Series
-    - [Unsafe Abstractions](http://smallcultfollowing.com/babysteps/blog/2016/05/23/unsafe-abstractions/)
-    - [The "Tootsie Pop" Model for Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2016/05/27/the-tootsie-pop-model-for-unsafe-code/)
-    - ["Tootsie Pop" Followup](http://smallcultfollowing.com/babysteps/blog/2016/08/18/tootsie-pop-followup/)
-    - [Thoughts on Trusting Types in Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2016/09/12/thoughts-on-trusting-types-and-unsafe-code/)
-    - [Observational Equivalence and Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2016/10/02/observational-equivalence-and-unsafe-code/)
-    - [Assigning Blame to Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2017/01/22/assigning-blame-to-unsafe-code/)
-    - [Unsafe Code and Shared References](http://smallcultfollowing.com/babysteps/blog/2017/02/01/unsafe-code-and-shared-references/)
-  - [How MutexGuard was Sync When It Should Not Have Been](https://www.ralfj.de/blog/2017/06/09/mutexguard-sync.html)
-  - [The Scope of Unsafe](https://www.ralfj.de/blog/2016/01/09/the-scope-of-unsafe.html)
+  - [What are Sum, Product, and Pi types?](https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/)
+  - [for loops in Rust](http://xion.io/post/code/rust-for-loop.html)
+- Concurrency and Parallelism
+  - [Fearless Concurrency with Rust](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html)
+  - [How Rust Achieves Thread Safety](https://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/)
+  - [Defaulting to Thread-safety: Closures and Concurrency](https://huonw.github.io/blog/2015/05/defaulting-to-thread-safety/)
+  - [Some Notes on `Send` and `Sync`](https://huonw.github.io/blog/2015/02/some-notes-on-send-and-sync/)
+  - Niko's Rayon Quadrilogy
+    - [Rayon: Data Parallelism in Rust](http://smallcultfollowing.com/babysteps/blog/2015/12/18/rayon-data-parallelism-in-rust/)
+    - [Parallel Iterators in Rust Part 1: Foundations](http://smallcultfollowing.com/babysteps/blog/2016/02/19/parallel-iterators-part-1-foundations/)
+    - [Parallel Iterators in Rust Part 2: Producers](http://smallcultfollowing.com/babysteps/blog/2016/02/25/parallel-iterators-part-2-producers/)
+    - [Parallel Iterators in Rust Part 3: Consumers](http://smallcultfollowing.com/babysteps/blog/2016/11/14/parallel-iterators-part-3-consumers/)
+  - [Parallelizing Enjarify in Go and Rust](https://medium.com/@robertgrosse/parallelizing-enjarify-in-go-and-rust-21055d64af7e)
 - Rust in Practice
   - [The Many Kinds of Code Reuse in Rust](http://cglab.ca/~abeinges/blah/rust-reuse-and-recycle/)
   - [Rust Error Handling](http://blog.burntsushi.net/rust-error-handling/)
@@ -92,13 +74,46 @@
   - Using the `Option` Type Effectively
     - [Part 1](http://blog.8thlight.com/dave-torre/2015/03/11/the-option-type.html)
     - [Part 2](http://blog.8thlight.com/uku-taht/2015/04/29/using-the-option-type-effectively.html)
-  - [Rust + Nix = Easier Unix Systems Programming](http://kamalmarhubi.com/blog/2016/04/13/rust-nix-easier-unix-systems-programming-3/)
   - [ripgrep code review](http://blog.mbrt.it/2016-12-01-ripgrep-code-review/)
-  - [Elegant Library APIs in Rust](https://scribbles.pascalhertleif.de/elegant-apis-in-rust.html)
   - [gnome-class: Integrating Rust and the GNOME object system](http://smallcultfollowing.com/babysteps/blog/2017/05/02/gnome-class-integrating-rust-and-the-gnome-object-system/)
-  - [Making Terminal Applications in Rust with Termion](http://ticki.github.io/blog/making-terminal-applications-in-rust-with-termion/)
   - [Exploring Rust's standard library: system calls and errors](https://people.gnome.org/~federico/blog/rust-libstd-syscalls-and-errors.html)
+  - [I used to use pointers. Now what?](https://github.com/diwic/reffers-rs/blob/master/docs/Pointers.md)
   - [Starting a New Rust Project Right, with error-chain](http://brson.github.io/2016/11/30/starting-with-error-chain)
+  - [Bugs You'll Probably Only Have in Rust](https://gankro.github.io/blah/only-in-rust/)
+  - [Using and_then and map combinators on the Rust Result Type](http://hermanradtke.com/2016/09/12/rust-using-and_then-and-map-combinators-on-result-type.html)
+  - [Mapping Over Arrays](https://llogiq.github.io/2016/04/28/arraymap.html)
+  - [From &str to Cow](http://blog.jwilm.io/from-str-to-cow/)
+- Idioms
+  - [Elegant Library APIs in Rust](https://scribbles.pascalhertleif.de/elegant-apis-in-rust.html)
+  - [Where Are You `From::from`?](https://llogiq.github.io/2015/11/27/from-into.html)
+  - [Rustic Bits](https://llogiq.github.io/2016/02/11/rustic.html)
+  - [Convenient and Idiomatic Conversions in Rust](https://ricardomartins.cc/2016/08/03/convenient_and_idiomatic_conversions_in_rust)
+- Macros
+  - [A Practical Introduction to Rust Macros](https://danielkeep.github.io/practical-intro-to-macros.html)
+  - Macros In Rust
+    - [Part 1](http://www.ncameron.org/blog/macros-in-rust-pt1/)
+    - [Part 2](http://www.ncameron.org/blog/macros-in-rust-pt2/)
+    - [Part 3](http://www.ncameron.org/blog/macros-in-rust-pt3/)
+    - [Part 4](http://www.ncameron.org/blog/macros-in-rust-pt4/)
+  - [Creating an enum iterator using Macros 1.1](https://cbreeden.github.io/Macros11/)
+  - [An Overview of Macros in Rust](http://words.steveklabnik.com/an-overview-of-macros-in-rust)
+- Unsafe Rust
+  - [Unsafe Rust: An Intro and Open Questions](http://cglab.ca/~abeinges/blah/rust-unsafe-intro/)
+  - [What Does Rust's `unsafe` Mean?](https://huonw.github.io/blog/2014/07/what-does-rusts-unsafe-mean/)
+  - [Memory Leaks are Memory Safe](https://huonw.github.io/blog/2016/04/memory-leaks-are-memory-safe/)
+  - [On Reference Counting and Leaks](http://smallcultfollowing.com/babysteps/blog/2015/04/29/on-reference-counting-and-leaks/)
+  - [A Few More Remarks on Reference Counting and Leaks](http://smallcultfollowing.com/babysteps/blog/2015/04/30/a-few-more-remarks-on-reference-counting-and-leaks/)
+  - [Pre-pooping Your Pants With Rust](http://cglab.ca/~abeinges/blah/everyone-poops/)
+  - Niko's Unsafe Abstractions Series
+    - [Unsafe Abstractions](http://smallcultfollowing.com/babysteps/blog/2016/05/23/unsafe-abstractions/)
+    - [The "Tootsie Pop" Model for Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2016/05/27/the-tootsie-pop-model-for-unsafe-code/)
+    - ["Tootsie Pop" Followup](http://smallcultfollowing.com/babysteps/blog/2016/08/18/tootsie-pop-followup/)
+    - [Thoughts on Trusting Types in Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2016/09/12/thoughts-on-trusting-types-and-unsafe-code/)
+    - [Observational Equivalence and Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2016/10/02/observational-equivalence-and-unsafe-code/)
+    - [Assigning Blame to Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2017/01/22/assigning-blame-to-unsafe-code/)
+    - [Unsafe Code and Shared References](http://smallcultfollowing.com/babysteps/blog/2017/02/01/unsafe-code-and-shared-references/)
+  - [How MutexGuard was Sync When It Should Not Have Been](https://www.ralfj.de/blog/2017/06/09/mutexguard-sync.html)
+  - [The Scope of Unsafe](https://www.ralfj.de/blog/2016/01/09/the-scope-of-unsafe.html)
 - Async I/O
   - [Getting Acquainted with `mio`](https://hoverbear.org/2015/03/03/getting-acquainted-with-mio/)
   - [My Basic Understanding of `mio` and Async I/O](http://hermanradtke.com/2015/07/12/my-basic-understanding-of-mio-and-async-io.html)
@@ -117,6 +132,10 @@
   - [ripgrep is faster than {grep, ag, git grep, ucg, pt, sift}](http://blog.burntsushi.net/ripgrep/)
   - [Rust Performance Pitfalls](https://llogiq.github.io/2017/06/01/perf-pitfalls.html)
   - [Optimizing `Rc` Memory Usage in Rust](https://medium.com/@robertgrosse/optimizing-rc-memory-usage-in-rust-6652de9e119e)
+  - [Why Is A Rust Executable Large?](https://lifthrasiir.github.io/rustlog/why-is-a-rust-executable-large.html)
+- Systems programming
+  - [Making Terminal Applications in Rust with Termion](http://ticki.github.io/blog/making-terminal-applications-in-rust-with-termion/)
+  - [Rust + Nix = Easier Unix Systems Programming](http://kamalmarhubi.com/blog/2016/04/13/rust-nix-easier-unix-systems-programming-3/)
 - The Rust Toolbox
   - Travis on the Train
     - [Helping Travis Catch the `rustc` Train](http://huonw.github.io/blog/2015/04/helping-travis-catch-the-rustc-train/)
@@ -124,6 +143,11 @@
   - [Rust, Travis and GitHub Pages](http://hoverbear.org/2015/03/07/rust-travis-github-pages/)
   - [Fuzzing is Magic](https://www.nibor.org/blog/fuzzing-is-magic---or-how-i-found-a-panic-in-rusts-regex-library/)
   - [Rust Code Coverage Guide: kcov + Travis CI + Codecov / Coveralls](http://sunjay.ca/2016/07/25/rust-code-coverage)
+- Typesystem Trickery
+  - Type-level Shenanigans
+    - [Type-level Shenanigans](https://llogiq.github.io/2015/12/12/types.html)
+    - [More Type-level Shenanigans](https://llogiq.github.io/2016/02/23/moretypes.html)
+  - [Rust's Type System is Turing-Complete](https://sdleffler.github.io/RustTypeSystemTuringComplete/)
 - Internals
   - [Optimizing Rust Struct Size: A 6-month Compiler Development Project](http://camlorn.net/posts/April%202017/rust-struct-field-reordering.html)
   - [Rust Tidbits: What Is a Lang Item?](http://manishearth.github.io/blog/2017/01/11/rust-tidbits-what-is-a-lang-item/)
@@ -136,6 +160,7 @@
     - [Have You Considered Rewriting it In Rust?](http://transitiontech.ca/random/RIIR)
   - [Making Your Open Source Project Newcomer Friendly](http://manishearth.github.io/blog/2016/01/03/making-your-open-source-project-newcomer-friendly/)
   - [Rust Discovery, or: How I Figure Things Out](http://carol-nichols.com/2015/08/01/rustc-discovery/)
+  - [Four Years With Rust](http://words.steveklabnik.com/four-years-with-rust)
   - [The Minimally-nice Open Source Software Maintainer](http://brson.github.io/2017/04/05/minimally-nice-maintainer)
   - [Fireflowers](https://brson.github.io/fireflowers/)
     - [Rust is More than Safety](http://words.steveklabnik.com/rust-is-more-than-safety)
@@ -168,31 +193,10 @@
   - [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
   - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
 - Uncategorized Chapters
-  - [Why Is A Rust Executable Large?](https://lifthrasiir.github.io/rustlog/why-is-a-rust-executable-large.html)
-  - [Where Are You `From::from`?](https://llogiq.github.io/2015/11/27/from-into.html)
-  - Type-level Shenanigans
-    - [Type-level Shenanigans](https://llogiq.github.io/2015/12/12/types.html)
-    - [More Type-level Shenanigans](https://llogiq.github.io/2016/02/23/moretypes.html)
-  - [Rustic Bits](https://llogiq.github.io/2016/02/11/rustic.html)
-  - [Mapping Over Arrays](https://llogiq.github.io/2016/04/28/arraymap.html)
   - [Rust for Functional Programmers](http://science.raphael.poss.name/rust-for-functional-programmers.html)
-  - [From &str to Cow](http://blog.jwilm.io/from-str-to-cow/)
-  - Graydon's Lists
-    - [Five Lists of Six Things About Rust](http://graydon2.dreamwidth.org/214016.html)
-    - [Things Rust Shipped Without](http://graydon2.dreamwidth.org/218040.html)
-  - [for loops in Rust](http://xion.io/post/code/rust-for-loop.html)
-  - [Convenient and Idiomatic Conversions in Rust](https://ricardomartins.cc/2016/08/03/convenient_and_idiomatic_conversions_in_rust)
-  - [Using and_then and map combinators on the Rust Result Type](http://hermanradtke.com/2016/09/12/rust-using-and_then-and-map-combinators-on-result-type.html)
-  - [I used to use pointers. Now what?](https://github.com/diwic/reffers-rs/blob/master/docs/Pointers.md)
   - Let’s Stop Ascribing Meaning to Code Points
     - [Let’s Stop Ascribing Meaning to Code Points](http://manishearth.github.io/blog/2017/01/14/stop-ascribing-meaning-to-unicode-code-points/)
     - [Breaking Our Latin-1 Assumptions](https://manishearth.github.io/blog/2017/01/15/breaking-our-latin-1-assumptions/)
-  - [What are Sum, Product, and Pi types?](https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/)
   - [Rust your ARM microcontroller!](http://blog.japaric.io/quickstart/)
   - [It's Time for a Memory Safety Intervention](https://tonyarcieri.com/it-s-time-for-a-memory-safety-intervention)
-  - [Bugs You'll Probably Only Have in Rust](https://gankro.github.io/blah/only-in-rust/)
-  - [Four Years With Rust](http://words.steveklabnik.com/four-years-with-rust)
-  - [My Experience Writing Enjarify in Rust](https://medium.com/@robertgrosse/my-experience-rewriting-enjarify-in-rust-723089b406ad)
-  - [Rust's Type System is Turing-Complete](https://sdleffler.github.io/RustTypeSystemTuringComplete/)
   - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
-  - [Rust: A Scala Engineer's Perspective](https://beachape.com/blog/2017/05/24/rust-from-scala/)
