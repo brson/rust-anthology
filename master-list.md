@@ -163,18 +163,18 @@
     - [More Type-level Shenanigans](https://llogiq.github.io/2016/02/23/moretypes.html)
   - [Rust's Type System is Turing-Complete](https://sdleffler.github.io/RustTypeSystemTuringComplete/)
 - Internals
+  - [Four Years With Rust](http://words.steveklabnik.com/four-years-with-rust)
   - [Optimizing Rust Struct Size: A 6-month Compiler Development Project](http://camlorn.net/posts/April%202017/rust-struct-field-reordering.html)
   - [Rust Tidbits: What Is a Lang Item?](http://manishearth.github.io/blog/2017/01/11/rust-tidbits-what-is-a-lang-item/)
   - [Reflections on Rusting Trust](https://manishearth.github.io/blog/2016/12/02/reflections-on-rusting-trust/)
 - Culture
   - [Stability as a Deliverable](https://blog.rust-lang.org/2014/10/30/Stability.html)
   - [The Not Rocket Science Rule of Software Engineering](http://graydon2.dreamwidth.org/1597.html)
+  - [Rust Discovery, or: How I Figure Things Out](http://carol-nichols.com/2015/08/01/rustc-discovery/)
   - RIIR
     - [Rewrite Everything In Rust](http://robert.ocallahan.org/2016/02/rewrite-everything-in-rust.html)
     - [Have You Considered Rewriting it In Rust?](http://transitiontech.ca/random/RIIR)
   - [Making Your Open Source Project Newcomer Friendly](http://manishearth.github.io/blog/2016/01/03/making-your-open-source-project-newcomer-friendly/)
-  - [Rust Discovery, or: How I Figure Things Out](http://carol-nichols.com/2015/08/01/rustc-discovery/)
-  - [Four Years With Rust](http://words.steveklabnik.com/four-years-with-rust)
   - [The Minimally-nice Open Source Software Maintainer](http://brson.github.io/2017/04/05/minimally-nice-maintainer)
   - [Fireflowers](https://brson.github.io/fireflowers/)
     - [Rust is More than Safety](http://words.steveklabnik.com/rust-is-more-than-safety)
