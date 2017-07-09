@@ -9,8 +9,6 @@ single book.
 
 [See the current draft](https://brson.github.io/rust-anthology).
 
-__[Editors needed! How to help.](https://github.com/brson/rust-anthology/issues/2)__
-
 [![Travis Build Status][travis-build-status-svg]][travis-build-status]
 
 [travis-build-status]: https://travis-ci.org/brson/rust-anthology
