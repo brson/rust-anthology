@@ -2,6 +2,10 @@ language: rust
 dist: trusty
 rust: stable
 
+env:
+  global:
+  - secure: "qMNmFlNoc15zpO6hror6KHfUu4LQjxg7yyK41DKzLCKQaZy5VGG+NeF2XyOxWKhc1g32lddT9gbbV4OvBnrcEEh/ojDFGPsEmO2ar7ENmHyQ2yrsXpYya/BomXrkFx0Bru7RxCS/oao72U205rFkobafe+70u2M9lalGAGvHNF97rYemo5fVYDer5t/7El0KENyxcJcCUZdE+/kne1UuNyzNIQXVzQS7mvMqIAZ/eHtAHvKtolueWkw6R+Twhzz90r6JDwzMXo+0ErNf+iKiMUM5JsQFKHVr8fjRYB0fC+GNTh0vYBm+CwTz3u/Szj8VZvLbya8Dj0cE+/S43YKYzypOD2EG7plH5RXzWtM8ifX9rz2nvGnisZCcENvukK0UY4PJapo8UJ+1tDL+3sx6vSpDH6CznRI+JE6Iev43nJeWOjx/hcrO5WPqJ3piwmnVYbrwbK+xuOtUO46Zmi8qMWTNlcwQE+i8V29BaDP6XhTR+exuU9SlbiN3QsADzk29m7aNx13t1QStVXWIJyXfXVwy6l2h4PMzKUxVGAh/fDmhyGEwbAHahkXAjziOr+8kB7wSemA+l1J1fx1phd3Cq5iMiw3/K4J95xUHrnB4eAnBognkKLVEz4W27fx7aX67p7c3yzmOQDyvtzIIRl2S39nv/MT8r/wXNcUP3eaM0E8="
+
 before_install:
   - export PATH=$HOME/.cargo/bin:$PATH
 
