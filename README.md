@@ -38,6 +38,12 @@ mdbook build
 
 [mdbook]: https://github.com/azerupi/mdBook
 
+Testing is again with mdbook:
+
+```
+mdbook test
+```
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).

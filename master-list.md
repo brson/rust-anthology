@@ -39,13 +39,14 @@
     - [The `Sized` Trait](https://huonw.github.io/blog/2015/01/the-sized-trait/)
     - [Object Safety](http://huonw.github.io/blog/2015/01/object-safety/)
     - [Where `Self` meets `Sized`: Revisiting Object Safety](https://huonw.github.io/blog/2015/05/where-self-meets-sized-revisiting-object-safety/)
-  - [Rust's Built-in Traits, the When, How & Why](https://llogiq.github.io/2015/07/30/traits.html)
   - [Rust Traits for Developer Friendly Libraries](https://benashford.github.io/blog/2015/05/24/rust-traits-for-developer-friendly-libraries/)
 - The Rust Language
-  - [Reading Rust Function Signatures](http://hoverbear.org/2015/07/10/reading-rust-function-signatures/)
+  - [The Many Kinds of Code Reuse in Rust](http://cglab.ca/~abeinges/blah/rust-reuse-and-recycle/)
   - [Mixing Matching, Mutations and Moves](https://blog.rust-lang.org/2015/04/17/Enums-match-mutation-and-moves.html)
   - [What are Sum, Product, and Pi types?](https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/)
+  - [Reading Rust Function Signatures](http://hoverbear.org/2015/07/10/reading-rust-function-signatures/)
   - [Finding Closure in Rust](https://huonw.github.io/blog/2015/05/finding-closure-in-rust/)
+  - [Rust's Built-in Traits, the When, How & Why](https://llogiq.github.io/2015/07/30/traits.html)
   - [Myths and Legends About Integer Overflow in Rust](https://huonw.github.io/blog/2016/04/myths-and-legends-about-integer-overflow-in-rust/)
 - Iterators
   - [Effectively Using Iterators in Rust](http://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html)
@@ -64,7 +65,6 @@
     - [Parallel Iterators in Rust Part 3: Consumers](http://smallcultfollowing.com/babysteps/blog/2016/11/14/parallel-iterators-part-3-consumers/)
   - [Parallelizing Enjarify in Go and Rust](https://medium.com/@robertgrosse/parallelizing-enjarify-in-go-and-rust-21055d64af7e)
 - Rust in Practice
-  - [The Many Kinds of Code Reuse in Rust](http://cglab.ca/~abeinges/blah/rust-reuse-and-recycle/)
   - [Rust Error Handling](http://blog.burntsushi.net/rust-error-handling/)
   - [Why your first FizzBuzz implementation may not work](https://chrismorgan.info/blog/rust-fizzbuzz.html)
   - Herman Radtke's `String` Trilogy

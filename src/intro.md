@@ -87,6 +87,8 @@ trait; finally, it explains in which situations traits can be used as trait
 objects, what is known as "object safety".
 
 
+## The Rust Language
+
 [__Rust's Built-in Traits, the When, How & Why__](rusts-built-in-traits.html)
 ★ [Andre Bogus].
 Traits make all kinds of magic happen in Rust, from operator
@@ -101,8 +103,6 @@ need to know them. Unravel the mystery of `PartialEq`, `Eq`,
 and thread-safety markers `Send`, `Sync`.
 
 
-## The Rust Language
-
 [__Finding Closure in Rust__](finding-closure-in-rust.html)
 ★ [Huon Wilson].
 Closures are functions that can directly use variables from their
@@ -112,7 +112,7 @@ all the details, including the `Fn`, `FnMut`, and `FnOnce` traits,
 captures and the `move` keyword.
 
 
-## `unsafe` Rust
+## Unsafe Rust
 
 ## Rust in Practice
 
