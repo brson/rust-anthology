@@ -19,6 +19,7 @@
     - [Holy `std::borrow::Cow`!](https://llogiq.github.io/2015/07/09/cow.html)
     - [Holy `std::borrow::Cow` Redux!](https://llogiq.github.io/2015/07/10/cow-redux.html)
   - [Graphical Depiction of Ownership and Borrowing in Rust](https://rufflewind.com/2017-02-15/rust-move-copy-borrow)
+  - [Wrapper Types in Rust: Choosing Your Guarantees](https://manishearth.github.io/blog/2015/05/27/wrapper-types-in-rust-choosing-your-guarantees/)
 - Concurrency
   - [Fearless Concurrency with Rust](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html)
   - [How Rust Achieves Thread Safety](https://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/)
@@ -72,6 +73,7 @@
     - [Assigning Blame to Unsafe Code](http://smallcultfollowing.com/babysteps/blog/2017/01/22/assigning-blame-to-unsafe-code/)
     - [Unsafe Code and Shared References](http://smallcultfollowing.com/babysteps/blog/2017/02/01/unsafe-code-and-shared-references/)
   - [How MutexGuard was Sync When It Should Not Have Been](https://www.ralfj.de/blog/2017/06/09/mutexguard-sync.html)
+  - [The Scope of Unsafe](https://www.ralfj.de/blog/2016/01/09/the-scope-of-unsafe.html)
 - Rust in Practice
   - [The Many Kinds of Code Reuse in Rust](http://cglab.ca/~abeinges/blah/rust-reuse-and-recycle/)
   - [Rust Error Handling](http://blog.burntsushi.net/rust-error-handling/)
@@ -167,7 +169,6 @@
   - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
 - Uncategorized Chapters
   - [Why Is A Rust Executable Large?](https://lifthrasiir.github.io/rustlog/why-is-a-rust-executable-large.html)
-  - [Wrapper Types in Rust: Choosing Your Guarantees](https://doc.rust-lang.org/book/choosing-your-guarantees.html)
   - [Where Are You `From::from`?](https://llogiq.github.io/2015/11/27/from-into.html)
   - Type-level Shenanigans
     - [Type-level Shenanigans](https://llogiq.github.io/2015/12/12/types.html)
