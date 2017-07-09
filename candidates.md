@@ -1,13 +1,13 @@
 # Anthology 1 candidates
 
 - Introduction
-  - [Understanding Over Guesswork](https://www.hoverbear.org/2015/09/12/understand-over-guesswork/) (brson)
+  - [Understanding Over Guesswork](https://www.hoverbear.org/2015/09/12/understand-over-guesswork/)
   - [An Alternative Introduction to Rust](http://words.steveklabnik.com/a-new-introduction-to-rust)
   - [Rust and CSV Parsing](http://blog.burntsushi.net/csv/)
 - Ownership
-  - [Where Rust Really Shines](https://manishearth.github.io/blog/2015/05/03/where-rust-really-shines/) (brson)
+  - [Where Rust Really Shines](https://manishearth.github.io/blog/2015/05/03/where-rust-really-shines/)
   - [Rust Means Never Having to Close a Socket](http://blog.skylight.io/rust-means-never-having-to-close-a-socket/)
-  - [The Problem with Single-threaded Shared Mutability](https://manishearth.github.io/blog/2015/05/17/the-problem-with-shared-mutability/) (brson)
+  - [The Problem with Single-threaded Shared Mutability](https://manishearth.github.io/blog/2015/05/17/the-problem-with-shared-mutability/)
   - [Rust Ownership the Hard Way](https://chrismorgan.info/blog/rust-ownership-the-hard-way.html)
   - [Strategies for Solving "cannot move out of" Borrowing Errors](http://hermanradtke.com/2015/06/09/strategies-for-solving-cannot-move-out-of-borrowing-errors-in-rust.html)
   - Interior Mutability In Rust
@@ -20,8 +20,8 @@
     - [Holy `std::borrow::Cow` Redux!](https://llogiq.github.io/2015/07/10/cow-redux.html)
   - [Graphical Depiction of Ownership and Borrowing in Rust](https://rufflewind.com/2017-02-15/rust-move-copy-borrow)
 - Concurrency
-  - [Fearless Concurrency with Rust](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html) (brson)
-  - [How Rust Achieves Thread Safety](https://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/) (brson)
+  - [Fearless Concurrency with Rust](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html)
+  - [How Rust Achieves Thread Safety](https://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/)
   - [Defaulting to Thread-safety: Closures and Concurrency](https://huonw.github.io/blog/2015/05/defaulting-to-thread-safety/)
   - [Some Notes on `Send` and `Sync`](https://huonw.github.io/blog/2015/02/some-notes-on-send-and-sync/)
   - Niko's Rayon Quadrilogy
@@ -31,14 +31,14 @@
     - [Parallel Iterators in Rust Part 3: Consumers](http://smallcultfollowing.com/babysteps/blog/2016/11/14/parallel-iterators-part-3-consumers/)
   - [Parallelizing Enjarify in Go and Rust](https://medium.com/@robertgrosse/parallelizing-enjarify-in-go-and-rust-21055d64af7e)
 - Traits
-  - [Abstraction Without Overhead](https://blog.rust-lang.org/2015/05/11/traits.html) (brson)
+  - [Abstraction Without Overhead](https://blog.rust-lang.org/2015/05/11/traits.html)
   - [Going Down the Rabbit Hole with Rust Traits](http://www.jonathanturner.org/2016/02/down-the-rabbit-hole-with-traits.html)
   - Huon's Trait Object Quadrilogy
     - [Peeking Inside Trait Objects](https://huonw.github.io/blog/2015/01/peeking-inside-trait-objects/)
     - [The `Sized` Trait](https://huonw.github.io/blog/2015/01/the-sized-trait/)
     - [Object Safety](http://huonw.github.io/blog/2015/01/object-safety/)
     - [Where `Self` meets `Sized`: Revisiting Object Safety](https://huonw.github.io/blog/2015/05/where-self-meets-sized-revisiting-object-safety/)
-  - [Rust's Built-in Traits, the When, How & Why](https://llogiq.github.io/2015/07/30/traits.html) (brson)
+  - [Rust's Built-in Traits, the When, How & Why](https://llogiq.github.io/2015/07/30/traits.html)
   - [Rust Traits for Developer Friendly Libraries](https://benashford.github.io/blog/2015/05/24/rust-traits-for-developer-friendly-libraries/)
 - Macros
   - [A Practical Introduction to Rust Macros](https://danielkeep.github.io/practical-intro-to-macros.html)
@@ -50,7 +50,7 @@
   - [Creating an enum iterator using Macros 1.1](https://cbreeden.github.io/Macros11/)
   - [An Overview of Macros in Rust](http://words.steveklabnik.com/an-overview-of-macros-in-rust)
 - The Rust Language
-  - [Finding Closure in Rust](https://huonw.github.io/blog/2015/05/finding-closure-in-rust/) (brson)
+  - [Finding Closure in Rust](https://huonw.github.io/blog/2015/05/finding-closure-in-rust/)
   - [Mixing Matching, Mutations and Moves](https://blog.rust-lang.org/2015/04/17/Enums-match-mutation-and-moves.html)
   - [Reading Rust Function Signatures](http://hoverbear.org/2015/07/10/reading-rust-function-signatures/)
   - [Myths and Legends About Integer Overflow in Rust](https://huonw.github.io/blog/2016/04/myths-and-legends-about-integer-overflow-in-rust/)
