@@ -83,12 +83,11 @@ undesirable.
             one reason why using a trait object&mdash;with its dynamic
             dispatch&mdash;is sometimes more efficient.
 
-    However, the common case is that it is more efficient to use
-    static dispatch, and one can always have a thin
-    statically-dispatched wrapper function that does a dynamic, but
-    not vice versa, meaning static calls are more flexible. The
-    standard library tries to be statically dispatched where possible
-    for this reason.
+However, the common case is that it is more efficient to use static
+dispatch, and one can always have a thin statically-dispatched wrapper
+function that does a dynamic, but not vice versa, meaning static calls
+are more flexible. The standard library tries to be statically
+dispatched where possible for this reason.
 
 [^one-per-type]: There's no guarantee that there will actually be a
                  copy of the function for each type that implements
