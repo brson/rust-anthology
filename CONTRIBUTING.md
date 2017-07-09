@@ -29,7 +29,10 @@ Importing a chapter to the book includes these steps:
 - Acquire the original source and convert it to markdown. This may
   mean contacting the author if the source is not obviously
   available. In these cases you should not assume they want their text
-  redistributed, so explain your purpose clearly.
+  redistributed, so explain your purpose clearly. Sources to some
+  common blogs are in the `sources` directory of this repo as
+  submodules, but you may want to update the submodule before copying
+  them.
 - Create a markdown file in `src/` with a name reflecting the title.
 - If the source is spread across multiple blog posts, consolidate them
   into one, with each given their own section heading, "Part N:
