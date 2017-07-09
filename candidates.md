@@ -3,7 +3,12 @@
 - Introduction
   - [Understanding Over Guesswork](https://hoverbear.org/2015/09/12/understand-over-guesswork/)
   - [An Alternative Introduction to Rust](http://words.steveklabnik.com/a-new-introduction-to-rust)
+  - [Learning Rust](https://medium.com/learning-rust)
+    - [Rust Basics](https://medium.com/learning-rust/rust-basics-e73304ab35c7)
+    - [Rust: Beyond the Basics](https://medium.com/learning-rust/rust-beyond-the-basics-4fc697e3bf4f)
+    - [Rust: The Tough Part](https://medium.com/learning-rust/rust-the-tough-part-2ea11ed3693e)
   - [Rust and CSV Parsing](http://blog.burntsushi.net/csv/)
+  - [Rust for Functional Programmers](http://science.raphael.poss.name/rust-for-functional-programmers.html)
   - Graydon's Lists
     - [Five Lists of Six Things About Rust](http://graydon2.dreamwidth.org/214016.html)
     - [Things Rust Shipped Without](http://graydon2.dreamwidth.org/218040.html)
@@ -37,14 +42,16 @@
   - [Rust's Built-in Traits, the When, How & Why](https://llogiq.github.io/2015/07/30/traits.html)
   - [Rust Traits for Developer Friendly Libraries](https://benashford.github.io/blog/2015/05/24/rust-traits-for-developer-friendly-libraries/)
 - The Rust Language
-  - [Finding Closure in Rust](https://huonw.github.io/blog/2015/05/finding-closure-in-rust/)
-  - [Mixing Matching, Mutations and Moves](https://blog.rust-lang.org/2015/04/17/Enums-match-mutation-and-moves.html)
   - [Reading Rust Function Signatures](http://hoverbear.org/2015/07/10/reading-rust-function-signatures/)
+  - [Mixing Matching, Mutations and Moves](https://blog.rust-lang.org/2015/04/17/Enums-match-mutation-and-moves.html)
+  - [What are Sum, Product, and Pi types?](https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/)
+  - [Finding Closure in Rust](https://huonw.github.io/blog/2015/05/finding-closure-in-rust/)
   - [Myths and Legends About Integer Overflow in Rust](https://huonw.github.io/blog/2016/04/myths-and-legends-about-integer-overflow-in-rust/)
+- Iterators
   - [Effectively Using Iterators in Rust](http://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html)
   - [A Journey Into Iterators](https://hoverbear.org/2015/05/02/a-journey-into-iterators/)
-  - [What are Sum, Product, and Pi types?](https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/)
   - [for loops in Rust](http://xion.io/post/code/rust-for-loop.html)
+  - [Little tour of multiple iterators implementation in Rust](https://blog.guillaume-gomez.fr/articles/2017-03-09+Little+tour+of+multiple+iterators+implementation+in+Rust)
 - Concurrency and Parallelism
   - [Fearless Concurrency with Rust](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html)
   - [How Rust Achieves Thread Safety](https://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/)
@@ -133,7 +140,7 @@
   - [Rust Performance Pitfalls](https://llogiq.github.io/2017/06/01/perf-pitfalls.html)
   - [Optimizing `Rc` Memory Usage in Rust](https://medium.com/@robertgrosse/optimizing-rc-memory-usage-in-rust-6652de9e119e)
   - [Why Is A Rust Executable Large?](https://lifthrasiir.github.io/rustlog/why-is-a-rust-executable-large.html)
-- Systems programming
+- Systems Programming
   - [Making Terminal Applications in Rust with Termion](http://ticki.github.io/blog/making-terminal-applications-in-rust-with-termion/)
   - [Rust + Nix = Easier Unix Systems Programming](http://kamalmarhubi.com/blog/2016/04/13/rust-nix-easier-unix-systems-programming-3/)
 - The Rust Toolbox
@@ -178,6 +185,13 @@
     - [Rust is About Boldness](https://www.reddit.com/r/rust/comments/5lo6ny/rust_is_about_boldness/)
     - [Rust is About Better Citizenship](https://kasma1990.gitlab.io/2017/01/01/rust-is-about-better-citizenship/)
     - [Rust Marketing Pitch](https://kasma1990.gitlab.io/2017/01/01/rust-is-about-better-citizenship/)
+- Uncategorized Chapters
+  - Let’s Stop Ascribing Meaning to Code Points
+    - [Let’s Stop Ascribing Meaning to Code Points](http://manishearth.github.io/blog/2017/01/14/stop-ascribing-meaning-to-unicode-code-points/)
+    - [Breaking Our Latin-1 Assumptions](https://manishearth.github.io/blog/2017/01/15/breaking-our-latin-1-assumptions/)
+  - [Rust your ARM microcontroller!](http://blog.japaric.io/quickstart/)
+  - [It's Time for a Memory Safety Intervention](https://tonyarcieri.com/it-s-time-for-a-memory-safety-intervention)
+  - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
 - Cheat Sheets
   - [Periodic Table of Rust Types](http://cosmic.mearie.org/2014/01/periodic-table-of-rust-types)
   - [Rust String Conversions Cheat Sheet](https://docs.google.com/spreadsheets/d/19vSPL6z2d50JlyzwxariaYD6EU2QQUQqIDOGbiGQC7Y/pubhtml?gid=0&single=true)
@@ -192,11 +206,3 @@
   - [rustlings](https://github.com/carols10cents/rustlings)
   - [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
   - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
-- Uncategorized Chapters
-  - [Rust for Functional Programmers](http://science.raphael.poss.name/rust-for-functional-programmers.html)
-  - Let’s Stop Ascribing Meaning to Code Points
-    - [Let’s Stop Ascribing Meaning to Code Points](http://manishearth.github.io/blog/2017/01/14/stop-ascribing-meaning-to-unicode-code-points/)
-    - [Breaking Our Latin-1 Assumptions](https://manishearth.github.io/blog/2017/01/15/breaking-our-latin-1-assumptions/)
-  - [Rust your ARM microcontroller!](http://blog.japaric.io/quickstart/)
-  - [It's Time for a Memory Safety Intervention](https://tonyarcieri.com/it-s-time-for-a-memory-safety-intervention)
-  - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
