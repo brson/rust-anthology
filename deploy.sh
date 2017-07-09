@@ -23,7 +23,7 @@ REV=$(git rev-parse --short HEAD)
 cd out
 
 git init
-git remote add upstream "https://${GH_TOKEN}@${GH_REF}"
+git remote add upstream "https://${GH_TOKEN}@github.com/brson/rust-anthology.git"
 git config user.name "Rust Anthology"
 git config user.email "banderson@mozilla.com"
 git add -A .
