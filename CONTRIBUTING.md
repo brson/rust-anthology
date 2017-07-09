@@ -16,6 +16,7 @@ Some notes on Anthology maintenance.
 - Is the content too domain specific? Probably not a good candidate.
 - Does the content fit into some 'theme' with other content? Look for
   places where we can group chapters into book sections.
+- Is the content still relevant and idiomatic?
 
 ## Adding a blog post
 
