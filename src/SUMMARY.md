@@ -18,7 +18,7 @@
     - [All About Trait Objects](all-about-trait-objects.md)
 - [The Rust Language]()
     - [The Many Kinds of Code Reuse in Rust](rust-reuse-and-recycle.md)
-    - [Mixing matching, mutation, and moves](enums-match-mutation-and-moves.md)
+    - [Mixing Matching, Mutation, and Moves](enums-match-mutation-and-moves.md)
     - [Reading Rust Function Signatures](reading-rust-function-signatures.md)
     - [Finding Closure in Rust](finding-closure-in-rust.md)
     - [Rust's Built-in Traits, the When, How & Why](rusts-built-in-traits.md)
