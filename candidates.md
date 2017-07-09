@@ -153,7 +153,7 @@
     - [Rust is About Boldness](https://www.reddit.com/r/rust/comments/5lo6ny/rust_is_about_boldness/)
     - [Rust is About Better Citizenship](https://kasma1990.gitlab.io/2017/01/01/rust-is-about-better-citizenship/)
     - [Rust Marketing Pitch](https://kasma1990.gitlab.io/2017/01/01/rust-is-about-better-citizenship/)
-- Cheat Sheets - Can these be modified for the book?
+- Cheat Sheets
   - [Periodic Table of Rust Types](http://cosmic.mearie.org/2014/01/periodic-table-of-rust-types)
   - [Rust String Conversions Cheat Sheet](https://docs.google.com/spreadsheets/d/19vSPL6z2d50JlyzwxariaYD6EU2QQUQqIDOGbiGQC7Y/pubhtml?gid=0&single=true)
   - [Rust Iterator Cheat Sheet](https://danielkeep.github.io/itercheat_baked.html)
