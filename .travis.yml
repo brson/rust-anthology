@@ -1,9 +1,16 @@
 language: rust
 dist: trusty
-rust: nightly
+rust: stable
+
+before_install:
+  - export PATH=$HOME/.cargo/bin:$PATH
 
 install:
   - cargo install mdbook
 
 script:
-  - ~/.cargo/bin/mdbook test
+  - ./build.sh
+  - mdbook test
+
+after_success:
+  - ./deploy.sh
