@@ -188,7 +188,7 @@
     - [Breaking Our Latin-1 Assumptions](https://manishearth.github.io/blog/2017/01/15/breaking-our-latin-1-assumptions/)
   - [What are Sum, Product, and Pi types?](https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/)
   - [Rust your ARM microcontroller!](http://blog.japaric.io/quickstart/)
-  - [It's Time for a Memory Safety Intervention](It’s time for a memory safety intervention)
+  - [It's Time for a Memory Safety Intervention](https://tonyarcieri.com/it-s-time-for-a-memory-safety-intervention)
   - [Bugs You'll Probably Only Have in Rust](https://gankro.github.io/blah/only-in-rust/)
   - [Four Years With Rust](http://words.steveklabnik.com/four-years-with-rust)
   - [My Experience Writing Enjarify in Rust](https://medium.com/@robertgrosse/my-experience-rewriting-enjarify-in-rust-723089b406ad)
