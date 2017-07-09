@@ -143,6 +143,13 @@
 - Systems Programming
   - [Making Terminal Applications in Rust with Termion](http://ticki.github.io/blog/making-terminal-applications-in-rust-with-termion/)
   - [Rust + Nix = Easier Unix Systems Programming](http://kamalmarhubi.com/blog/2016/04/13/rust-nix-easier-unix-systems-programming-3/)
+- Embedded Programming
+  - Japaric's RTFM Series
+    - [Rust your ARM Microcontroller!](http://blog.japaric.io/quickstart/)
+    - [Fearless Concurrency in Your Microcontroller](http://blog.japaric.io/fearless-concurrency/)
+    - [Overhead Analysis of the RTFM Framework](http://blog.japaric.io/rtfm-overhead/)
+    - [The ITM and the Quest for Faster Logging](http://blog.japaric.io/itm/)
+    - [A CPU Monitor for the RTFM Framework](http://blog.japaric.io/cpu-monitor/)
 - The Rust Toolbox
   - Travis on the Train
     - [Helping Travis Catch the `rustc` Train](http://huonw.github.io/blog/2015/04/helping-travis-catch-the-rustc-train/)
@@ -189,7 +196,6 @@
   - Let’s Stop Ascribing Meaning to Code Points
     - [Let’s Stop Ascribing Meaning to Code Points](http://manishearth.github.io/blog/2017/01/14/stop-ascribing-meaning-to-unicode-code-points/)
     - [Breaking Our Latin-1 Assumptions](https://manishearth.github.io/blog/2017/01/15/breaking-our-latin-1-assumptions/)
-  - [Rust your ARM microcontroller!](http://blog.japaric.io/quickstart/)
   - [It's Time for a Memory Safety Intervention](https://tonyarcieri.com/it-s-time-for-a-memory-safety-intervention)
   - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
 - Cheat Sheets
@@ -206,3 +212,4 @@
   - [rustlings](https://github.com/carols10cents/rustlings)
   - [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
   - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
+  - [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
