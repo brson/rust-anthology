@@ -129,4 +129,4 @@ captures and the `move` keyword.
 [Felix S. Klock II]: authors.html#Felix%20S.%20Klock%20II
 [Herman J. Radtke III]: authors.html#Herman%20J.%20Radtke%20III
 [Huon Wilson]: authors.html#Huon%20Wilson
-[Manish Goregaokar]: authors.html#Manish%20aGoregaokar
+[Manish Goregaokar]: authors.html#Manish%20Goregaokar
