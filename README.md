@@ -9,7 +9,7 @@ single book.
 
 [See the current draft](https://brson.github.io/rust-anthology).
 
-You might also be interested in [the master list](candidates.md).
+You might also be interested in [the master list](master-list.md).
 
 [![Travis Build Status][travis-build-status-svg]][travis-build-status]
 
