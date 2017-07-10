@@ -64,6 +64,7 @@
     - [Parallel Iterators in Rust Part 2: Producers](http://smallcultfollowing.com/babysteps/blog/2016/02/25/parallel-iterators-part-2-producers/)
     - [Parallel Iterators in Rust Part 3: Consumers](http://smallcultfollowing.com/babysteps/blog/2016/11/14/parallel-iterators-part-3-consumers/)
   - [Parallelizing Enjarify in Go and Rust](https://medium.com/@robertgrosse/parallelizing-enjarify-in-go-and-rust-21055d64af7e)
+  - [Lock-freedom Without Garbage Collection](https://aturon.github.io/blog/2015/08/27/epoch/)
 - Rust in Practice
   - [Rust Error Handling](http://blog.burntsushi.net/rust-error-handling/)
   - [Why your first FizzBuzz implementation may not work](https://chrismorgan.info/blog/rust-fizzbuzz.html)
