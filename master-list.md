@@ -201,6 +201,7 @@
     - [Breaking Our Latin-1 Assumptions](https://manishearth.github.io/blog/2017/01/15/breaking-our-latin-1-assumptions/)
   - [It's Time for a Memory Safety Intervention](https://tonyarcieri.com/it-s-time-for-a-memory-safety-intervention)
   - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
+  - [Why Type Systems Matter](https://matthias-endler.de/2017/why-type-systems-matter/)
 
 # Cheat Sheets
 
