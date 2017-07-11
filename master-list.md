@@ -168,6 +168,7 @@
   - [Optimizing Rust Struct Size: A 6-month Compiler Development Project](http://camlorn.net/posts/April%202017/rust-struct-field-reordering.html)
   - [Rust Tidbits: What Is a Lang Item?](http://manishearth.github.io/blog/2017/01/11/rust-tidbits-what-is-a-lang-item/)
   - [Reflections on Rusting Trust](https://manishearth.github.io/blog/2016/12/02/reflections-on-rusting-trust/)
+  - [How Rust is tested](https://brson.github.io/2017/07/10/how-rust-is-tested)
 - Culture
   - [Stability as a Deliverable](https://blog.rust-lang.org/2014/10/30/Stability.html)
   - [The Not Rocket Science Rule of Software Engineering](http://graydon2.dreamwidth.org/1597.html)
