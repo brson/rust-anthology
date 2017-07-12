@@ -1,6 +1,6 @@
 # Rust Anthology Master List
 
-This is a master list of substantial blog posts about Rust.
+This is a collection of substantial blog posts about Rust.
 
 It additionally collects other notable sources of material that might
 be useful to a Rust learner: [cheat sheets][cs], [examples and
