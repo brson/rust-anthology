@@ -1,4 +1,19 @@
-# Anthology 1 candidates
+# Rust Anthology Master List
+
+This is a master list of substantial blog posts about Rust.
+
+It additionally collects other notable sources of material that might
+be useful to a Rust learner: [cheat sheets][cs], [examples and
+exercises][ee], and [additional long-form reading][lf]. In content is
+has significant overlap with [rust-learning][rl], but with a different
+focus.
+
+[cs]: #cheat-sheets
+[ee]: #examples-and-exercises
+[lf]: #additional-long-form-reading
+[rl]: https://github.com/ctjhoa/rust-learning
+
+## Anthology 1 candidates
 
 - Introduction
   - [Understanding Over Guesswork](https://hoverbear.org/2015/09/12/understand-over-guesswork/)
@@ -207,21 +222,30 @@
   - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
   - [Why Type Systems Matter](https://matthias-endler.de/2017/why-type-systems-matter/)
 
-# Cheat Sheets
+## Cheat Sheets
 
 - [Periodic Table of Rust Types](http://cosmic.mearie.org/2014/01/periodic-table-of-rust-types)
 - [Rust String Conversions Cheat Sheet](https://docs.google.com/spreadsheets/d/19vSPL6z2d50JlyzwxariaYD6EU2QQUQqIDOGbiGQC7Y/pubhtml?gid=0&single=true)
 - [Rust Iterator Cheat Sheet](https://danielkeep.github.io/itercheat_baked.html)
 - [Rust Container Cheet Sheet](https://docs.google.com/presentation/d/1q-c7UAyrUlM-eZyTo1pd8SZ0qwA_wYxmPZVOQkoDmH4/edit)
+- [Rust API Guidelines](https://github.com/brson/rust-api-guidelines)
 
-# Additional Reading
+## Examples and Exercises
 
-- [The Book](http://doc.rust-lang.org/nightly/book)
-- [The Nomicon](https://doc.rust-lang.org/nightly/nomicon/)
 - [Rust By Example](https://www.rustbyexample.com)
+- [rustlings](https://github.com/carols10cents/rustlings)
+- [exercism.io](http://www.exercism.io/languages/rust)
+- [Rust Cookbook](https://brson.github.io/rust-cookbook)
+
+## Additional Long-Form Reading
+
+- [The Rust Book (2nd Edition)](https://doc.rust-lang.org/nightly/book/second-edition/)
+- [The Rust Book (1st Edition)](https://doc.rust-lang.org/nightly/book/first-edition/)
+- [The Unstable Book](https://doc.rust-lang.org/nightly/unstable-book/)
+- [The Rustonomicon](https://doc.rust-lang.org/nightly/nomicon/)
+- [The Rust Reference](https://doc.rust-lang.org/nightly/reference/)
 - [Writing an OS in Rust](http://os.phil-opp.com/)
 - [Rust 101](https://www.ralfj.de/projects/rust-101/main.html)
-- [rustlings](https://github.com/carols10cents/rustlings)
 - [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
 - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
 - [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
