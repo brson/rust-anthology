@@ -176,7 +176,8 @@
   - RIIR
     - [Rewrite Everything In Rust](http://robert.ocallahan.org/2016/02/rewrite-everything-in-rust.html)
     - [Have You Considered Rewriting it In Rust?](http://transitiontech.ca/random/RIIR)
-    - [Why you Should, Actually, Rewrite it in Rust](https://unhandledexpression.com/2017/07/10/why-you-should-actually-rewrite-it-in-rust/)
+    - [Why You Should, Actually, Rewrite it in Rust](https://unhandledexpression.com/2017/07/10/why-you-should-actually-rewrite-it-in-rust/)
+    - [How to Rewrite Your Project in Rust](https://unhandledexpression.com/2017/07/12/how-to-rewrite-you-project-in-rust/)
   - [Making Your Open Source Project Newcomer Friendly](http://manishearth.github.io/blog/2016/01/03/making-your-open-source-project-newcomer-friendly/)
   - [The Minimally-nice Open Source Software Maintainer](http://brson.github.io/2017/04/05/minimally-nice-maintainer)
   - [Fireflowers](https://brson.github.io/fireflowers/)
