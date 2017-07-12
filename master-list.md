@@ -91,6 +91,9 @@
   - [Using and_then and map combinators on the Rust Result Type](http://hermanradtke.com/2016/09/12/rust-using-and_then-and-map-combinators-on-result-type.html)
   - [Mapping Over Arrays](https://llogiq.github.io/2016/04/28/arraymap.html)
   - [From &str to Cow](http://blog.jwilm.io/from-str-to-cow/)
+  - Roguelike Tutorial
+    - [Part 1](https://jaredonline.svbtle.com/roguelike-tutorial-in-rust-part-1)
+    - [Part 2](https://jaredonline.svbtle.com/roguelike-tutorial-in-rust-part-2)
 - Idioms
   - [Elegant Library APIs in Rust](https://scribbles.pascalhertleif.de/elegant-apis-in-rust.html)
   - [Where Are You `From::from`?](https://llogiq.github.io/2015/11/27/from-into.html)
@@ -222,3 +225,4 @@
 - [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
 - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
 - [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
+- [Roguelike Tutorial in Rust + tcod](https://tomassedovic.github.io/roguelike-tutorial/)
