@@ -4,7 +4,7 @@ This is a master list of substantial blog posts about Rust.
 
 It additionally collects other notable sources of material that might
 be useful to a Rust learner: [cheat sheets][cs], [examples and
-exercises][ee], and [additional long-form reading][lf]. In content is
+exercises][ee], and [additional long-form reading][lf]. In content it
 has significant overlap with [rust-learning][rl], but with a different
 focus.
 
