@@ -148,6 +148,7 @@ focus.
   - [Zero-cost Futures in Rust](http://aturon.github.io/blog/2016/08/11/futures/)
   - [Designing Futures for Rust](http://aturon.github.io/blog/2016/09/07/futures-design/)
   - [Asynchronous Rust for Fun and Profit](http://xion.io/post/programming/rust-async-closer-look.html)
+  - [Understanding the Tokio Reactor Core](https://www.coredump.ch/2017/07/05/understanding-the-tokio-reactor-core/)
 - Performance
   - [Benchmarking In Rust](https://llogiq.github.io/2015/06/16/bench.html)
   - [Profiling Rust Applications on Linux](https://llogiq.github.io/2015/07/15/profiling.html)
