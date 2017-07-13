@@ -80,6 +80,9 @@ focus.
     - [Parallel Iterators in Rust Part 3: Consumers](http://smallcultfollowing.com/babysteps/blog/2016/11/14/parallel-iterators-part-3-consumers/)
   - [Parallelizing Enjarify in Go and Rust](https://medium.com/@robertgrosse/parallelizing-enjarify-in-go-and-rust-21055d64af7e)
   - [Lock-freedom Without Garbage Collection](https://aturon.github.io/blog/2015/08/27/epoch/)
+  - A Rusty Tale of Shared Memories and Passed Messages
+    - [Part 1](https://www.worthe-it.co.za/programming/2017/06/19/a-rusty-tale-of-shared-memories-and-passed-messages-1.html)
+    - [Part 2](https://www.worthe-it.co.za/programming/2017/07/11/a-rusty-tale-of-shared-memories-and-passed-messages-2.html)
 - Rust in Practice
   - [Rust Error Handling](http://blog.burntsushi.net/rust-error-handling/)
   - [Why your first FizzBuzz implementation may not work](https://chrismorgan.info/blog/rust-fizzbuzz.html)
@@ -106,9 +109,6 @@ focus.
   - [Using and_then and map combinators on the Rust Result Type](http://hermanradtke.com/2016/09/12/rust-using-and_then-and-map-combinators-on-result-type.html)
   - [Mapping Over Arrays](https://llogiq.github.io/2016/04/28/arraymap.html)
   - [From &str to Cow](http://blog.jwilm.io/from-str-to-cow/)
-  - Roguelike Tutorial
-    - [Part 1](https://jaredonline.svbtle.com/roguelike-tutorial-in-rust-part-1)
-    - [Part 2](https://jaredonline.svbtle.com/roguelike-tutorial-in-rust-part-2)
 - Idioms
   - [Elegant Library APIs in Rust](https://scribbles.pascalhertleif.de/elegant-apis-in-rust.html)
   - [Where Are You `From::from`?](https://llogiq.github.io/2015/11/27/from-into.html)
