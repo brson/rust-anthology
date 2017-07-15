@@ -238,6 +238,7 @@ focus.
 - [rustlings](https://github.com/carols10cents/rustlings)
 - [exercism.io](http://www.exercism.io/languages/rust)
 - [Rust Cookbook](https://brson.github.io/rust-cookbook)
+- [into_rust()](http://intorust.com)
 
 ## Additional Long-Form Reading
 
