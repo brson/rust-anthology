@@ -1,0 +1,755 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mixing Matching, Mutation, and Moves - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html" class="active"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <hr />
+<p>layout: post
+title: &quot;Mixing matching, mutation, and moves in Rust&quot;
+author: Felix S. Klock II
+description: &quot;A tour of matching and enums in Rust.&quot;</p>
+<hr />
+<p>One of the primary goals of the Rust project is to enable safe systems
+programming. Systems programming usually implies imperative
+programming, which in turns often implies side-effects, reasoning
+about shared state, et cetera.</p>
+<p>At the same time, to provide <em>safety</em>, Rust programs and data types
+must be structured in a way that allows static checking to ensure
+soundness. Rust has features and restrictions that operate in tandem
+to ease writing programs that can pass these checks and thus ensure
+safety. For example, Rust incorporates the notion of <em>ownership</em> deeply
+into the language.</p>
+<p>Rust's <code>match</code> expression is a construct that offers an interesting
+combination of such features and restrictions. A <code>match</code> expression
+takes an input value, classifies it, and then jumps to code written to
+handle the identified class of data.</p>
+<p>In this post we explore how Rust processes such data via <code>match</code>.
+The crucial elements that <code>match</code> and its counterpart <code>enum</code> tie
+together are:</p>
+<ul>
+<li>
+<p>Structural pattern matching: case analysis with ergonomics vastly
+improved over a C or Java style <code>switch</code> statement.</p>
+</li>
+<li>
+<p>Exhaustive case analysis: ensures that no case is omitted
+when processing an input.</p>
+</li>
+<li>
+<p><code>match</code> embraces both imperative and functional styles of
+programming: you can continue using <code>break</code> statements, assignments,
+et cetera,
+rather than being forced to adopt an expression-oriented mindset.</p>
+</li>
+<li>
+<p><code>match</code> &quot;borrows&quot; or &quot;moves&quot;, as needed: Rust encourages the developer to
+think carefully about ownership and borrowing. To ensure that
+one is not forced to yield ownership of a value
+prematurely, <code>match</code> is designed with support for merely <em>borrowing</em>
+substructure (as opposed to always <em>moving</em> such substructure).</p>
+</li>
+</ul>
+<p>We cover each of the items above in detail below, but first we
+establish a foundation for the discussion: What does <code>match</code> look
+like, and how does it work?</p>
+<a class="header" href="enums-match-mutation-and-moves.html#the-basics-of-match" id="the-basics-of-match"><h3>The Basics of <code>match</code></h3></a>
+<p>The <code>match</code> expression in Rust has this form:</p>
+<pre><code class="language-rust ignore">match INPUT_EXPRESSION {
+    PATTERNS_1 =&gt; RESULT_EXPRESSION_1,
+    PATTERNS_2 =&gt; RESULT_EXPRESSION_2,
+    ...
+    PATTERNS_n =&gt; RESULT_EXPRESSION_n
+}
+</code></pre>
+<p>where each of the <code>PATTERNS_i</code> contains at least one <em>pattern</em>. A
+pattern describes a subset of the possible values to which
+<code>INPUT_EXPRESSION</code> could evaluate.
+The syntax <code>PATTERNS =&gt; RESULT_EXPRESSION</code> is called a &quot;match arm&quot;,
+or simply &quot;arm&quot;.</p>
+<p>Patterns can match simple values like integers or characters; they
+can also match user-defined symbolic data, defined via <code>enum</code>.</p>
+<p>The below code demonstrates generating the next guess (poorly) in a number
+guessing game, given the answer from a previous guess.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+enum Answer {
+    Higher,
+    Lower,
+    Bingo,
+}
+
+fn suggest_guess(prior_guess: u32, answer: Answer) {
+    match answer {
+        Answer::Higher =&gt; println!(&quot;maybe try {} next&quot;, prior_guess + 10),
+        Answer::Lower  =&gt; println!(&quot;maybe try {} next&quot;, prior_guess - 1),
+        Answer::Bingo  =&gt; println!(&quot;we won with {}!&quot;, prior_guess),
+    }
+}
+
+#[test]
+fn demo_suggest_guess() {
+    suggest_guess(10, Answer::Higher);
+    suggest_guess(20, Answer::Lower);
+    suggest_guess(19, Answer::Bingo);
+}
+
+#}</code></pre></pre>
+<p>(Incidentally, nearly all the code in this post is directly
+executable; you can cut-and-paste the code snippets into a file
+<code>demo.rs</code>, compile the file with <code>--test</code>, and run the resulting
+binary to see the tests run.)</p>
+<p>Patterns can also match <a href="http://en.wikipedia.org/wiki/Record_%28computer_science%29">structured data</a> (e.g. tuples, slices, user-defined
+data types) via corresponding patterns. In such patterns, one often
+binds parts of the input to local variables;
+those variables can then be used in the result expression.</p>
+<p>The special <code>_</code> pattern matches any single value, and is often used as
+a catch-all; the special <code>..</code> pattern generalizes this by matching any
+<em>series</em> of values or name/value pairs.</p>
+<p>Also, one can collapse multiple patterns into one arm by separating the
+patterns by vertical bars (<code>|</code>); thus that arm matches either this pattern,
+or that pattern, et cetera.</p>
+<p>These features are illustrated in the following revision to the
+guessing-game answer generation strategy:</p>
+<pre><code class="language-rust ignore">struct GuessState {
+    guess: u32,
+    answer: Answer,
+    low: u32,
+    high: u32,
+}
+
+fn suggest_guess_smarter(s: GuessState) {
+    match s {
+        // First arm only fires on Bingo; it binds `p` to last guess.
+        GuessState { answer: Answer::Bingo, guess: p, .. } =&gt; {
+     // ~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~  ~~
+     //     |                 |                 |     |
+     //     |                 |                 |     Ignore remaining fields
+     //     |                 |                 |
+     //     |                 |      Copy value of field `guess` into local variable `p`
+     //     |                 |
+     //     |   Test that `answer field is equal to `Bingo`
+     //     |
+     //  Match against an instance of the struct `GuessState`
+     
+            println!(&quot;we won with {}!&quot;, p);
+        }
+
+        // Second arm fires if answer was too low or too high.
+        // We want to find a new guess in the range (l..h), where:
+        //
+        // - If it was too low, then we want something higher, so we
+        //   bind the guess to `l` and use our last high guess as `h`.
+        // - If it was too high, then we want something lower; bind
+        //   the guess to `h` and use our last low guess as `l`.
+        GuessState { answer: Answer::Higher, low: _, guess: l, high: h } |
+        GuessState { answer: Answer::Lower,  low: l, guess: h, high: _ } =&gt; {
+     // ~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~   ~~~~~~  ~~~~~~~~  ~~~~~~~
+     //     |                 |                 |        |        |
+     //     |                 |                 |        |    Copy or ignore
+     //     |                 |                 |        |    field `high`,
+     //     |                 |                 |        |    as appropriate
+     //     |                 |                 |        |
+     //     |                 |                 |  Copy field `guess` into
+     //     |                 |                 |  local variable `l` or `h`,
+     //     |                 |                 |  as appropriate
+     //     |                 |                 |
+     //     |                 |    Copy value of field `low` into local
+     //     |                 |    variable `l`, or ignore it, as appropriate
+     //     |                 |
+     //     |   Test that `answer field is equal
+     //     |   to `Higher` or `Lower`, as appropriate
+     //     |
+     //  Match against an instance of the struct `GuessState`
+
+            let mid = l + ((h - l) / 2);
+            println!(&quot;lets try {} next&quot;, mid);
+        }
+    }
+}
+
+#[test]
+fn demo_guess_state() {
+    suggest_guess_smarter(GuessState {
+        guess: 20, answer: Answer::Lower, low: 10, high: 1000
+    });
+}
+</code></pre>
+<p>This ability to simultaneously perform case analysis <em>and</em> bind input
+substructure leads to powerful, clear, and concise code, focusing the
+reader's attention directly on the data relevant to the case at hand.</p>
+<p>That is <code>match</code> in a nutshell.</p>
+<p>So, what is the interplay between this construct and Rust's approach to
+ownership and safety in general?</p>
+<a class="header" href="enums-match-mutation-and-moves.html#exhaustive-case-analysis" id="exhaustive-case-analysis"><h3>Exhaustive case analysis</h3></a>
+<blockquote>
+<p>...when you have eliminated all which is impossible,
+then whatever remains, however improbable, must be the truth.</p>
+<p>-- Sherlock Holmes (Arthur Conan Doyle, &quot;The Blanched Soldier&quot;)</p>
+</blockquote>
+<p>One useful way to tackle a complex problem is to break it down
+into individual cases and analyze each case individually.
+For this method of problem solving to work, the breakdown must be
+<em>collectively exhaustive</em>; all of the cases you identified must
+actually cover all possible scenarios.</p>
+<p>Using <code>enum</code> and <code>match</code> in Rust can aid this process, because
+<code>match</code> enforces exhaustive case analysis:
+Every possible input value for a <code>match</code> must be covered by the pattern
+in a least one arm in the match.</p>
+<p>This helps catch bugs in program logic and ensures that the value of a
+<code>match</code> expression is well-defined.</p>
+<p>So, for example, the following code is rejected at compile-time.</p>
+<pre><code class="language-rust ignore">fn suggest_guess_broken(prior_guess: u32, answer: Answer) {
+    let next_guess = match answer {
+        Answer::Higher =&gt; prior_guess + 10,
+        Answer::Lower  =&gt; prior_guess - 1,
+        // ERROR: non-exhaustive patterns: `Bingo` not covered
+    };
+    println!(&quot;maybe try {} next&quot;, next_guess);
+}
+</code></pre>
+<p>Many other languages offer a pattern matching construct (ML and
+various macro-based <code>match</code> implementations in Scheme both come to
+mind), but not all of them have this restriction.</p>
+<p>Rust has this restriction for these reasons:</p>
+<ul>
+<li>
+<p>First, as noted above, dividing a problem into cases only yields a
+general solution if the cases are exhaustive. Exhaustiveness-checking
+exposes logical errors.</p>
+</li>
+<li>
+<p>Second, exhaustiveness-checking can act as a refactoring aid.  During
+the development process, I often add new variants for a particular
+<code>enum</code> definition.  The exhaustiveness-check helps points out all of
+the <code>match</code> expressions where I only wrote the cases from the prior
+version of the <code>enum</code> type.</p>
+</li>
+<li>
+<p>Third, since <code>match</code> is an expression form, exhaustiveness ensures
+that such expressions always either evaluate to a value of the correct type,
+<em>or</em> jump elsewhere in the program.</p>
+</li>
+</ul>
+<a class="header" href="enums-match-mutation-and-moves.html#jumping-out-of-a-match" id="jumping-out-of-a-match"><h4>Jumping out of a match</h4></a>
+<p>The following code is a fixed version of the <code>suggest_guess_broken</code>
+function we saw above; it directly illustrates &quot;jumping elsewhere&quot;:</p>
+<pre><code class="language-rust ignore">fn suggest_guess_fixed(prior_guess: u32, answer: Answer) {
+    let next_guess = match answer {
+        Answer::Higher =&gt; prior_guess + 10,
+        Answer::Lower  =&gt; prior_guess - 1,
+        Answer::Bingo  =&gt; {
+            println!(&quot;we won with {}!&quot;, prior_guess);
+            return;
+        }
+    };
+    println!(&quot;maybe try {} next&quot;, next_guess);
+}
+
+#[test]
+fn demo_guess_fixed() {
+    suggest_guess_fixed(10, Answer::Higher);
+    suggest_guess_fixed(20, Answer::Lower);
+    suggest_guess_fixed(19, Answer::Bingo);
+}
+</code></pre>
+<p>The <code>suggest_guess_fixed</code> function illustrates that <code>match</code> can handle
+some cases early (and then immediately return from the function),
+while computing whatever values are needed from the remaining cases
+and letting them fall through to the remainder of the function
+body.</p>
+<p>We can add such special case handling via <code>match</code> without fear
+of overlooking a case, because <code>match</code> will force the case
+analysis to be exhaustive.</p>
+<a class="header" href="enums-match-mutation-and-moves.html#algebraic-data-types-and-structural-invariants" id="algebraic-data-types-and-structural-invariants"><h3>Algebraic Data Types and Structural Invariants</h3></a>
+<p><a href="http://en.wikipedia.org/wiki/Algebraic_data_type">Algebraic data types</a> succinctly describe classes of data and allow one
+to encode rich structural invariants. Rust uses <code>enum</code> and <code>struct</code>
+definitions for this purpose.</p>
+<p>An <code>enum</code> type allows one to define mutually-exclusive classes of
+values. The examples shown above used <code>enum</code> for simple symbolic tags,
+but in Rust, enums can define much richer classes of data.</p>
+<p>For example, a binary tree is either a leaf, or an internal node with
+references to two child trees. Here is one way to encode a tree of
+integers in Rust:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+enum BinaryTree {
+    Leaf(i32),
+    Node(Box&lt;BinaryTree&gt;, i32, Box&lt;BinaryTree&gt;)
+}
+
+#}</code></pre></pre>
+<p>(The <code>Box&lt;V&gt;</code> type describes an owning reference to a heap-allocated
+instance of <code>V</code>; if you own a <code>Box&lt;V&gt;</code>, then you also own the <code>V</code> it
+contains, and can mutate it, lend out references to it, et cetera.
+When you finish with the box and let it fall out of scope, it will
+automatically clean up the resources associated with the
+heap-allocated <code>V</code>.)</p>
+<p>The above <code>enum</code> definition ensures that if we are given a <code>BinaryTree</code>, it
+will always fall into one of the above two cases. One will never
+encounter a <code>BinaryTree::Node</code> that does not have a left-hand child.
+There is no need to check for null.</p>
+<p>One <em>does</em> need to check whether a given <code>BinaryTree</code> is a <code>Leaf</code> or
+is a <code>Node</code>, but the compiler statically ensures such checks are done:
+you cannot accidentally interpret the data of a <code>Leaf</code> as if it were a
+<code>Node</code>, nor vice versa.</p>
+<p>Here is a function that sums all of the integers in a tree
+using <code>match</code>.</p>
+<pre><code class="language-rust ignore">fn tree_weight_v1(t: BinaryTree) -&gt; i32 {
+    match t {
+        BinaryTree::Leaf(payload) =&gt; payload,
+        BinaryTree::Node(left, payload, right) =&gt; {
+            tree_weight_v1(*left) + payload + tree_weight_v1(*right)
+        }
+    }
+}
+
+/// Returns tree that Looks like:
+///
+///      +----(4)---+
+///      |          |
+///   +-(2)-+      [5]
+///   |     |   
+///  [1]   [3]
+///
+fn sample_tree() -&gt; BinaryTree {
+    let l1 = Box::new(BinaryTree::Leaf(1));
+    let l3 = Box::new(BinaryTree::Leaf(3));
+    let n2 = Box::new(BinaryTree::Node(l1, 2, l3));
+    let l5 = Box::new(BinaryTree::Leaf(5));
+
+    BinaryTree::Node(n2, 4, l5)
+}
+
+#[test]
+fn tree_demo_1() {
+    let tree = sample_tree();
+    assert_eq!(tree_weight_v1(tree), (1 + 2 + 3) + 4 + 5);
+}
+</code></pre>
+<p>Algebraic data types establish structural invariants that are strictly
+enforced by the language. (Even richer representation invariants can
+be maintained via the use of modules and privacy; but let us not
+digress from the topic at hand.)</p>
+<a class="header" href="enums-match-mutation-and-moves.html#both-expression--and-statement-oriented" id="both-expression--and-statement-oriented"><h3>Both expression- and statement-oriented</h3></a>
+<p>Unlike many languages that offer pattern matching, Rust <em>embraces</em>
+both statement- and expression-oriented programming.</p>
+<p>Many functional languages that offer pattern matching encourage one to
+write in an &quot;expression-oriented style&quot;, where the focus is always on
+the values returned by evaluating combinations of expressions, and
+side-effects are discouraged. This style contrasts with imperative
+languages, which encourage a statement-oriented style that focuses on
+sequences of commands executed solely for their side-effects.</p>
+<p>Rust excels in supporting both styles.</p>
+<p>Consider writing a function which maps a non-negative integer to a
+string rendering it as an ordinal (&quot;1st&quot;, &quot;2nd&quot;, &quot;3rd&quot;, ...).</p>
+<p>The following code uses range patterns to simplify things, but also,
+it is written in a style similar to a <code>switch</code> in a statement-oriented
+language like C (or C++, Java, et cetera), where the arms of the
+<code>match</code> are executed for their side-effect alone:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn num_to_ordinal(x: u32) -&gt; String {
+    let suffix;
+    match (x % 10, x % 100) {
+        (1, 1) | (1, 21...91) =&gt; {
+            suffix = &quot;st&quot;;
+        }
+        (2, 2) | (2, 22...92) =&gt; {
+            suffix = &quot;nd&quot;;
+        }
+        (3, 3) | (3, 23...93) =&gt; {
+            suffix = &quot;rd&quot;;
+        }
+        _                     =&gt; {
+            suffix = &quot;th&quot;;
+        }
+    }
+    return format!(&quot;{}{}&quot;, x, suffix);
+}
+
+#[test]
+fn test_num_to_ordinal() {
+    assert_eq!(num_to_ordinal(   0),    &quot;0th&quot;);
+    assert_eq!(num_to_ordinal(   1),    &quot;1st&quot;);
+    assert_eq!(num_to_ordinal(  12),   &quot;12th&quot;);
+    assert_eq!(num_to_ordinal(  22),   &quot;22nd&quot;);
+    assert_eq!(num_to_ordinal(  43),   &quot;43rd&quot;);
+    assert_eq!(num_to_ordinal(  67),   &quot;67th&quot;);
+    assert_eq!(num_to_ordinal(1901), &quot;1901st&quot;);
+}
+
+#}</code></pre></pre>
+<p>The Rust compiler accepts the above program. This is notable because
+its static analyses ensure both:</p>
+<ul>
+<li>
+<p><code>suffix</code> is always initialized before we run the <code>format!</code> at the end
+of the function, and</p>
+</li>
+<li>
+<p><code>suffix</code> is assigned <em>at most once</em> during the function's execution (because if
+we could assign <code>suffix</code> multiple times, the compiler would force us
+to mark <code>suffix</code> as mutable).</p>
+</li>
+</ul>
+<p>To be clear, the above program certainly <em>can</em> be written in an
+expression-oriented style in Rust; for example, like so:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn num_to_ordinal_expr(x: u32) -&gt; String {
+    format!(&quot;{}{}&quot;, x, match (x % 10, x % 100) {
+        (1, 1) | (1, 21...91) =&gt; &quot;st&quot;,
+        (2, 2) | (2, 22...92) =&gt; &quot;nd&quot;,
+        (3, 3) | (3, 23...93) =&gt; &quot;rd&quot;,
+        _                     =&gt; &quot;th&quot;
+    })
+}
+
+#}</code></pre></pre>
+<p>Sometimes expression-oriented style can yield very succinct code;
+other times the style requires contortions that can be
+avoided by writing in a statement-oriented style.
+(The ability to return from one <code>match</code> arm in the
+<code>suggest_guess_fixed</code> function <a href="enums-match-mutation-and-moves.html#jumping-out-of-a-match">earlier</a> was an example of this.)</p>
+<p>Each of the styles has its use cases. Crucially, switching to a
+statement-oriented style in Rust does not sacrifice every other
+feature that Rust provides, such as the guarantee that a non-<code>mut</code>
+binding is assigned at most once.</p>
+<p>An important case where this arises is when one wants to
+initialize some state and then borrow from it, but only on
+<em>some</em> control-flow branches.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn sometimes_initialize(input: i32) {
+    let string: String; // a dynamically-constructed string value
+    let borrowed: &amp;str; // a reference to string data
+    match input {
+        0...100 =&gt; {
+            // Construct a String on the fly...
+            string = format!(&quot;input prints as {}&quot;, input);
+            // ... and then borrow from inside it.
+            borrowed = &amp;string[6..];
+        }
+        _ =&gt; {
+            // String literals are *already* borrowed references
+            borrowed = &quot;expected between 0 and 100&quot;;
+        }
+    }
+    println!(&quot;borrowed: {}&quot;, borrowed);
+
+    // Below would cause compile-time error if uncommented...
+
+    // println!(&quot;string: {}&quot;, string);
+
+    // ...namely: error: use of possibly uninitialized variable: `string`
+}
+
+#[test]
+fn demo_sometimes_initialize() {
+    sometimes_initialize(23);  // this invocation will initialize `string`
+    sometimes_initialize(123); // this one will not
+}
+
+#}</code></pre></pre>
+<p>The interesting thing about the above code is that after the <code>match</code>,
+we are not allowed to directly access <code>string</code>, because the compiler
+requires that the variable be initialized on every path through the
+program before it can be accessed.
+At the same time, we <em>can</em>, via <code>borrowed</code>, access data that
+may held <em>within</em> <code>string</code>, because a reference to that data is held by the
+<code>borrowed</code> variable when we go through the first match arm, and we
+ensure <code>borrowed</code> itself is initialized on every execution path
+through the program that reaches the <code>println!</code> that uses <code>borrowed</code>.</p>
+<p>(The compiler ensures that no outstanding borrows of the
+<code>string</code> data could possibly outlive <code>string</code> itself, and the
+generated code ensures that at the end of the scope of <code>string</code>, its
+data is deallocated if it was previously initialized.)</p>
+<p>In short, for soundness, the Rust language ensures that data is always
+initialized before it is referenced, but the designers have strived to
+avoid requiring artificial coding patterns adopted solely to placate
+Rust's static analyses (such as requiring one to initialize <code>string</code>
+above with some dummy data, or requiring an expression-oriented style).</p>
+<a class="header" href="enums-match-mutation-and-moves.html#matching-without-moving" id="matching-without-moving"><h3>Matching without moving</h3></a>
+<p>Matching an input can <em>borrow</em> input substructure, without taking
+ownership; this is crucial for matching a reference (e.g. a value of
+type <code>&amp;T</code>).</p>
+<p>The <a href="enums-match-mutation-and-moves.html#algebraic-data-types-and-structural-invariants">&quot;Algebraic Data Types&quot; section</a> above described a tree datatype, and
+showed a program that computed the sum of the integers in a tree
+instance.</p>
+<p>That version of <code>tree_weight</code> has one big downside, however: it takes
+its input tree by value. Once you pass a tree to <code>tree_weight_v1</code>, that
+tree is <em>gone</em> (as in, deallocated).</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn tree_demo_v1_fails() {
+    let tree = sample_tree();
+    assert_eq!(tree_weight_v1(tree), (1 + 2 + 3) + 4 + 5);
+
+    // If you uncomment this line below ...
+    
+    // assert_eq!(tree_weight_v1(tree), (1 + 2 + 3) + 4 + 5);
+
+    // ... you will get: error: use of moved value: `tree`
+}
+
+#}</code></pre></pre>
+<p>This is <em>not</em> a consequence, however, of using <code>match</code>; it is rather
+a consequence of the function signature that was chosen:</p>
+<pre><code class="language-rust ignore">fn tree_weight_v1(t: BinaryTree) -&gt; i32 { 0 }
+//                   ^~~~~~~~~~ this means this function takes ownership of `t`
+</code></pre>
+<p>In fact, in Rust, <code>match</code> is designed to work quite well <em>without</em>
+taking ownership. In particular, the input to <code>match</code> is an <em><a href="https://doc.rust-lang.org/reference.html#lvalues,-rvalues-and-temporaries">L-value</a>
+expression</em>; this means that the input expression is evaluated to a
+<em>memory location</em> where the value lives.
+<code>match</code> works by doing this evaluation and then
+inspecting the data at that memory location.</p>
+<p>(If the input expression is a variable name or a field/pointer
+dereference, then the L-value is just the location of that variable or
+field/memory.  If the input expression is a function call or other
+operation that generates an unnamed temporary value, then it will be
+conceptually stored in a temporary area, and that is the memory
+location that <code>match</code> will inspect.)</p>
+<p>So, if we want a version of <code>tree_weight</code> that merely borrows a tree
+rather than taking ownership of it, then we will need to make use of
+this feature of Rust's <code>match</code>.</p>
+<pre><code class="language-rust ignore">fn tree_weight_v2(t: &amp;BinaryTree) -&gt; i32 {
+    //               ^~~~~~~~~~~ The `&amp;` means we are *borrowing* the tree
+    match *t {
+        BinaryTree::Leaf(payload) =&gt; payload,
+        BinaryTree::Node(ref left, payload, ref right) =&gt; {
+            tree_weight_v2(left) + payload + tree_weight_v2(right)
+        }
+    }
+}
+
+#[test]
+fn tree_demo_2() {
+    let tree = sample_tree();
+    assert_eq!(tree_weight_v2(&amp;tree), (1 + 2 + 3) + 4 + 5);
+}
+</code></pre>
+<p>The function <code>tree_weight_v2</code> looks very much like <code>tree_weight_v1</code>.
+The only differences are: we take <code>t</code> as a borrowed reference (the <code>&amp;</code>
+in its type), we added a dereference <code>*t</code>, and,
+importantly, we use <code>ref</code>-bindings for <code>left</code> and
+<code>right</code> in the <code>Node</code> case.</p>
+<p>The dereference <code>*t</code>, interpreted as an L-value expression, is just
+extracting the memory address where the <code>BinaryTree</code> is represented
+(since the <code>t: &amp;BinaryTree</code> is just a <em>reference</em> to that data in
+memory). The <code>*t</code> here is not making a copy of the tree, nor moving it
+to a new temporary location, because <code>match</code> is treating it as an
+L-value.</p>
+<p>The only piece left is the <code>ref</code>-binding, which
+is a crucial part of how destructuring bind of
+L-values works.</p>
+<p>First, let us carefully state the meaning of a <em>non-ref</em> binding:</p>
+<ul>
+<li>
+<p>When matching a value of type <code>T</code>, an identifier pattern <code>i</code> will, on
+a successful match, <em>move</em> the value out of the original input and
+into <code>i</code>. Thus we can always conclude in such a case that <code>i</code> has type
+<code>T</code> (or more succinctly, &quot;<code>i: T</code>&quot;).</p>
+<p>For some types <code>T</code>, known as <em>copyable</em> <code>T</code> (also pronounced &quot;<code>T</code>
+implements <code>Copy</code>&quot;), the value will in fact be copied into <code>i</code> for such
+identifier patterns. (Note that in general, an arbitrary type <code>T</code> is not copyable.)</p>
+<p>Either way, such pattern bindings do mean that the variable <code>i</code> has
+<em>ownership</em> of a value of type <code>T</code>.</p>
+</li>
+</ul>
+<p>Thus, the bindings of <code>payload</code> in <code>tree_weight_v2</code> both have type
+<code>i32</code>; the <code>i32</code> type implements <code>Copy</code>, so the weight is copied into
+<code>payload</code> in both arms.</p>
+<p>Now we are ready to state what a ref-binding is:</p>
+<ul>
+<li>When matching an L-value of type <code>T</code>, a <code>ref</code>-pattern <code>ref i</code>
+will, on a successful match, merely <em>borrow</em> a reference into the
+matched data. In other words, a successful <code>ref i</code> match of a value of
+type <code>T</code> will imply that <code>i</code> has the type of a <em>reference</em> to <code>T</code>
+(or more succinctly, &quot;<code>i: &amp;T</code>&quot;).</li>
+</ul>
+<p>Thus, in the <code>Node</code> arm of
+<code>tree_weight_v2</code>, <code>left</code> will be a reference to the left-hand box (which
+holds a tree), and <code>right</code> will likewise reference the right-hand tree.</p>
+<p>We can pass these borrowed references to trees into the recursive calls to <code>tree_weight_v2</code>,
+as the code demonstrates.</p>
+<p>Likewise, a <code>ref mut</code>-pattern (<code>ref mut i</code>) will, on a successful
+match, borrow a <em>mutable reference</em> into the input: <code>i: &amp;mut T</code>. This allows
+mutation and ensures there are no other active references to that data
+at the same time. A destructuring
+binding form like <code>match</code> allows one to take mutable references to
+disjoint parts of the data simultaneously.</p>
+<p>This code demonstrates this concept by incrementing all of the
+values in a given tree.</p>
+<pre><code class="language-rust ignore">fn tree_grow(t: &amp;mut BinaryTree) {
+    //          ^~~~~~~~~~~~~~~ `&amp;mut`: we have exclusive access to the tree
+    match *t {
+        BinaryTree::Leaf(ref mut payload) =&gt; *payload += 1,
+        BinaryTree::Node(ref mut left, ref mut payload, ref mut right) =&gt; {
+            tree_grow(left);
+            *payload += 1;
+            tree_grow(right);
+        }
+    }
+}
+
+#[test]
+fn tree_demo_3() {
+    let mut tree = sample_tree();
+    tree_grow(&amp;mut tree);
+    assert_eq!(tree_weight_v2(&amp;tree), (2 + 3 + 4) + 5 + 6);
+}
+</code></pre>
+<p>Note that the code above now binds <code>payload</code> by a <code>ref mut</code>-pattern;
+if it did not use a <code>ref</code> pattern, then <code>payload</code> would be bound to a
+local copy of the integer, while we want to modify the actual integer
+<em>in the tree itself</em>. Thus we need a reference to that integer.</p>
+<p>Note also that the code is able to bind <code>left</code> and <code>right</code>
+simultaneously in the <code>Node</code> arm. The compiler knows that the two
+values cannot alias, and thus it allows both <code>&amp;mut</code>-references to live
+simultaneously.</p>
+<a class="header" href="enums-match-mutation-and-moves.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
+<p>Rust takes the ideas of algebraic data types and pattern matching
+pioneered by the functional programming languages, and adapts them to
+imperative programming styles and Rust's own ownership and borrowing
+systems. The <code>enum</code> and <code>match</code> forms provide clean data definitions
+and expressive power, while static analysis ensures that the resulting
+programs are safe.</p>
+<p>For more information
+on details that were not covered here, such as:</p>
+<ul>
+<li>
+<p>how to say <code>Higher</code> instead of <code>Answer::Higher</code> in a pattern,</p>
+</li>
+<li>
+<p>defining new named constants,</p>
+</li>
+<li>
+<p>binding via <code>ident @ pattern</code>, or</p>
+</li>
+<li>
+<p>the potentially subtle difference between <code>{ let id = expr; ... }</code> versus <code>match expr { id =&gt; { ... } }</code>,</p>
+</li>
+</ul>
+<p>consult the Rust
+<a href="https://doc.rust-lang.org/">documentation</a>, or quiz our awesome community (in <code>#rust</code> on IRC, or in
+the <a href="http://users.rust-lang.org/">user group</a>).</p>
+<p>(Many thanks to those who helped review this post, especially Aaron Turon
+and Niko Matsakis, as well as
+<code>Mutabah</code>, <code>proc</code>, <code>libfud</code>, <code>asQuirrel</code>, and <code>annodomini</code> from <code>#rust</code>.)</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="rust-reuse-and-recycle.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="reading-rust-function-signatures.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="rust-reuse-and-recycle.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="reading-rust-function-signatures.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

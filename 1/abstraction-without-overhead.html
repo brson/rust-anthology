@@ -1,0 +1,491 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Abstraction Without Overhead - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html" class="active"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="abstraction-without-overhead.html#abstraction-without-overhead" id="abstraction-without-overhead"><h1>Abstraction without overhead</h1></a>
+<p><a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html">Previous posts</a> have covered two pillars of Rust's design:</p>
+<ul>
+<li>Memory safety without garbage collection</li>
+<li>Concurrency without data races</li>
+</ul>
+<p>This post begins exploring the third pillar:</p>
+<ul>
+<li><strong>Abstraction without overhead</strong></li>
+</ul>
+<p>One of the mantras of C++, one of the qualities that make it a good fit for
+systems programming, is its principle of zero-cost abstraction:</p>
+<blockquote>
+<p>C++ implementations obey the zero-overhead principle: What you don't use, you
+don't pay for [Stroustrup, 1994]. And further: What you do use, you couldn't
+hand code any better.</p>
+<p>-- Stroustrup</p>
+</blockquote>
+<p>This mantra did not always apply to Rust, which for example used to have
+mandatory garbage collection. But over time Rust's ambitions have gotten
+ever lower-level, and zero-cost abstraction is now a core principle.</p>
+<p>The cornerstone of abstraction in Rust is <em>traits</em>:</p>
+<ul>
+<li>
+<p><strong>Traits are Rust's sole notion of interface</strong>. A trait can be implemented by
+multiple types, and in fact new traits can provide implementations for
+existing types. On the flip side, when you want to abstract over an unknown
+type, traits are how you specify the few concrete things you need to know
+about that type.</p>
+</li>
+<li>
+<p><strong>Traits can be statically dispatched</strong>. Like C++ templates, you can have
+the compiler generate a separate copy of an abstraction for each way it is
+instantiated. This comes back to the C++ mantra of &quot;What you do use, you
+couldn't hand code any better&quot; -- the abstraction ends up completely erased.</p>
+</li>
+<li>
+<p><strong>Traits can be dynamically dispatched</strong>. Sometimes you really do need an
+indirection, and so it doesn't make sense to &quot;erase&quot; an abstraction at
+runtime. The <em>same</em> notion of interface -- the trait -- can also be used when
+you want to dispatch at runtime.</p>
+</li>
+<li>
+<p><strong>Traits solve a variety of additional problems beyond simple abstraction</strong>.
+They are used as &quot;markers&quot; for types, like the <code>Send</code> marker described
+<a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html">in a previous post</a>. They can be used to define &quot;extension methods&quot;
+-- that is, to add methods to an externally-defined type. They largely obviate
+the need for traditional method overloading. And they provide a simple scheme
+for operator overloading.</p>
+</li>
+</ul>
+<p>All told, the trait system is the secret sauce that gives Rust the ergonomic,
+expressive feel of high-level languages while retaining low-level control over
+code execution and data representation.</p>
+<p>This post will walk through each of the above points at a high level, to give
+you a sense for how the design achieves these goals, without getting too bogged
+down in the details.</p>
+<a class="header" href="abstraction-without-overhead.html#background-methods-in-rust" id="background-methods-in-rust"><h3>Background: methods in Rust</h3></a>
+<blockquote>
+<p>Before delving into traits, we need to look at a small but important detail of
+the language: the difference between methods and functions.</p>
+</blockquote>
+<p>Rust offers both methods and free-standing functions, which are very
+closely related:</p>
+<pre><code class="language-rust ignore">struct Point {
+    x: f64,
+    y: f64,
+}
+
+// a free-standing function that converts a (borrowed) point to a string
+fn point_to_string(point: &amp;Point) -&gt; String { ... }
+
+// an &quot;inherent impl&quot; block defines the methods available directly on a type
+impl Point {
+    // this method is available on any Point, and automatically borrows the
+    // Point value
+    fn to_string(&amp;self) -&gt; String { ... }
+}
+</code></pre>
+<p>Methods like <code>to_string</code> above are called &quot;inherent&quot; methods, because they:</p>
+<ul>
+<li>Are tied to a single concrete &quot;self&quot; type (specified via the <code>impl</code> block header).</li>
+<li>Are <em>automatically</em> available on any value of that type -- that is, unlike
+functions, inherent methods are always &quot;in scope&quot;.</li>
+</ul>
+<p>The first parameter for a method is always an explicit &quot;self&quot;, which is either
+<code>self</code>, <code>&amp;mut self</code>, or <code>&amp;self</code> depending on the
+<a href="http://blog.skylight.io/rust-means-never-having-to-close-a-socket/">level of ownership required</a>.  Methods are invoked using the <code>.</code>
+notation familiar from object-oriented programming, and the self parameter is
+<em>implicitly borrowed</em> as per the form of <code>self</code> used in the method:</p>
+<pre><code class="language-rust ignore">let p = Point { x: 1.2, y: -3.7 };
+let s1 = point_to_string(&amp;p);  // calling a free function, explicit borrow
+let s2 = p.to_string();        // calling a method, implicit borrow as &amp;p
+</code></pre>
+<p>Methods and their auto-borrowing are an important aspect of the ergonomics of
+Rust, supporting &quot;fluent&quot; APIs like the one for spawning processes:</p>
+<pre><code class="language-rust ignore">let child = Command::new(&quot;/bin/cat&quot;)
+    .arg(&quot;rusty-ideas.txt&quot;)
+    .current_dir(&quot;/Users/aturon&quot;)
+    .stdout(Stdio::piped())
+    .spawn();
+</code></pre>
+<a class="header" href="abstraction-without-overhead.html#traits-are-interfaces" id="traits-are-interfaces"><h3>Traits are interfaces</h3></a>
+<p>Interfaces specify the expectations that one piece of code has on another,
+allowing each to be switched out independently. For traits, this specification
+largely revolves around methods.</p>
+<p>Take, for example, the following simple trait for hashing:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Hash {
+    fn hash(&amp;self) -&gt; u64;
+}
+
+#}</code></pre></pre>
+<p>In order to implement this trait for a given type, you must provide a <code>hash</code>
+method with matching signature:</p>
+<pre><code class="language-rust ignore">impl Hash for bool {
+    fn hash(&amp;self) -&gt; u64 {
+        if *self { 0 } else { 1 }
+    }
+}
+
+impl Hash for i64 {
+    fn hash(&amp;self) -&gt; u64 {
+        *self as u64
+    }
+}
+</code></pre>
+<p>Unlike interfaces in languages like Java, C# or Scala, <strong>new traits can be
+implemented for existing types</strong> (as with <code>Hash</code> above). That means abstractions
+can be created after-the-fact, and applied to existing libraries.</p>
+<p>Unlike inherent methods, trait methods are in scope only when their trait
+is. But assuming <code>Hash</code> is in scope, you can write <code>true.hash()</code>, so
+implementing a trait extends the set of methods available on a type.</p>
+<p>And... that's it! Defining and implementing a trait is really nothing more than
+abstracting out a common interface satisfied by more than one type.</p>
+<a class="header" href="abstraction-without-overhead.html#static-dispatch" id="static-dispatch"><h3>Static dispatch</h3></a>
+<p>Things get more interesting on the other side -- consuming a trait. The most
+common way of doing so is through <em>generics</em>:</p>
+<pre><code class="language-rust ignore">fn print_hash&lt;T: Hash&gt;(t: &amp;T) {
+    println!(&quot;The hash is {}&quot;, t.hash())
+}
+</code></pre>
+<p>The <code>print_hash</code> function is generic over an unknown type <code>T</code>, but requires that
+<code>T</code> implements the <code>Hash</code> trait. That means we can use it with <code>bool</code> and <code>i64</code>
+values:</p>
+<pre><code class="language-rust ignore">print_hash(&amp;true);      // instantiates T = bool
+print_hash(&amp;12_i64);    // instantiates T = i64
+</code></pre>
+<p><strong>Generics are compiled away, resulting in static dispatch</strong>. That is, as with
+C++ templates, the compiler will generate <em>two copies</em> of the <code>print_hash</code>
+method to handle the above code, one for each concrete argument type.  That in
+turn means that the internal call to <code>t.hash()</code> -- the point where the
+abstraction is actually used -- has zero cost: it will be compiled to a direct,
+static call to the relevant implementation:</p>
+<pre><code class="language-rust ignore">// The compiled code:
+__print_hash_bool(&amp;true);  // invoke specialized bool version directly
+__print_hash_i64(&amp;12_i64);   // invoke specialized i64 version directly
+</code></pre>
+<p>This compilation model isn't so useful for a function like <code>print_hash</code>, but
+it's <em>very</em> useful for more realistic uses of hashing. Suppose we also introduce
+a trait for equality comparison:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Eq {
+    fn eq(&amp;self, other: &amp;Self) -&gt; bool;
+}
+
+#}</code></pre></pre>
+<p>(The reference to <code>Self</code> here will resolve to whatever type we implement the
+trait for; in <code>impl Eq for bool</code> it will refer to <code>bool</code>.)</p>
+<p>We can then define a hash map that is generic over a type <code>T</code> implementing both
+<code>Hash</code> and <code>Eq</code>:</p>
+<pre><code class="language-rust ignore">struct HashMap&lt;Key: Hash + Eq, Value&gt; { ... }
+</code></pre>
+<p>The static compilation model for generics will then yield several benefits:</p>
+<ul>
+<li>
+<p>Each use of <code>HashMap</code> with concrete <code>Key</code> and <code>Value</code> types will result in a
+different concrete <code>HashMap</code> type, which means that <code>HashMap</code> can lay out the
+keys and values in-line (without indirection) in its buckets. This saves on
+space and indirections, and improves cache locality.</p>
+</li>
+<li>
+<p>Each method on <code>HashMap</code> will likewise generate specialized code. That means
+there is no extra cost dispatching to calls to <code>hash</code> and <code>eq</code>, as above.  It
+also means that the optimizer gets to work with the fully concrete code --
+that is, from the point of view of the optimizer, <em>there is no abstraction</em>.
+In particular, static dispatch allows for <em>inlining</em> across uses of generics.</p>
+</li>
+</ul>
+<p>Altogether, just as in C++ templates, these aspects of generics mean that you
+can write quite high-level abstractions that are <em>guaranteed</em> to compile down to
+fully concrete code that &quot;you couldn't hand code any better&quot;.</p>
+<p><strong>But, unlike with C++ templates, clients of traits are fully type-checked in
+advance</strong>.  That is, when you compile <code>HashMap</code> in isolation, its code is
+checked <em>once</em> for type correctness against the abstract <code>Hash</code> and <code>Eq</code> traits,
+rather than being checked repeatedly when applied to concrete types. That means
+earlier, clearer compilation errors for library authors, and less typechecking
+overhead (i.e., faster compilation) for clients.</p>
+<a class="header" href="abstraction-without-overhead.html#dynamic-dispatch" id="dynamic-dispatch"><h3>Dynamic dispatch</h3></a>
+<p>We've seen one compilation model for traits, where all abstraction is compiled
+away statically. But sometimes abstraction isn't just about reuse or modularity
+-- <strong>sometimes abstraction plays an essential role at runtime that can't be
+compiled away</strong>.</p>
+<p>For example, GUI frameworks often involve callbacks for responding to events,
+such as mouse clicks:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait ClickCallback {
+    fn on_click(&amp;self, x: i64, y: i64);
+}
+
+#}</code></pre></pre>
+<p>It's also common for GUI elements to allow multiple callbacks to be registered
+for a single event. With generics, you might imagine writing:</p>
+<pre><code class="language-rust ignore">struct Button&lt;T: ClickCallback&gt; {
+    listeners: Vec&lt;T&gt;,
+    ...
+}
+</code></pre>
+<p>but the problem is immediately apparent: that would mean that each button is
+specialized to precisely one implementor of <code>ClickCallback</code>, and that the type
+of the button reflects that type. That's not at all what we wanted! Instead,
+we'd like a single <code>Button</code> type with a set of <em>heterogeneous</em> listeners, each
+potentially a different concrete type, but each one implementing
+<code>ClickCallback</code>.</p>
+<p>One immediate difficulty here is that, if we're talking about a heterogeneous
+group of types, <em>each one will have a distinct size</em> -- so how can we even lay
+out the internal vector? The answer is the usual one: indirection. We'll store
+<em>pointers</em> to callbacks in the vector:</p>
+<pre><code class="language-rust ignore">struct Button {
+    listeners: Vec&lt;Box&lt;ClickCallback&gt;&gt;,
+    ...
+}
+</code></pre>
+<p>Here, we are using the <code>ClickCallback</code> trait as if it were a type. Actually, in
+Rust, <a href="http://smallcultfollowing.com/babysteps/blog/2014/01/05/dst-take-5/">traits <em>are</em> types, but they are &quot;unsized&quot;</a>, which roughly means
+that they are only allowed to show up behind a pointer like <code>Box</code> (which points
+onto the heap) or <code>&amp;</code> (which can point anywhere).</p>
+<p>In Rust, a type like <code>&amp;ClickCallback</code> or <code>Box&lt;ClickCallback&gt;</code> is called a &quot;trait
+object&quot;, and includes a pointer to an instance of a type <code>T</code> implementing
+<code>ClickCallback</code>, <em>and</em> a vtable: a pointer to <code>T</code>'s implementation of each
+method in the trait (here, just <code>on_click</code>). That information is enough to
+dispatch calls to methods correctly at runtime, and to ensure uniform
+representation for all <code>T</code>. So <code>Button</code> is compiled just once, and the
+abstraction lives on at runtime.</p>
+<p>Static and dynamic dispatch are complementary tools, each appropriate for
+different scenarios. <strong>Rust's traits provide a single, simple notion of
+interface that can be used in both styles, with minimal, predictable
+costs</strong>. Trait objects satisfy Stroustrup's &quot;pay as you go&quot; principle: you have
+vtables when you need them, but the same trait can be compiled away statically
+when you don't.</p>
+<a class="header" href="abstraction-without-overhead.html#the-many-uses-of-traits" id="the-many-uses-of-traits"><h3>The many uses of traits</h3></a>
+<p>We've seen a lot of the mechanics and basic use of traits above, but they also
+wind up playing a few other important roles in Rust. Here's a taste:</p>
+<ul>
+<li>
+<p><strong>Closures</strong>. Somewhat like the <code>ClickCallback</code> trait, closures in Rust are
+simply particular traits. You can read more about how this works in
+Huon Wilson's <a href="http://huonw.github.io/blog/2015/05/finding-closure-in-rust/">in-depth post</a> on the topic.</p>
+</li>
+<li>
+<p><strong>Conditional APIs</strong>. Generics make it possible to implement a trait
+conditionally:</p>
+<pre><code class="language-rust ignore">struct Pair&lt;A, B&gt; { first: A, second: B }
+impl&lt;A: Hash, B: Hash&gt; Hash for Pair&lt;A, B&gt; {
+    fn hash(&amp;self) -&gt; u64 {
+        self.first.hash() ^ self.second.hash()
+    }
+}
+</code></pre>
+<p>Here, the <code>Pair</code> type implements <code>Hash</code> if, and only if, its components do --
+allowing the single <code>Pair</code> type to be used in different contexts, while
+supporting the largest API available for each context.  It's such a common
+pattern in Rust that there is built-in support for generating certain kinds of
+&quot;mechanical&quot; implementations automatically:</p>
+<pre><code class="language-rust ignore">#[derive(Hash)]
+struct Pair&lt;A, B&gt; { .. }
+</code></pre>
+</li>
+<li>
+<p><strong>Extension methods</strong>. Traits can be used to extend an existing type (defined
+elsewhere) with new methods, for convenience, similarly to C#'s extension
+methods. This falls directly out of the scoping rules for traits: you just
+define the new methods in a trait, provide an implementation for the type in
+question, and <em>voila</em>, the method is available.</p>
+</li>
+<li>
+<p><strong>Markers</strong>. Rust has a handful of &quot;markers&quot; that classify types: <code>Send</code>,
+<code>Sync</code>, <code>Copy</code>, <code>Sized</code>. These markers are just <em>traits</em> with empty bodies,
+which can then be used in both generics and trait objects. Markers can be
+defined in libraries, and they automatically provide <code>#[derive]</code>-style
+implementations: if all of a types components are <code>Send</code>, for example, so is
+the type. As we saw <a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html">before</a>, these markers can be very powerful:
+the <code>Send</code> marker is how Rust guarantees thread safety.</p>
+</li>
+<li>
+<p><strong>Overloading</strong>. Rust does not support traditional overloading where the same
+method is defined with multiple signatures. But traits provide much of the
+benefit of overloading: if a method is defined generically over a trait, it
+can be called with any type implementing that trait. Compared to traditional
+overloading, this has two advantages. First, it means the overloading is less
+<a href="http://dl.acm.org/citation.cfm?id=75283">ad hoc</a>: once you understand a trait, you immediately understand the
+overloading pattern of any APIs using it. Second, it is <em>extensible</em>: you can
+effectively provide new overloads downstream from a method by providing new
+trait implementations.</p>
+</li>
+<li>
+<p><strong>Operators</strong>. Rust allows you to overload operators like <code>+</code> on your own
+types. Each of the operators is defined by a corresponding standard library
+trait, and any type implementing the trait automatically provides the operator
+as well.</p>
+</li>
+</ul>
+<p>The point: <strong>despite their seeming simplicity, traits are a unifying concept
+that supports a wide range of use cases and patterns, without having to pile on
+additional language features.</strong></p>
+<a class="header" href="abstraction-without-overhead.html#the-future" id="the-future"><h3>The future</h3></a>
+<p>One of the primary ways that languages tend to evolve is in their abstraction
+facilities, and Rust is no exception: many of our <a href="http://internals.rust-lang.org/t/priorities-after-1-0/1901">post-1.0 priorities</a>
+are extensions of the trait system in one direction or another. Here are some
+highlights.</p>
+<ul>
+<li>
+<p><strong>Statically dispatched outputs</strong>. Right now, it's possible for functions to
+use generics for their parameters, but there's no equivalent for their
+results: you cannot say &quot;this function returns a value of some type that
+implements the <code>Iterator</code> trait&quot; and have that abstraction compiled away.
+This is particularly problematic when you want to return a closure that you'd
+like to be statically-dispatched -- you simply can't, in today's Rust. We want
+to make this possible, and <a href="https://github.com/rust-lang/rfcs/pull/105">have some ideas already</a>.</p>
+</li>
+<li>
+<p><strong>Specialization</strong>. Rust does not allow overlap between trait implementations,
+so there is never ambiguity about which code to run. On the other hand, there
+are some cases where you can give a &quot;blanket&quot; implementation for a wide range
+of types, but would then like to provide a more specialized implementation for
+a few cases, often for performance reasons. We hope to propose a design in the
+near future.</p>
+</li>
+<li>
+<p><strong>Higher-kinded types</strong> (HKT). Traits today can only be applied to <em>types</em>,
+not <em>type constructors</em> -- that is, to things like <code>Vec&lt;u8&gt;</code>, not to <code>Vec</code>
+itself. This limitation makes it difficult to provide a good set of container
+traits, which are therefore not included in the current standard library. HKT
+is a major, cross-cutting feature that will represent a big step forward in
+Rust's abstraction capabilities.</p>
+</li>
+<li>
+<p><strong>Efficient re-use</strong>. Finally, while traits provide some mechanisms for
+reusing code (which we didn't cover above), there are still some patterns of
+reuse that don't fit well into the language today -- notably, object-oriented
+hierarchies found in things like the DOM, GUI frameworks, and many
+games. Accommodating these use cases without adding too much overlap or
+complexity is a very interesting design problem, and one that Niko Matsakis
+has started a separate <a href="http://smallcultfollowing.com/babysteps/blog/2015/05/05/where-rusts-enum-shines/">blog series</a> about. It's not yet clear
+whether this can all be done with traits, or whether some other ingredients
+are needed.</p>
+</li>
+</ul>
+<p>Of course, we're at the eve of the 1.0 release, and it will take some time for
+the dust to settle, and for the community to have enough experience to start
+landing these extensions. But that makes it an exciting time to get involved:
+from influencing the design at this early stage, to working on implementation,
+to trying out different use cases in your own code -- we'd love to have your
+help!</p>
+<blockquote>
+<p><a href="http://blog.rust-lang.org/2015/05/11/traits.html"><em>Originally published 2015-05-11</em></a></p>
+<p><em>License: TBD</em></p>
+</blockquote>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="how-rust-achieves-thread-safety.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="all-about-trait-objects.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="how-rust-achieves-thread-safety.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="all-about-trait-objects.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

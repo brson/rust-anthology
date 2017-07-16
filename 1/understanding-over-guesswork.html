@@ -1,0 +1,394 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Understanding Over Guesswork - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html" class="active"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="understanding-over-guesswork.html#understanding-over-guesswork" id="understanding-over-guesswork"><h1>Understanding Over Guesswork</h1></a>
+<p>Or, Evolving How We Learn Systems with Lessons from Programming in the Large.</p>
+<blockquote>
+<p>Some bugs are just that---a one off.  A wayward moth that just happens to be innocently fluttering through the wrong relay at the wrong time.  But some kinds of bugs aren't like that.  Instead, they have risen to superstar status, plaguing veterans and newcomers alike.  But what if these aren't bugs at all?  What if they are actual deficiencies in safety and robustness offered by the C programming language as a consequence of the degree to which guesswork is introduced.  Here we explore a more explicit approach to systems level programming supported by Rust, which we believe will better promote understanding of design intent, and eliminate some of the guesswork.  Guided by a set of classic, but still relevant, bugs identified almost 15 years ago by Engler, we consider this in the context of the new generation of students learning about systems in a typical OS course, where students often first encounter these deficiencies.</p>
+</blockquote>
+<a class="header" href="understanding-over-guesswork.html#1-introduction" id="1-introduction"><h1>1. Introduction</h1></a>
+<p>Concurrency, parallelism, memory management, process scheduling, deadlocks, mutexes, system calls, filesystems, and architectural considerations are all commonly taught concepts in Operating Systems courses. These topics can be a struggle to understand, even for determined students, due to their complex, low-level characteristics.</p>
+<p>Instructors may also find themselves struggling, as these assignments can be difficult to create, and at times nearly impossible to evaluate effectively. Instructors and their markers desire assignments which are simple enough to fit into a few files, demonstrate understanding of failure modes, can be tested effectively in an automated fashion, and show students the caveats of their attempts to solve the problem. In many cases, a trade-off is necessary. For example, building an interactive shell is a common, and much loved, assignment in which instructors must balance the number of features required with the time provided. Features such as pipes, background tasks, tab-completion, and environment variables are all desirable and interesting to implement, but contribute greatly to the complexity of the code, as well as the amount of time it takes to evaluate.</p>
+<p>On top of the complexity, the ambiguity of language features means that year after year new students hit the same old bugs---eventually.  Engler et al. <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a> identified a number of problem classes in their work in static analysis that has served as a foundation for many tools in systems <a href="http://doi.acm.org/10.1145/2039239.2039241" title="Finding Resource-release Omission Faults in Linux"><em>(ref)</em></a>, <a href="http://doi.acm.org/10.1145/1133373.1133405" title="Applying Source-code Verification to a Microkernel: The VFiasco Project"><em>(ref)</em></a>, applications <a href="http://dl.acm.org/citation.cfm?id=1883978.1883982" title="Detecting Missing Method Calls in Object-oriented Software"><em>(ref)</em></a>, <a href="http://dl.acm.org/citation.cfm?id=1883978.1883982" title="Statically Checking API Protocol Conformance with Mined Multi-object Specifications"><em>(ref)</em></a>  and even compiler extensions derived from hardware specifications <a href="http://doi.acm.org/10.1145/2666357.2597823" title="em-SPADE: A Compiler Extension for Checking Rules Extracted from Processor Specifications"><em>(ref)</em></a>.  Students and professionals alike are perplexed by seemingly simple questions such as:</p>
+<ul>
+<li>Can routine <code>F</code> fail?</li>
+<li>Must <code>A</code> be paired with <code>B</code>?</li>
+<li>Does security check <code>Y</code> protect <code>X</code>?</li>
+<li>Can <code>A</code> be done after <code>B</code>?</li>
+<li>Does lock <code>L</code> protect <code>V</code>?</li>
+</ul>
+<p>In this short paper we demonstrate precisely how Rust addresses these potential bugs in a clear, clean, safe and robust manner. After introducing Rust (Section 2), we discuss how Rust approaches and helps solve to these common bug categories (Section 3). We also discuss the goals of &quot;Safety&quot;, the state of tooling, and the Rust community (Section 4), before closing with Future Work (Section 5).</p>
+<a class="header" href="understanding-over-guesswork.html#2-introducing-rust" id="2-introducing-rust"><h1>2. Introducing Rust</h1></a>
+<p>Rust <a href="http://rust-lang.org/" title="Rust"><em>(ref)</em></a> is a systems oriented ML-family language supported by Mozilla Research. It was originally conceived by Graydon Hoare and reached its first stable release on May 15, 2015 <a href="http://blog.rust-lang.org/2015/05/15/Rust-1.0.html" title="Announcing Rust 1.0"><em>(ref)</em></a>. It is dual licensed Apache and MIT, fully open source, and governed through an extensive Request For Comment (RFC) process.</p>
+<p>Rust offers a robust set of desirable features for systems code: ahead-of-time compilation, zero-cost abstractions, move semantics, guaranteed memory safety, threads without data races, trait-based generics, pattern matching, type inference, minimal runtime (removable, <a href="http://doc.rust-lang.org/book/no-stdlib.html" title="libcore"><em>(ref)</em></a>), no garbage collector or VM necessary, efficient C bindings and robust static analysis</p>
+<p>It accomplishes these features through a number of novel techniques largely built off its type system and the borrow checker. The Rust community has been working to firmly position Rust as a powerful tool for programming in ultra-large, <a href="https://www.sei.cmu.edu/uls/" title="Ultra-Large-Scale Systems: The Software Challenge of the Future"><em>(ref)</em></a>, embedded, and networking systems.</p>
+<a class="header" href="understanding-over-guesswork.html#21-rust-basics" id="21-rust-basics"><h2>2.1 Rust Basics</h2></a>
+<p>To someone familiar with C/C++ the syntax of Rust will appear reasonably familiar. Rust differs in many ways though, believing in that it is better to be explicit and promote understanding of what is occurring, than to expect the programmer to maintain all of this information in their head and engage in guesswork.</p>
+<p>This is a key motivating factor behind our proposed adoption of Rust in OS courses, we believe this quality does not do away with conciseness or elegance of code. Community members have developed bindings for well-known tools like Redis <a href="http://redis.io/" title="Redis"><em>(ref)</em></a> and found the APIs for equivalent Rust and Python actions of relatively similar &quot;feel&quot;, despite the benefits of Rust's type system providing an additional safety net <a href="http://lucumr.pocoo.org/2014/10/1/a-fresh-look-at-rust/#designing-apis" title="A Fresh Look at Rust"><em>(ref)</em></a>.</p>
+<p>Rust does, however, have significant semantic differences compared to C-like languages. For variable declaration, Rust has the <code>let</code> keyword which is <em>immutable by default</em>, mutability is opt-in via <code>let mut</code>. This opt-in mutability was found by the community to encourage better code. Instead of the programmer needing to remember to use <code>const</code> the compiler informs them of any variables they might have forgotten to make mutable or if it is unnecessarily mutable.</p>
+<p>As well, function definitions differ from C-like languages. This change makes function definitions easier to comprehend when dealing with complex parameters, generics, and return values. Numerous reasoning for why C's declaration syntax is inadequate were well explained by Rob Pike <a href="https://blog.golang.org/gos-declaration-syntax" title="Go Blog: Function Declaration"><em>(ref)</em></a>.</p>
+<pre><code class="language-rust ignore">fn example_simple()
+fn example_params(x: u64, y: &amp;u64, z: &amp;mut u64)
+fn example_returns(x: u64) -&gt; u64
+fn example_generic&lt;U: Read&gt;(reader: U) -&gt; u64
+fn example_generic_alt&lt;U&gt;(reader: U) -&gt; u64
+    where U: Read
+</code></pre>
+<a class="header" href="understanding-over-guesswork.html#22-a-strong-type-system" id="22-a-strong-type-system"><h2>2.2 A Strong Type System</h2></a>
+<p>While a dynamic type system is desirable in some areas, particularly in higher level code, things like implicit, possibly lossy data conversions can often be dangerous in system code. In our experience, many operating systems students also struggle with the mental concepts of pointers and their uses. This can lead to taking pointers as values and performing pointer arithmetic.</p>
+<p>The programmer is not <em>prevented</em> from doing these things in Rust, it only ensures that it is actually the intended action. For many students though, attempting to cast pointers into a value is actually a mistake in their intention. Rust helps users with this by automatically dereferencing pointers when necessary, and providing stronger tools for common places where these mistakes crop up, like string indexing or dynamic array access.</p>
+<p>Types can be created easily, and there are three basic compound data structures, <code>struct</code>, <code>enum</code>, and tuples. <code>struct</code>s and tuples are similar to other languages. Rust's <code>enum</code>s are able to represent variants with encapsulated values, generics, and even <code>struct</code>s!</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Structure with generic
+struct One&lt;T&gt; {
+    foo: usize,
+    bar: T
+}
+// 2-tuple
+struct Two(usize, usize);
+// Enum
+enum Three {
+    // Plain.
+    Foo,
+    // Variant with Tuple.
+    Bar(usize),
+    // Variant with Struct.
+    Baz { x: u64, y: u64, z: u64, },
+}
+
+#}</code></pre></pre>
+<a class="header" href="understanding-over-guesswork.html#23-we-dont-need-a-null" id="23-we-dont-need-a-null"><h2>2.3 We Don't Need A <code>null</code></h2></a>
+<p>Cited by its creator <a href="http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare" title="The Billion Dollar Mistake"><em>(ref)</em></a> as a 'billion-dollar mistake' <code>null</code> is one of the most dangerous thorns in a programmers toolbox. What's more is that these errors happen at <em>runtime</em> and may take down live systems.</p>
+<p>In languages like C, C++, and Java a tremendous amount of research and development time has gone into developing products like Coverity <a href="https://www.coverity.com/" title="Coverity"><em>(ref)</em></a> and PVS-Studio <a href="http://www.viva64.com/en/pvs-studio/" title="PVS-Studio"><em>(ref)</em></a> to help discover possible null pointer inconsistencies. Engler et al suggest heuristic methods to determine the 'null state' of a variable throughout the control flow of a program. What if programmers could just stop worrying about <code>null</code> all together?</p>
+<p>Many functional languages like Haskell and F# have the concept of an <code>Option</code>, a concept that Rust shares. Instead of needing to be aware of and check for <code>null</code> at every occurrence, the language semantics require the programmer to explicitly decide on the control flow for all values.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Create a `Some(T)` and a None.
+let maybe_foo = Some(0);
+let not_foo = None;
+// Unwrapping.
+let foo = maybe_foo.unwrap();
+let default = not_foo.unwrap_or(1);
+let matched = match maybe_foo {
+    Some(x) =&gt; x,
+    None =&gt; -1,
+};
+// Mapping
+let mapped = maybe_foo.map(|x| x as f64);
+
+#}</code></pre></pre>
+<a class="header" href="understanding-over-guesswork.html#3-rust-reducing-bugs-through-linguistic-features" id="3-rust-reducing-bugs-through-linguistic-features"><h1>3. Rust: Reducing Bugs through Linguistic Features</h1></a>
+<p>In Rust, many common bugs can be prevented because: routines with the potential for failure carry it explicitly in their function signature (Section 3.1), RAII is used to ensure allocations are followed by frees (Section 3.2), security checks can be required by the type system or through marker traits for 'tainted' data (Section 3.3), powerful move semantics eliminate use-after-free errors (Section 3.4), and locks inherently protect data, not code (Section 3.4).</p>
+<a class="header" href="understanding-over-guesswork.html#31-results-and-try" id="31-results-and-try"><h2>3.1 Results and <code>try!()</code></h2></a>
+<p>When working with traditional languages such as C and C++ it can often be difficult to answer the question &quot;Can this function fail?&quot; Checked exceptions can help, but often APIs are inconsistent, and checks for failure can be forgotten <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a>. Some static analysis techniques can be used to determine possible missed failure checks, such has detecting invocations that do check for error. Having failure information included in the function's signature and requiring it to be explicitly checked may be a more robust solution over heuristics though.</p>
+<p>The <code>Result&lt;T, E&gt;</code> enum exists as either <code>Ok(T)</code> or <code>Err(E)</code> and conveys the result of something which may fail with an error. Using Rust's <code>match</code> expression the user can act on various error conditions or success.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use std::io;
+use std::error::Error;
+// Create an error. (Normally raised from lib)
+let error = io::Error::new(io::ErrorKind::Other,
+    &quot;I'm an example error!&quot;);
+// The two result variants. Type notations usually
+// not necessary except in small examples.
+let success: Result&lt;_, io::Error&gt; = Ok(&quot;Success!&quot;);
+let failure: Result&lt;&amp;str, _&gt; = Err(error);
+// Return either the value or the error description.
+let val_or_desc = match success {
+    Ok(val) =&gt; val,
+    Err(ref e)  =&gt; e.description(),
+};
+
+#}</code></pre></pre>
+<p>It is a compiler warning to perform an action such as <code>file.read_to_string(buf)</code> which returns a <code>Result&lt;usize, Error&gt;</code> and to not handle the error in some way. In Rust is it idiomatic for any recoverable error to be passed up the call stack to where it can be sensibly handled. While approaching this idea newcomers typically struggle with the fact that an <code>io::Error</code> and a <code>Utf8Error</code> are different types and cannot be returned in the same <code>Result&lt;T,E&gt;</code>, since the <code>E</code> value would differ and violate Rust's strong typing. This is typically solved by creating a new <code>Error</code> which is an enumeration over the possible underlaying errors as well as any the programmer may wish to include themselves. Then there are the <code>Into&lt;T&gt;</code> and <code>From&lt;T&gt;</code> traits which can be implemented to provide seamless interaction.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+# use std::io;
+# use std::str::Utf8Error;
+pub enum MyError {
+    Io(io::Error),
+    Utf8(Utf8Error)
+}
+impl From&lt;io::Error&gt; for MyError {
+    fn from(err: io::Error) -&gt; MyError {
+        MyError::Io(err)
+    }
+}
+// ...
+
+#}</code></pre></pre>
+<p>When working with functions which may return a <code>Result&lt;T, E&gt;</code> it is common to use the <code>try!()</code> macro. This macro expands to either unwrap the <code>T</code> value inside and assign it, or return the error up the call stack. This helps reduce visual 'noise' and assist in composition.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+# use std::fs::File;
+# use std::io::{self, Read};
+# pub enum MyError {
+#     Io(io::Error),
+# }
+# impl From&lt;io::Error&gt; for MyError {
+#     fn from(err: io::Error) -&gt; MyError {
+#         MyError::Io(err)
+#     }
+# }
+fn open_and_read() -&gt; Result&lt;String, MyError&gt; {
+    let mut f = try!(File::open(&quot;foo.txt&quot;));
+    let mut s = String::new();
+    let num_read = try!(f.read_to_string(&amp;mut s));
+    Ok(s)
+}
+
+#}</code></pre></pre>
+<p>Error handling in Rust is explicit, composable, and sane. There are no exceptions, nulls, 'magic numbers' (like -1) or anything that may prevent the programmer from handling the error as <em>they</em> choose to, even if that is to simply <code>.unwrap()</code> it and fail. It's worth noting that even <code>.unwrap()</code>ing does not actually crash the program as normally it unwinds the stack, isolating failure to a single thread and preventing inconsistent state.</p>
+<a class="header" href="understanding-over-guesswork.html#32-borrow-and-move-forget-free" id="32-borrow-and-move-forget-free"><h2>3.2 Borrow and Move: Forget <code>free()</code></h2></a>
+<p>In Rust there is the notion of moving, copying, and referencing. In some ways Rust's memory model
+is similar to C/C++'s. It features a powerful pointer system that allows programmers to make fine-grain, informed decisions about how values are stored, passed, and represented. Like C++, Rust makes use of a concept called Resource Acquisition Is Instantiation (RAII). Rust goes a step further, introducing the distinction between <em>immutably borrowing</em> (<code>&amp;</code>), <em>mutably borrowing</em> (<code>&amp;mut</code>), <em>copying</em> (<code>Copy</code> trait), and <em>moving</em> values. At any given time there may be any number of <em>immutable borrows</em>, meanwhile there may only be one <em>mutable borrow</em>, and a value may not be used in the function once it has been <em>moved</em> out.</p>
+<p>This makes it simple for a programmer to observe a function signature and determine which values the function may mutate or consume, and which it may return. Using this information the compiler is able to determine the lifetime constraints of almost any value without additional notations. In (rare, complex) cases where it does require additional information, the programmer can annotate lifetimes just as they would generic type parameters.</p>
+<pre><code class="language-rust ignore">fn main() {
+    // An owned, growable,
+    // non-copyable string.
+    let mut foo = String::from(&quot;foo&quot;);
+
+    // Introduce a new scope.
+    {
+        // Reference bar is created.
+        let bar = &amp;foo;
+        // Error, bar is immutable.
+        bar.push('c');
+    } // bar is destroyed.
+
+    // Error, bar does not exist.
+    let baz = bar;
+    // Works, reference mutable.
+    let rad = &amp;mut foo;
+    rad.push('c');
+} // foo is destroyed.
+</code></pre>
+<p>This behavior is very similar to C++'s RAII facilities and ensures all values are safely destructed in a consistent, predictable manner as soon as they are no longer needed. The programmer does not need to worry about making sure each of their <code>malloc()</code> calls have a corresponding <code>free()</code> or rely on an outside tool <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a> to discover such errors. The borrow checker is also able to determine when a value has been <em>moved</em> into a function call and should not be further used in the caller, eliminating another possible class of errors.</p>
+<a class="header" href="understanding-over-guesswork.html#33-traits-zero-cost-abstractions" id="33-traits-zero-cost-abstractions"><h2>3.3 Traits: Zero-cost Abstractions</h2></a>
+<p>Rust does not use a class based or inheritance based system. Data is stored in <code>struct</code>s, primitives, or <code>enum</code>s which implement a set of traits that define how it interacts and which functions are available to it. For example, the <code>File</code> is a <code>struct</code> which implements <code>Read</code> and <code>Write</code> among other traits. Other structures like <code>TcpStream</code> and <code>UdpSocket</code> also implement the same <code>Read</code> and <code>Write</code> trait. Traits are zero-cost abstractions that act to encourage common interfaces and capabilities between like-structures <a href="http://blog.rust-lang.org/2015/05/11/traits.html" title="Abstraction without overhead: traits in Rust"><em>(ref)</em></a>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+struct Thing {
+    barred: bool,
+}
+trait Foo {
+    // Implementor must define.
+    fn bar(&amp;mut self);
+    // Default definition.
+    fn do_bar(&amp;mut self) { self.bar() }
+}
+impl Foo for Thing {
+    fn bar(&amp;mut self) {
+        self.barred = true;
+    }
+}
+
+#}</code></pre></pre>
+<p>Traits fit easily together, are widespread in their implementation, and allow for common interfaces between modules to permit better adaptability. Traits can also be used as 'markers' in design patterns like state machines to provide additional compile time verification of correctness.</p>
+<a class="header" href="understanding-over-guesswork.html#34-static-analysis-at-the-core" id="34-static-analysis-at-the-core"><h2>3.4 Static Analysis at the Core</h2></a>
+<p>Static analysis tools, like <code>splint</code> for C <a href="http://splint.org/" title="Splint"><em>(ref)</em></a> are an invaluable tool for Operating Systems programming, particularly when working on large codebases with multiple programmers.  Rust's type system and region based memory, based on Cyclone <a href="http://209.68.42.137/ucsd-pages/Courses/cse227.w03/handouts/cyclone-regions.pdf" title="Region-Based Memory Management in Cyclone"><em>(ref)</em></a>, are particularly well suited to static analysis. Indeed, <code>rustc</code> itself performs a tremendous amount of static analysis without the help of external tools. The type system carries all the information necessary for the compiler to understand all possible control flows of the program, all possible (recoverable) errors which arise, and the lifetimes of each region of memory.</p>
+<p>Of particular interest is <code>rustc</code>'s &quot;Borrow Checker&quot; which analyzes and understands the pointer system and is able to verify data safety, even across multiple threads. The borrow checker is an area of active research <a href="ftp://ftp.cs.washington.edu/tr/2015/03/UW-CSE-15-03-02.pdf" title="Patina: A Formalization of the Rust Programming Language"><em>(ref)</em></a>.  As a result of the static analysis done by <code>rustc</code> it is able to infer information about (but is not limited to):</p>
+<ul>
+<li>Unused results, variables and functions.</li>
+<li>Unreachable code.</li>
+<li>Unsafe pointer sharing (multiple mutable pointers.)</li>
+<li>Incorrect type matching and lossy casts.</li>
+<li>Use-after-free errors.</li>
+<li>Unclear lifetimes (asking for either clarity or refactoring.)</li>
+</ul>
+<a class="header" href="understanding-over-guesswork.html#35-threads-that-dont-bite" id="35-threads-that-dont-bite"><h2>3.5 Threads that don't Bite</h2></a>
+<p>Threading is perhaps one of the most powerful and robust features of Rust. The characteristics detailed above culminate in a sort of <em>tour de force</em> when used bravely in a threaded context.</p>
+<p>Harnessing the power of ownership semantics, the type system, the standard library's threading modules there are a number of tools available <a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html" title="Fearless Concurrency"><em>(ref)</em></a>:</p>
+<p><strong>Channels</strong> provide a way to transfer messages (and ownership) between threads without fear of there being later (unsafe) access to the data by other threads. The default channel provided by the standard library is a Multiple-Producer, Single-Consumer channel.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use std::sync::mpsc::{channel, Sender, Receiver};
+let (send, receive) = channel();
+# let send: Sender&lt;u8&gt; = send;
+
+#}</code></pre></pre>
+<p><strong>Locks</strong> can encapsulate data such that access is only granted if the lock is held. In Rust, you <strong>don't lock code, you lock data</strong>, and it is safer because of it. Locks are typically represented by <code>Mutex</code>s and shared between threads with an Atomically Reference Counted structure (<code>Arc</code>). It should be noted that this design of locking data prevents a lock from being acquired and never given up, identified as common by Engler <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use std::sync::{Arc, Mutex};
+let data = Arc::new(Mutex::new(0));
+
+#}</code></pre></pre>
+<p><strong>Traits</strong> like <code>Sync</code> and <code>Send</code> are implemented on types and symbolize if it can be <em>sent</em> or <em>shared</em> between threads safely. These traits are not just documentation, they are intrinsic to the language.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Safe to share between threads.
+use std::marker::Sync;
+// Safe to transfer between threads.
+use std::marker::Send;
+
+#}</code></pre></pre>
+<p>Rust's concurrency primitives are powerful and composable, allowing users to implement other, more fearless forms of concurrency such as <strong>sharing stack frames</strong>. For example, here's a demonstration of a third-party crate called <strong>crossbeam</strong> that allows us to safely operate concurrently on stack-allocated data: <a href="http://aturon.github.io/crossbeam-doc/crossbeam/struct.Scope.html#method.spawn" title="crossbeam::Scope::spawn"><em>(ref)</em></a></p>
+<pre><code class="language-rust ignore">extern crate crossbeam;
+
+fn main() {
+    let items = [1, 2, 3];
+
+    crossbeam::scope(|scope| {
+        for item in &amp;items {
+            scope.spawn(move || {
+                println!(&quot;{}&quot;, item);
+            });
+        }
+    });
+}
+</code></pre>
+<p>This same crate also provides primitives for building lock-free concurrent data structures without the overhead of a garbage collector <a href="http://aturon.github.io/blog/2015/08/27/epoch/" title="Lock-freedom without garbage collection"><em>(ref)</em></a>, again demonstrating Rust's capacity for building safe, efficient, and reusable concurrent components.</p>
+<a class="header" href="understanding-over-guesswork.html#4-safety-tools-and-community" id="4-safety-tools-and-community"><h1>4. Safety, Tools, and Community</h1></a>
+<p>The concept of &quot;Safety&quot; in code is often poorly defined, but can be considered in three categories:</p>
+<ul>
+<li><strong>Type Safety</strong> prevents or discourages type errors, such as treating a <code>float</code> like an <code>int</code>. Rust and languages like Haskell excel here as their type systems are strong, explicit (but often inferred), and do not include the notion of a <code>null</code> that can go anywhere indiscriminately.</li>
+<li><strong>Memory Safety</strong> reduces or eliminates the possibility of mistakes like writing a 64 bit value into a 32 bit space (overwriting unintended data), or multi-threaded mutable access to the same memory. Rust's borrow checker effectively eliminates data races in safe code and strong type safety prevents unintended clobbering.</li>
+<li><strong>Thread Safety</strong> prevents inter-thread race conditions, such as one thread exiting when another thread is waiting on data from it. Rust provides some robust tools for managing thread pools integrated into its type system, however some mistakes are still possible if the programmer works hard enough to accomplish them.</li>
+</ul>
+<p>Rust advertises both type safety and data safety. There is still research and development to be done before it can truly be considered thread-safe.</p>
+<a class="header" href="understanding-over-guesswork.html#41-tooling" id="41-tooling"><h2>4.1 Tooling</h2></a>
+<p>Rust has a robust, opinionated set of tooling. The Rust standard distribution includes <code>rustc</code> (the compiler), <code>cargo</code> (a package manager and build tool), and <code>rustdoc</code> (a documentation generator). Currently there is work being done on a <code>rustfmt</code> which would function the same as Go's venerable <code>gofmt</code>.</p>
+<p>Package management via <code>cargo</code> is a feature Rust has inherited from several other modern languages. All package dependencies, build options, and tasks are defined in a <code>Cargo.toml</code> file. Dependencies are checked and (if necessary) pulled on <code>cargo build</code>, <code>test</code>, or <code>doc</code>.</p>
+<p>Rust supports both <em>unit tests</em> and <em>integration tests</em> by default. Unit tests may appear wherever is appropriate in the code and are annotated by <code>#[test]</code>, it is common for designers to include a <code>test</code> module in their code. Integration tests are written in the <code>tests/</code> directory and allow a package to be tested as a depended upon library. Testing is done by simply invoking <code>cargo test</code> in the project directory. These features blow away barriers which programmers might face in other languages that would prevent them from bothering to test. Additionally, it makes marking Rust based projects very easy, all an instructor needs to do is provide (or replace) the <code>tests/</code> directory with an appropriate suite.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn test_passes() {
+    assert_eq!(true, true);
+}
+#[test]
+#[should_panic]
+fn test_fails() {
+    assert!(true == false);
+}
+
+#}</code></pre></pre>
+<p>Having a standardized, high quality documentation format is invaluable for programmers, and Rust facilitates this. Documentation comments can be placed anywhere in the code using <code>///</code> for function level documentation or <code>//!</code> for module level documentation. Documentation is in a common markdown format, code samples included in the documentation are automatically processed as unit tests. Generating documentation is done by <code>cargo doc</code>, which generates HTML and manpage documentation. Many Rust projects even go so far as to automate the unit testing and documentation generation step and hook it into their git commits <a href="http://hoverbear.org/2015/03/06/rust-travis-github-pages/" title="Rust, Travis, and Github Pages"><em>(ref)</em></a>.</p>
+<a class="header" href="understanding-over-guesswork.html#42-community" id="42-community"><h2>4.2 Community</h2></a>
+<p>One of the biggest dangers in choosing a language that &quot;Is not C&quot; to teach operating systems in is that it can be very difficult for students to get help.  Mozilla's IRC network hosts the popular #rust channel which regularly has over 800 members at any given time. <a href="http://crates.io/"><code>crates.io</code></a> hosts over 2300 packages. The language reached 1.0 on May 15, 2015 <a href="http://blog.rust-lang.org/2015/05/15/Rust-1.0.html" title="Announcing Rust 1.0"><em>(ref)</em></a> and has been in development since 2006. The community is active and friendly with a variety special interest groups.</p>
+<p>Best of all, there is active operating system development in Rust. There is a project to develop <code>coreutils</code> <a href="https://github.com/uutils/coreutils" title="uutils/coreutils"><em>(ref)</em></a>, a kernel <a href="http://jvns.ca/blog/2014/03/12/the-rust-os-story/" title="Writing an OS in Rust in Tiny Steps"><em>(ref)</em></a>, operating systems <a href="https://scialex.github.io/reenix.pdf" title="Reenix: Implementing a Unix-Like Operating System in Rust"><em>(ref)</em></a>, and embedded system platforms <a href="http://zinc.rs/" title="zinc.rs"><em>(ref)</em></a>. At the time of writing, these projects are young enough that students could even contribute components upstream.</p>
+<a class="header" href="understanding-over-guesswork.html#50-conclusion-and-future-work" id="50-conclusion-and-future-work"><h1>5.0 Conclusion and Future Work</h1></a>
+<p>In this work we have overviewed some of the reasons to consider Rust as the lanugage for a new generation of systems programmers by highlighting precisely how Rust prevents classic bugs.  There is a considerable amount of research remaining regarding Rust's uses in systems code and programming in the large in general. We seek to foster knowledge of the language at the University of Victoria and are working on developing distributed consensus algorithms like Raft <a href="http://ramcloud.stanford.edu/raft.pdf" title="In Search of an Understandable Consensus Algorithm"><em>(ref)</em></a> and next generation initialization systems in the spirit of OpenRC.</p>
+<blockquote>
+<p><a href="https://www.hoverbear.org/2015/09/12/understand-over-guesswork/"><em>Originally published 2015-09-12</em></a></p>
+<p><em>License: TBD</em></p>
+</blockquote>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="authors.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="where-rust-really-shines.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="authors.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="where-rust-really-shines.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

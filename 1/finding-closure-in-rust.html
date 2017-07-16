@@ -1,0 +1,841 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Finding Closure in Rust - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html" class="active"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="finding-closure-in-rust.html#finding-closure-in-rust" id="finding-closure-in-rust"><h1>Finding Closure in Rust</h1></a>
+<p>Have you ever used an <a href="http://doc.rust-lang.org/std/iter/trait.Iterator.html">iterator adapter</a> in <a href="http://rust-lang.org">Rust</a>?
+Called a method on <a href="http://doc.rust-lang.org/std/option/enum.Option.html"><code>Option</code></a>? <a href="http://doc.rust-lang.org/std/thread/fn.spawn.html">Spawned</a> a thread?
+You've almost certainly used a <a href="https://en.wikipedia.org/wiki/Closure_%28computer_programming%29">closure</a>. The design in Rust may seem
+a little complicated, but it slides right into Rust's normal ownership
+model so let's reinvent it from scratch.</p>
+<p>The new design was introduced in <a href="https://github.com/rust-lang/rfcs/blob/master/text/0114-closures.md">RFC 114</a>, moving Rust to a
+model for closures similar to C++11's. The design builds on Rust's
+standard trait system to allow for allocation-less
+statically-dispatched closures, but also giving the choice to opt-in
+to type-erasure and dynamic dispatch and the benefits that brings. It
+incorporates elements of inference that &quot;just work&quot; by ensuring that
+ownership works out.</p>
+<blockquote>
+<p>Steve Klabnik has written
+<a href="http://doc.rust-lang.org/book/closures.html">some docs on Rust's closures</a> for the official
+documentation. I've explicitly avoided reading it so far because
+I've always wanted to write this, and I think it's better to give a
+totally independent explanation while I have the chance. If
+something is confusing here, maybe they help clarify.</p>
+</blockquote>
+<a class="header" href="finding-closure-in-rust.html#whats-a-closure" id="whats-a-closure"><h2>What's a closure?</h2></a>
+<p>In a sentence: a closure is a function that can directly use variables
+from the scope in which it is defined. This is often described as the
+closure <em>closing over</em> or <em>capturing</em> variables (the
+<em>captures</em>). Collectively, the variables are called the <em>environment</em>.</p>
+<p>Syntactically, a closure in Rust is an anonymous function<sup class="footnote-reference"><a href="finding-closure-in-rust.html#anon">1</a></sup> value
+defined a little like Ruby, with pipes: <code>|arguments...| body</code>. For
+example, <code>|a, b| a + b</code> defines a closure that takes two arguments and
+returns their sum. It's just like a normal function declaration, with
+more inference:</p>
+<pre><code class="language-rust ignore">// function:
+fn foo(a: i32, b: i32) -&gt; i32 { a + b }
+// closure:
+      |a,      b|               a + b
+</code></pre>
+<p>Just like a normal function, they can be called with parentheses:
+<code>closure(arguments...)</code>.</p>
+<div class="footnote-definition" id="anon"><sup class="footnote-definition-label">1</sup>
+<p>The Rust <code>|...| ...</code> syntax is more than just a closure: it's
+an <a href="http://en.wikipedia.org/wiki/Anonymous_function">anonymous function</a>. In general, it's possible to have things
+that are closures but aren't anonymous (e.g. in Python,
+functions declared with <code>def foo():</code> are closures too, they
+can refer to variables in any scopes in which the <code>def foo</code>
+is contained). The anonymity refers to the fact that the
+closure expression is a value, it's possible to just use it
+directly and there's no separate <code>fn foo() { ... }</code> with the
+function value referred to via <code>foo</code>.</p>
+</div>
+<p>To illustrate the capturing, this code snippet calls
+<a href="http://doc.rust-lang.org/std/option/enum.Option.html#method.map"><code>map</code></a> on an <code>Option&lt;i32&gt;</code>, which will call a closure on
+the <code>i32</code> (if it exists) and create a new <code>Option</code> containing the
+return value of the call.</p>
+<pre><code class="language-rust ignore">fn main() {
+    let option = Some(2);
+
+    let x = 3;
+    // explicit types:
+    let new: Option&lt;i32&gt; = option.map(|val: i32| -&gt; i32 { val + x });
+    println!(&quot;{:?}&quot;, new); // Some(5)
+
+    let y = 10;
+    // inferred:
+    let new2 = option.map(|val| val * y);
+    println!(&quot;{:?}&quot;, new2); // Some(20)
+}
+</code></pre>
+<p>The closures are capturing the <code>x</code> and <code>y</code> variables, allowing them to
+be used while mapping. (To be more convincing, imagine they were only
+known at runtime, so that one couldn't just write <code>val + 3</code> inside the
+closure.)</p>
+<a class="header" href="finding-closure-in-rust.html#back-to-basics" id="back-to-basics"><h2>Back to basics</h2></a>
+<p>Now that we have the semantics in mind, take a step back and riddle me
+this: how would one implement that sort of generic <code>map</code> if Rust
+didn't have closures?</p>
+<p>The functionality of <code>Option::map</code> we're trying to duplicate is (equivalently):</p>
+<pre><code class="language-rust ignore">fn map&lt;X, Y&gt;(option: Option&lt;X&gt;, transformer: ...) -&gt; Option&lt;Y&gt; {
+    match option {
+        Some(x) =&gt; Some(transformer(x)), // (closure syntax for now)
+        None =&gt; None,
+    }
+}
+</code></pre>
+<p>We need to fill in the <code>...</code> with something that transforms an <code>X</code> into
+a <code>Y</code>. The biggest constraint for perfectly replacing <code>Option::map</code> is
+that it needs to be generic in some way, so that it works with
+absolutely any way we wish to do the transformation. In Rust, that
+calls for a generic bounded by a trait.</p>
+<pre><code class="language-rust ignore">fn map&lt;X, Y, T&gt;(option: Option&lt;X&gt;, transform: T) -&gt; Option&lt;Y&gt;
+    where T: /* the trait */
+{
+</code></pre>
+<p>This trait needs to have a method that converts some specific type
+into another. Hence there'll have to be form of type parameters to
+allow the exact types to be specified in generic bounds like
+<code>map</code>. There's two choices: generics in the trait definition (&quot;input
+type parameters&quot;) and associated types (&quot;output type parameters&quot;). The
+quoted names hint at the choices we should take: the type that gets
+input into the transformation should be a generic in the trait, and
+the type that is output by the transformation should be an associated
+type.<sup class="footnote-reference"><a href="finding-closure-in-rust.html#assoc-vs-not">2</a></sup></p>
+<div class="footnote-definition" id="assoc-vs-not"><sup class="footnote-definition-label">2</sup>
+<p>This choice is saying that transformers can be
+overloaded by the starting type, but the ending type
+is entirely determined by the pair of the transform
+and the starting type. Using an associated type for
+the return value is more restrictive (no overloading
+on return type only) but it gives the compiler a much
+easier time when inferring types. Using an associated
+type for the input value too would be too
+restrictive: it is very useful for the output type to
+depend on the input type, e.g. a transformation <code>&amp;'a [i32]</code> to <code>&amp;'a i32</code> (by e.g. indexing) has the two
+types connected via the generic lifetime <code>'a</code>.</p>
+<p>So, our trait looks something like:</p>
+<pre><code class="language-rust ignore">trait Transform&lt;Input&gt; {
+    type Output;
+
+    fn transform(/* self?? */, input: Input) -&gt; Self::Output;
+}
+</code></pre>
+<p>The last question is what sort of <code>self</code> (if any) the method should
+take?</p>
+<p>The transformation should be able to incorporate arbitrary information
+beyond what is contained in <code>Input</code>. Without any <code>self</code> argument, the
+method would look like <code>fn transform(input: Input) -&gt; Self::Output</code>
+and the operation could only depend on <code>Input</code> and global
+variables (ick). So we do need one.</p>
+<p>The most obvious options are by-reference <code>&amp;self</code>,
+by-mutable-reference <code>&amp;mut self</code>, or by-value <code>self</code>. We want to allow
+the users of <code>map</code> to have as much power as possible while still
+enabling <code>map</code> to type-check. At a high-level <code>self</code> gives
+<em>implementers</em> (i.e. the types users define to implement the trait)
+the most flexibility, with <code>&amp;mut self</code> next and <code>&amp;self</code> the least
+flexible. Conversely, <code>&amp;self</code> gives <em>consumers</em> of the trait
+(i.e. functions with generics bounded by the trait) the most
+flexibility, and <code>self</code> the least.</p>
+<table><thead><tr><th align="right">             </th><th> <strong>Implementer</strong>                </th><th> <strong>Consumer</strong>                                 </th></tr></thead><tbody>
+<tr><td align="right">      <code>self</code> </td><td> Can move out and mutate    </td><td> Can only call method once                       </td></tr>
+<tr><td align="right"> <code>&amp;mut self</code> </td><td> Can't move out, can mutate </td><td> Can call many times, only with unique access </td></tr>
+<tr><td align="right">     <code>&amp;self</code> </td><td> Can't move out or mutate   </td><td> Can call many times, with no restrictions       </td></tr>
+</tbody></table>
+<div class="join"></div>
+<p>(&quot;Move out&quot; and &quot;mutate&quot; in the implementer column are referring to data stored inside <code>self</code>.)</p>
+<p>Choosing between them is a balance, we usually want to chose the
+highest row of the table that still allows the consumers to do what
+they need to do, as that allows the external implementers to do as
+much as possible.</p>
+<p>Starting at the top of that table: we can try <code>self</code>. This gives <code>fn transform(self, input: Input) -&gt; Self::Output</code>. The by-value <code>self</code>
+will consume ownership, and hence <code>transform</code> can only be called
+once. Fortunately, <code>map</code> only needs to do the transformation once, so
+by-value <code>self</code> works perfectly.</p>
+<p>In summary, our <code>map</code> and its trait look like:</p>
+<pre><code class="language-rust ignore">trait Transform&lt;Input&gt; {
+    type Output;
+
+    fn transform(self, input: Input) -&gt; Self::Output;
+}
+
+fn map&lt;X, Y, T&gt;(option: Option&lt;X&gt;, transform: T) -&gt; Option&lt;Y&gt;
+    where T: Transform&lt;X, Output = Y&gt;
+{
+    match option {
+        Some(x) =&gt; Some(transform.transform(x)),
+        None =&gt; None,
+    }
+}
+</code></pre>
+</div>
+<p>The example from before can then be reimplemented rather verbosely, by
+creating structs and implementing <code>Transform</code> to do the appropriate
+conversion for that struct.</p>
+<pre><code class="language-rust ignore">// replacement for |val| val + x
+struct Adder { x: i32 }
+
+impl Transform&lt;i32&gt; for Adder {
+    type Output = i32;
+
+    // ignoring the `fn ... self`, this looks similar to |val| val + x
+    fn transform(self, val: i32) -&gt; i32 {
+        val + self.x
+    }
+}
+
+// replacement for |val| val * y
+struct Multiplier { y: i32 }
+
+impl Transform&lt;i32&gt; for Multiplier {
+    type Output = i32;
+
+    // looks similar to |val| val * y
+    fn transform(self, val: i32) -&gt; i32 {
+        val * self.y
+    }
+}
+
+fn main() {
+    let option = Some(2);
+
+    let x = 3;
+    let new: Option&lt;i32&gt; = map(option, Adder { x: x });
+    println!(&quot;{:?}&quot;, new); // Some(5)
+
+    let y = 10;
+    let new2 = map(option, Multiplier { y: y });
+    println!(&quot;{:?}&quot;, new2); // Some(20)
+}
+</code></pre>
+<p>We've manually implemented something that seems to have the same
+semantics as Rust closures, using traits and some structs to store and
+manipulate the captures. In fact, the struct has some uncanny
+similarities to the &quot;environment&quot; of a closure: it stores a pile of
+variables that need to be used in the body of <code>transform</code>.</p>
+<a class="header" href="finding-closure-in-rust.html#how-do-real-closures-work" id="how-do-real-closures-work"><h2>How do real closures work?</h2></a>
+<p>Just like that, plus a little more flexibility and syntactic
+sugar. The real definition of <code>Option::map</code> is:</p>
+<pre><code class="language-rust ignore">impl&lt;X&gt; Option&lt;X&gt; {
+    pub fn map&lt;Y, F: FnOnce(X) -&gt; Y&gt;(self, f: F) -&gt; Option&lt;Y&gt; {
+        match self {
+            Some(x) =&gt; Some(f(x)),
+            None =&gt; None
+        }
+    }
+}
+</code></pre>
+<p><code>FnOnce(X) -&gt; Y</code> is another name for our <code>Transform&lt;X, Output = Y&gt;</code>
+bound, and, <code>f(x)</code> for <code>transform.transform(x)</code>.</p>
+<p>There are three traits for closures, all of which provide the
+<code>...(...)</code> call syntax (one could regard them as different kinds of
+<code>operator()</code> in C++). They differ only by the <code>self</code> type of the call
+method, and they cover all of the <code>self</code> options listed above.</p>
+<ul>
+<li><code>&amp;self</code> is <a href="http://doc.rust-lang.org/std/ops/trait.Fn.html"><code>Fn</code></a></li>
+<li><code>&amp;mut self</code> is <a href="http://doc.rust-lang.org/std/ops/trait.FnMut.html"><code>FnMut</code></a></li>
+<li><code>self</code> is <a href="http://doc.rust-lang.org/std/ops/trait.FnMut.html"><code>FnOnce</code></a></li>
+</ul>
+<p>These traits are covering exactly the three core ways to handle data
+in Rust, so having each of them meshes perfectly with Rust's
+type-system.</p>
+<p>When you write <code>|args...| code...</code> the compiler will implicitly define
+a unique new struct type storing the captured variables, and then
+implement one of those traits using the closure's body, rewriting any
+mentions of captured variables to go via the closure's
+environment. The struct type doesn't have a user visible name, it is
+purely internal to the compiler. When the program hits the closure
+definition at runtime, it fills in an instance of struct and passes
+that instance into whatever it needs to (like we did with our <code>map</code>
+above).</p>
+<p>There's two questions left:</p>
+<ol>
+<li>how are variables captured? (what type are the fields of the environment struct?)</li>
+<li>which trait is used? (what type of <code>self</code> is used?)</li>
+</ol>
+<p>The compiler answers both by using some local rules to choose the
+version that will give the most flexibility. The local rules are
+designed to be able to be checked only knowing the definition
+the closure, and the types of any variables it captures.<sup class="footnote-reference"><a href="finding-closure-in-rust.html#i-think">3</a></sup></p>
+<div class="footnote-definition" id="i-think"><sup class="footnote-definition-label">3</sup>
+<p>This statement isn't precisely true in practice,
+e.g. <code>rustc</code> will emit different errors if closures are
+misused in certain equivalent-but-non-identical
+ways. However, I believe these are just improved
+diagnostics, not a fundamental language thing... however,
+I'm not sure.</p>
+<p>By &quot;flexibility&quot; I mean the compiler chooses the option that (it
+thinks) will compile, but imposes the least on the programmer.</p>
+<a class="header" href="finding-closure-in-rust.html#structs-and-captures" id="structs-and-captures"><h3>Structs and captures</h3></a>
+<p>If you're familiar with closures in C++11, you may recall the <code>[=]</code>
+and <code>[&amp;]</code> capture lists: capture variables by-value<sup class="footnote-reference"><a href="finding-closure-in-rust.html#copy">4</a></sup> and
+by-reference respectively. Rust has similar capability: variables can
+be captured by-value---the variable is moved into the closure
+environment---or by-reference---a reference to the variable is stored
+in the closure environment.</p>
+</div>
+<div class="footnote-definition" id="copy"><sup class="footnote-definition-label">4</sup>
+<p>&quot;By-value&quot; in C++, including <code>[=]</code>, is really &quot;by-copy&quot; (with
+some copy-elision rules to sometimes elide copies in certain
+cases), whereas in Rust it is always &quot;by-move&quot;, more similar
+to rvalue references in C++.</p>
+<p>By default, the compiler looks at the closure body to see how captured
+variables are used, and uses that to infers how variables should be
+captured:</p>
+<ul>
+<li>if a captured variable is only ever used through a shared reference,
+it is captured by <code>&amp;</code> reference,</li>
+<li>if it used through a mutable reference (including assignment), it is
+captured by <code>&amp;mut</code> reference,</li>
+<li>if it is moved, it is forced to be captured by-value. (NB. using a
+<a href="http://doc.rust-lang.org/std/marker/trait.Copy.html"><code>Copy</code></a> type
+by-value only needs a <code>&amp;</code> reference, so this rule only applies to
+non-<code>Copy</code> ones.)</li>
+</ul>
+<p>The algorithm seems a little non-trivial, but it matches exactly the
+mental model of a practiced Rust programmer, using ownership/borrows
+as precisely as it can. In fact, if a closure is &quot;non-escaping&quot;, that
+is, never leaves the stack frame in which it is created, I believe
+this algorithm is perfect: code will compile without needing any
+annotations about captures.</p>
+<p>To summarise, the compiler will capture variables in the way that is
+least restrictive in terms of continued use outside the closure (<code>&amp;</code>
+is preferred, then <code>&amp;mut</code> and lastly by-value), and that still works
+for all their uses within the closure. This analysis happens on a
+per-variable basis, e.g.:</p>
+<pre><code class="language-rust ignore">struct T { ... }
+
+fn by_value(_: T) {}
+fn by_mut(_: &amp;mut T) {}
+fn by_ref(_: &amp;T) {}
+
+let x: T = ...;
+let mut y: T = ...;
+let mut z: T = ...;
+
+let closure = || {
+    by_ref(&amp;x);
+    by_ref(&amp;y);
+    by_ref(&amp;z);
+
+    // forces `y` and `z` to be at least captured by `&amp;mut` reference
+    by_mut(&amp;mut y);
+    by_mut(&amp;mut z);
+
+    // forces `z` to be captured by value
+    by_value(z);
+};
+</code></pre>
+<p>To focus on the flexibility: since <code>x</code> is only captured by shared
+reference, it is legal for it be used while <code>closure</code> exists, and
+since <code>y</code> is borrowed (by mutable reference) it can be used once
+<code>closure</code> goes out of scope, but <code>z</code> cannot be used at all, even once
+<code>closure</code> is gone, since it has been moved into the <code>closure</code> value.</p>
+<p>The compiler would create code that looks a bit like:</p>
+<pre><code class="language-rust ignore">struct Environment&lt;'x, 'y&gt; {
+    x: &amp;'x T,
+    y: &amp;'y mut T,
+    z: T
+}
+
+/* impl of FnOnce for Environment */
+
+let closure = Environment {
+    x: &amp;x,
+    y: &amp;mut y,
+    z: z
+};
+</code></pre>
+<p>The struct desugaring allows the full power of Rust's type system is
+brought to bear on ensuring it isn't possible to accidentally get a
+dangling reference or use freed memory or trigger any other memory
+safety violation by misusing a closure. If there is problematic code,
+the compiler will point it out.</p>
+<a class="header" href="finding-closure-in-rust.html#move-and-escape" id="move-and-escape"><h3><code>move</code> and escape</h3></a>
+<p>I stated above that the inference is perfect for non-escaping
+closures... which implies that it is not perfect for &quot;escaping&quot; ones.</p>
+<p>If a closure is escaping, that is, if it might leave the stack frame
+where it is created, it must not contain any references to values
+inside that stack frame, since those references would be dangling when
+the closure is used outside that frame: very bad. Fortunately the
+compiler will emit an error if there's a risk of that, but returning
+closures can be useful and so should be possible; for example<sup class="footnote-reference"><a href="finding-closure-in-rust.html#trait-object">5</a></sup>:</p>
+</div>
+<div class="footnote-definition" id="trait-object"><sup class="footnote-definition-label">5</sup>
+<p>Since closure types are unique and unnameable, the
+only way to return one is via a trait object, at
+least until Rust gets something like the &quot;abstract
+return types&quot; of <a href="https://github.com/rust-lang/rfcs/pull/105">RFC 105</a>, something much
+desired for handling closures. This is a little like
+an interface-checked version of C++11's
+<code>decltype(auto)</code>, which, I believe, was also partly
+motivated by closures with unnameable types.</p>
+<pre><code class="language-rust ignore">/// Returns a closure that will add `x` to its argument.
+fn make_adder(x: i32) -&gt; Box&lt;Fn(i32) -&gt; i32&gt; {
+    Box::new(|y| x + y)
+}
+
+fn main() {
+    let f = make_adder(3);
+
+    println!(&quot;{}&quot;, f(1)); // 4
+    println!(&quot;{}&quot;, f(10)); // 13
+}
+</code></pre>
+<div class="join"></div>
+<p>Looks good, except... it doesn't actually compile:</p>
+<pre><code class="language-text">...:3:14: 3:23 error: closure may outlive the current function, but it borrows `x`, which is owned by the current function [E0373]
+...:3     Box::new(|y| x + y)
+                   ^~~~~~~~~
+...:3:18: 3:19 note: `x` is borrowed here
+...:3     Box::new(|y| x + y)
+                       ^
+</code></pre>
+<p>The problem is clearer when everything is written as explicit structs:
+<code>x</code> only needs to be captured by reference to be used with <code>+</code>, so the
+compiler is inferring that the code can look like:</p>
+<pre><code class="language-rust ignore">struct Closure&lt;'a&gt; {
+    x: &amp;'a i32
+}
+
+/* impl of Fn for Closure */
+
+fn make_adder(x: i32) -&gt; Box&lt;Fn(i32) -&gt; i32&gt; {
+    Box::new(Closure { x: &amp;x })
+}
+</code></pre>
+<p><code>x</code> goes out of scope at the end of <code>make_adder</code> so it is illegal to
+return something that holds a reference to it.</p>
+<p>So how do we fix it? Wouldn't it be nice if the compiler could tell
+us...</p>
+<p>Well, actually, I omitted the last two lines of the error message above:</p>
+<pre><code class="language-text">...:3:14: 3:23 help: to force the closure to take ownership of `x` (and any other referenced variables), use the `move` keyword, as shown:
+...:      Box::new(move |y| x + y)
+</code></pre>
+<p>A new keyword! The <code>move</code> keyword can be placed in front of a closure
+declaration, and overrides the inference to capture all variables by
+value. Going back to the previous section, if the code used <code>let closure = move || { /* same code */ }</code> the environment struct would
+look like:</p>
+<pre><code class="language-rust ignore">struct Environment {
+    x: T,
+    y: T,
+    z: T
+}
+</code></pre>
+<p>Capturing entirely by value is also strictly more general than
+capturing by reference: the reference types are first-class in Rust,
+so &quot;capture by reference&quot; is the same as &quot;capture a reference by
+value&quot;. Thus, unlike C++, there's little fundamental distinction
+between capture by reference and by value, and the analysis Rust does
+is not actually <em>necessary</em>: it just makes programmers' lives easier.</p>
+<p>To demonstrate, the following code will have the same behaviour and
+same environment as the first version, by capturing references using
+<code>move</code>:</p>
+<pre><code class="language-rust ignore">let x: T = ...;
+let mut y: T = ...;
+let mut z: T = ...;
+
+let x_ref: &amp;T = &amp;x;
+let y_mut: &amp;mut T = &amp;mut y;
+
+let closure = move || {
+    by_ref(x_ref);
+    by_ref(&amp;*y_mut);
+    by_ref(&amp;z);
+
+    by_mut(y_mut);
+    by_mut(&amp;mut z);
+
+    by_value(z);
+};
+</code></pre>
+<p>The set of variables that are captured is exactly those that are used
+in the body of the closure, there's no fine-grained capture lists like
+in C++11. The <code>[=]</code> capture list exists as the <code>move</code> keyword, but
+that is all.</p>
+<p>We can now solve the original problem of returning from <code>make_adder</code>:
+by writing <code>move</code> we force the compiler to avoid any
+implicit/additional references, ensuring that the closure isn't tied
+to the stack frame of its birth. If we take the compiler's suggestion
+and write <code>Box::new(move |y| x + y)</code>, the code inside the compiler
+will look more like:</p>
+<pre><code class="language-rust ignore">struct Closure {
+    x: i32
+}
+
+/* impl of Fn for Closure */
+
+fn make_adder(x: i32) -&gt; Box&lt;Fn(i32) -&gt; i32&gt; {
+    Box::new(Closure { x: x })
+}
+</code></pre>
+<p>It is clear that the compiler doesn't infer when <code>move</code> is required
+(or else we wouldn't need to write it), but the fact that the <code>help</code>
+message exists suggests that the compiler does know enough to infer
+when <code>move</code> is necessary or not... in some cases. Unfortunately, doing
+so in general in a reliable way (a <code>help</code> message can be
+heuristic/best-effort, but inference built into the language cannot
+be), would require more than just an analysis of the internals of the
+closure body: it would require more complicated machinery to look at
+how/where the closure value is used.</p>
+</div>
+<a class="header" href="finding-closure-in-rust.html#traits" id="traits"><h3>Traits</h3></a>
+<p>The actual &quot;function&quot; bit of closures are handled by the traits
+mentioned above. The implicit struct types will also have implicit
+implementations of some of those traits, exactly those traits that
+will actually work for the type.</p>
+<p>Let's start with an example: for the <code>make_adder</code> example, the <code>Fn</code>
+trait is implemented for the implicit closure struct:</p>
+<pre><code class="language-rust ignore">// (this is just illustrative, see the footnote for the gory details)
+impl Fn(i32) -&gt; i32 for Closure {
+    fn call(&amp;self, y: i32) -&gt; i32 {
+    // |y|   x + y
+        self.x + y
+    }
+}
+</code></pre>
+<div class="footnote-definition" id="invalid"><sup class="footnote-definition-label">6</sup>
+<p>I wrote an invalid <code>Fn</code> implementation because the real
+version is ugly and much less clear, and doesn't work with
+stable compilers at the moment. But since you asked, here
+is what's required:</p>
+<pre><code class="language-rust ignore">        #![feature(unboxed_closures, core)]
+
+        impl Fn&lt;(i32,)&gt; for Closure {
+            extern &quot;rust-call&quot; fn call(&amp;self, (y,): (i32,)) -&gt; i32 {
+                self.x + y
+            }
+        }
+        impl FnMut&lt;(i32,)&gt; for Closure {
+            extern &quot;rust-call&quot; fn call_mut(&amp;mut self, args: (i32,)) -&gt; i32 {
+                self.call(args)
+            }
+        }
+        impl FnOnce&lt;(i32,)&gt; for Closure {
+            type Output = i32;
+            extern &quot;rust-call&quot; fn call_once(self, args: (i32,)) -&gt; i32 {
+                self.call(args)
+            }
+        }
+</code></pre>
+<p>Just looking at that, one might be able to guess at a few of the
+reasons that manual implementations of the function traits aren't
+stabilised for general use. The only way to create types
+implementing those traits with the 1.0 compiler is with a closure
+expression.</p>
+<p>In reality, there are also implicit implementations<sup class="footnote-reference"><a href="finding-closure-in-rust.html#invalid">6</a></sup> of
+<code>FnMut</code> and <code>FnOnce</code> for <code>Closure</code>, but <code>Fn</code> is the &quot;fundamental&quot; one
+for this closure.</p>
+<p>There's three traits, and so seven non-empty sets of traits that <em>could</em><sup class="footnote-reference"><a href="finding-closure-in-rust.html#inherit">7</a></sup> possibly be
+implemented... but there's actually only three interesting
+configurations:</p>
+</div>
+<div class="footnote-definition" id="inherit"><sup class="footnote-definition-label">7</sup>
+<p>I'm ignoring the inheritance, which means that certain
+sets are actually statically illegal, i.e., without other
+constraints there are seven possibilities.</p>
+<ul>
+<li><code>Fn</code>, <code>FnMut</code> and <code>FnOnce</code>,</li>
+<li><code>FnMut</code> and <code>FnOnce</code>,</li>
+<li>only <code>FnOnce</code>.</li>
+</ul>
+<p>Why? Well, the three closure traits are actually three nested sets:
+every closure that implements <code>Fn</code> can also implement <code>FnMut</code> (if
+<code>&amp;self</code> works, <code>&amp;mut self</code> also works; proof: <code>&amp;*self</code>), and similarly
+every closure implementing <code>FnMut</code> can also implement <code>FnOnce</code>. This
+hierarchy is enforced at the type level,
+e.g. <a href="http://doc.rust-lang.org/std/ops/trait.FnMut.html"><code>FnMut</code></a>
+has declaration:</p>
+<pre><code class="language-rust ignore">pub trait FnMut&lt;Args&gt;: FnOnce&lt;Args&gt; {
+    ...
+}
+</code></pre>
+<div class="join"></div>
+In words: anything that implements `FnMut` *must* also implement
+`FnOnce`.
+<p>There's no subtlety required when inferring what traits to implement
+as the compiler can and will just implement <em>every</em> trait for which
+the implementation is legal. This is in-keeping with the &quot;offer
+maximum flexibility&quot; rule that was used for the inference of the
+capture types, since more traits means more options. The subset nature
+of the <code>Fn*</code> traits means that following this rule will always result
+in one of the three sets listed above being implemented.</p>
+<p>As an example, this code demonstrates a closure for which an
+implementation of <code>Fn</code> is illegal but both <code>FnMut</code> and <code>FnOnce</code> are
+fine.</p>
+<pre><code class="language-rust ignore">let mut v = vec![];
+
+// nice form
+let closure = || v.push(1);
+
+// explicit form
+struct Environment&lt;'v&gt; {
+    v: &amp;'v mut Vec&lt;i32&gt;
+}
+
+// let's try implementing `Fn`
+impl&lt;'v&gt; Fn() for Environment&lt;'v&gt; {
+    fn call(&amp;self) {
+        self.v.push(1) // error: cannot borrow data mutably
+    }
+}
+let closure = Environment { v: &amp;mut v };
+</code></pre>
+<p>It is illegal to mutate via a <code>&amp; &amp;mut ...</code>, and <code>&amp;self</code> is creating
+that outer shared reference. If it was <code>&amp;mut self</code> or <code>self</code>, it would
+be fine: the former is more flexible, so the compiler implements
+<code>FnMut</code> for <code>closure</code> (and also <code>FnOnce</code>).</p>
+<p>Similarly, if <code>closure</code> was to be <code>|| drop(v);</code>---that is, move out of
+<code>v</code>---it would be illegal to implement either <code>Fn</code> or <code>FnMut</code>, since
+the <code>&amp;self</code> (respectively <code>&amp;mut self</code>) means that the method would be
+trying to steal ownership out of borrowed data: criminal.</p>
+<a class="header" href="finding-closure-in-rust.html#flexibility" id="flexibility"><h2>Flexibility</h2></a>
+<p>One of Rust's goals is to leave choice in the hands of the programmer,
+allowing their code to be efficient, with abstractions compiling away
+and just leaving fast machine code. The design of closures to use
+unique struct types and traits/generics is key to this.</p>
+<p>Since each closure has its own type, there's no compulsory need for
+heap allocation when using closures: as demonstrated above, the
+captures can just be placed directly into the struct value. This is a
+property Rust shares with C++11, allowing closures to be used in
+essentially any environment, including bare-metal environments.</p>
+<p>The unique types does mean that one can't use different closures
+together automatically, e.g. one can't create a vector of several
+distinct closures. They may have different sizes and require different
+invocations (different closures correspond to different internal code,
+so a different function to call). Fortunately, the use of traits to
+abstract over the closure types means one can opt-in to these features
+and their benefits &quot;on demand&quot;, via [trait objects][pito]: returning
+the <code>Box&lt;Fn(i32) -&gt; i32&gt;</code> above used a trait object.</p>
+<pre><code class="language-rust ignore">let mut closures: Vec&lt;Box&lt;Fn()&gt;&gt; = vec![];
+
+let text = &quot;second&quot;;
+
+closures.push(Box::new(|| println!(&quot;first&quot;)));
+closures.push(Box::new(|| println!(&quot;{}&quot;, text)));
+closures.push(Box::new(|| println!(&quot;third&quot;)));
+
+for f in &amp;closures {
+    f(); // first / second / third
+}
+</code></pre>
+<p>[pito]: {% post_url 2015-01-10-peeking-inside-trait-objects %}</p>
+<p>An additional benefit to the approach of unique types and generics
+means that, by default, the compiler has full information about what
+closure calls are doing at each call site, and so has the choice to
+perform key optimisations like inlining. For example, the following
+snippets compile to the same code,</p>
+<pre><code class="language-rust ignore">x.map(|z| z + 3)
+
+match x {
+    Some(z) =&gt; Some(z + 3),
+    None =&gt; None
+}
+</code></pre>
+<div class="join"></div>
+<p>(When I tested it by placing them into separate functions in a single
+binary, the compiler actually optimised the second function to a
+direct call to the first.)</p>
+<p>This is all due to how Rust implements generics via monomorphisation,
+where generic functions are compiled for each way their type
+parameters are chosen, explicitly substituting the generic type with a
+concrete one. Unfortunately, this isn't always an optimisation, as it
+can result in code bloat, where there are many similar copies of a
+single function, which is again something that trait objects can
+tackle: by using a trait object instead, one can use dynamically
+dispatched closures to ensure there's only one copy of a function,
+even if it is used with many different closures.</p>
+<pre><code class="language-rust ignore">fn generic_closure&lt;F: Fn(i32)&gt;(f: F) {
+    f(0);
+    f(1);
+}
+
+generic_closure(|x| println!(&quot;{}&quot;, x)); // A
+generic_closure(|x| { // B
+    let y = x + 2;
+    println!(&quot;{}&quot;, y);
+});
+
+
+fn closure_object(f: &amp;Fn(i32)) {
+    f(0);
+    f(1);
+}
+
+closure_object(&amp;|x| println!(&quot;{}&quot;, x));
+closure_object(&amp;|x| {
+    let y = x + 2;
+    println!(&quot;{}&quot;, y);
+});
+</code></pre>
+<p>The final binary will have two copies of <code>generic_closure</code>, one for
+<code>A</code> and one for <code>B</code>, but only one copy of <code>closure_object</code>. In fact,
+there are implementations of the <code>Fn*</code> traits for pointers, so one can
+even use a trait object directly with <code>generic_closure</code>,
+e.g. <code>generic_closure((&amp;|x| { ... }) as &amp;Fn(_))</code>: so users of
+higher-order functions can choose which trade-off they want themselves.</p>
+<p>All of this flexibility falls directly out of using traits<sup class="footnote-reference"><a href="finding-closure-in-rust.html#stdfunction">8</a></sup> for
+closures, and the separate parts are independent and very
+compositional.</p>
+</div>
+<div class="footnote-definition" id="stdfunction"><sup class="footnote-definition-label">8</sup>
+<p>C++ has a similar choice, with <code>std::function</code> able to
+provide type erasure/dynamic dispatch for closure
+types, although it requires separate definition as a
+library type, and requires allocations. The Rust trait
+objects are a simple building block in the language,
+and don't require allocations (e.g. <code>&amp;Fn()</code> is a trait
+object that can be created out of a pointer to the
+stack).</p>
+<p>The power closures offer allow one to build high-level, &quot;fluent&quot; APIs
+without losing performance compared to writing out the details by
+hand. The prime example of this is
+<a href="http://doc.rust-lang.org/std/iter">iterators</a>: one can write long
+chains of calls to adapters like <code>map</code> and <code>filter</code> which get
+optimised down to efficient C-like code. (For example, I wrote
+[a post][knn] that demonstrates this, and the situation has only
+improved since then: the closure design described here was implemented
+months later.)</p>
+<p>[knn]: {% post_url 2014-06-10-comparing-knn-in-rust %}</p>
+<a class="header" href="finding-closure-in-rust.html#in-closing" id="in-closing"><h2>In closing</h2></a>
+<p>Rust's C++11-inspired closures are powerful tools that allow for
+high-level and efficient code to be build, marrying two properties
+often in contention. The moving parts of Rust's closures are built
+directly from the normal type system with traits, structs and
+generics, which allows them to automatically gain features like heap
+allocation and dynamic dispatch, but doesn't require them.</p>
+<p>(Thanks to Steve Klabnik and Aaron Turon for providing feedback on a
+draft, and many commenters on [/r/rust]({{ page.comments.r_rust }})
+and on IRC for finding inaccuracies and improvements.)</p>
+<hr />
+<p>layout: default
+title: &quot;Finding Closure in Rust&quot;
+description: &gt;
+Closures in Rust are powerful and flexible, building on traits,
+generics and ownership.</p>
+<p>comments:
+users: &quot;https://users.rust-lang.org/t/finding-closure-in-rust/1285&quot;
+r_rust: &quot;http://www.reddit.com/r/rust/comments/359tj5/finding_closure_in_rust/&quot;</p>
+<hr />
+<blockquote>
+<p><a href="https://huonw.github.io/blog/2015/05/finding-closure-in-rust/"><em>Originally published 2015-05-08</em></a></p>
+<p><em>License: TBD</em></p>
+</blockquote>
+</div>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="reading-rust-function-signatures.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="rusts-built-in-traits.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="reading-rust-function-signatures.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="rusts-built-in-traits.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

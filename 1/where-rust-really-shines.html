@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Where Rust Really Shines - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html" class="active"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="where-rust-really-shines.html#where-rust-really-shines" id="where-rust-really-shines"><h1>Where Rust Really Shines</h1></a>
+<p>Yesterday I was working on a <a href="https://github.com/rust-lang/rust/pull/25027">small feature</a>
+for the Rust compiler, and came across a situation which really showcased Rust's
+awesomeness as a language.</p>
+<p>There was a struct which was exposed to an API,
+and I wished to give it access to a list of things known as &quot;attributes&quot;, where the list was <a href="http://doc.rust-lang.org/std/vec/struct.Vec.html">a heap-allocated vector</a>.</p>
+<p>Now, I have two ways of actually giving the struct access to a vector. I can either clone it (i.e. make a copy of its contents),
+or use a reference (pointer) to it or its contents.</p>
+<p>In a language like C++ there's only once choice in this situation; that is
+to clone the vector<sup class="footnote-reference"><a href="where-rust-really-shines.html#1">1</a></sup>. In a large C++ codebase if I wished to use a pointer I would need to be sure that the vector
+isn't deallocated by the time I'm done with it, and more importantly, to be sure that no other code pushes to the vector (when a vector overflows its
+capacity it will be reallocated, invalidating any other pointers to its contents).</p>
+<p>For a smaller codebase this might be possible, but in this specific case it could have taken me a while to become sure of this.
+The code was related to the &quot;expansion&quot; portion of compilation, where the AST is expanded to a bigger AST. A lot of things change and get
+moved around, so it is reasonable to assume that it might not be possible to safely use it.
+I would have had to find out where the vector is originally stored; all the entry points for the code I was
+modifying, and make sure it isn't being mutated (not as hard in Rust, but I would
+still need to muck around a large codebase). And then I would have to somehow make sure that nobody tries to mutate it
+in the future. This is a task which I would not even consider trying in C++.</p>
+<p>However, I had another option here, because this was Rust. In Rust I can store a reference to the contents of the vector
+without fear of invalidation, since the compiler will prevent me from using the vector in a way that could cause unsafety.
+Such a reference is known as a <a href="http://doc.rust-lang.org/std/primitive.slice.html">slice</a>.</p>
+<p>Whilst in C++ I would have to manually go through a lot of code to be sure of safety
+(and even after all that be left with code that would be brittle to changes elsewhere
+the codebase), in Rust the compiler can do this for me!</p>
+<p>Being able to do this was important
+— this code is called quite often for a regular compile, and all those
+extra allocations could be heavy, especially given that this was a feature that would be used
+by very few.</p>
+<p>So first I started off by adding a field to the <code>FieldInfo</code> struct which was a <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R285">slice of attributes</a>. Notice that I added a lifetime specifier, <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R273">the <code>'a</code></a> to the struct definition.</p>
+<pre><code class="language-rust ignore">/// Summary of the relevant parts of a struct/enum field.
+pub struct FieldInfo&lt;'a&gt; {
+    /// ...
+    /// The attributes on the field
+    pub attrs: &amp;'a [ast::Attribute],
+}
+</code></pre>
+<p>For those of you new to Rust, a lifetime is part of the type of a reference. It's related to the scope of the reference, and generally can be treated as
+a generic parameter. So, for example, here, I have a <code>FieldInfo</code> with a lifetime parameter of <code>'a</code> where <code>'a</code> is the lifetime of the inner slice of attributes.
+If I construct this struct with slices from different scopes, its type will be different each time. Lifetimes can get automatically cast depending on their context however,
+and quite often they get elided away, so one doesn't need to specify them that much (aside from struct/enum definitions). You can find more information <a href="http://doc.rust-lang.org/nightly/book/ownership.html#lifetimes">in the Rust book</a></p>
+<p>I then updated code everywhere to pass the attributes from <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R1440">their source</a>
+to <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R1155">their destination</a> through the chained methods.</p>
+<p>An important thing to note here is that none of the lifetime specifiers you see now in the commit were added when I did this. For example, <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R1410">the return value
+of <code>create_struct_pattern</code></a> was
+<code>(P&lt;ast::Pat&gt;, Vec&lt;(Span, Option&lt;Ident&gt;, P&lt;Expr&gt;, &amp;[ast::Attribute])&gt;)</code> at this point, not <code>(P&lt;ast::Pat&gt;, Vec&lt;(Span, Option&lt;Ident&gt;, P&lt;Expr&gt;, &amp;'a [ast::Attribute])&gt;)</code>.
+You can ignore the complicated types being passed around, for now just pretend that a slice of attributes was returned.</p>
+<p>Now comes the magic. After these small changes necessary for the feature, I basically let the compiler do the rest of the work. See, at this point the code was wrong.
+I had forgotten lifetime specifiers in places where they were important, and still wasn't sure if storing a reference would in fact be possible in the first place.
+However, the compiler was smart enough to figure things out for me. It would tell me to add lifetime specifiers, and I would add them.</p>
+<p>First, the compiler asked me to add <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R297">a lifetime to the <code>FieldInfo</code> parts of <code>SubstructureFields</code></a>. So, the following:</p>
+<pre><code class="language-rust ignore">pub enum SubstructureFields&lt;'a&gt; {
+    Struct(Vec&lt;FieldInfo&gt;),
+    EnumMatching(usize, &amp;'a ast::Variant, Vec&lt;FieldInfo&gt;),
+    // ...
+}
+</code></pre>
+<p>became</p>
+<pre><code class="language-rust ignore">pub enum SubstructureFields&lt;'a&gt; {
+    Struct(Vec&lt;FieldInfo&lt;'a&gt;&gt;),
+    EnumMatching(usize, &amp;'a ast::Variant, Vec&lt;FieldInfo&lt;'a&gt;&gt;),
+    // ...
+}
+</code></pre>
+<p>This needed to happen because elision doesn't work for structs and enums,
+and besides, the compiler would need to know if the <code>&amp;ast::Variant</code> was supposed to be the same lifetime as the parameter of the <code>FieldInfo</code>s. I decided
+to just use the existing <code>'a</code> parameter, which meant that yes, the <code>&amp;ast::Variant</code> was supposed to live just as long. I could also have opted to give the <code>FieldInfo</code>s
+a different lifetime by adding a <code>'b</code> parameter, but I guessed that it would work this way too (knowing the origin of the fieldinfo and variant, and that implicit lifetime casting would
+fix most issues that cropped up). I didn't need to think this out much, though — the compiler gave me a suggestion and I could simply copy it.</p>
+<p>The next error was in <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R1463"><code>create_enum_variant_pattern()</code></a>
+and <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R1404"><code>create_struct_pattern()</code></a> as well as some other places.</p>
+<p>Here, the method had a signature of</p>
+<pre><code class="language-rust ignore">
+fn create_enum_variant_pattern(&amp;self,
+                               cx: &amp;mut ExtCtxt,
+                               enum_ident: ast::Ident,
+                               variant: &amp;ast::Variant,
+                               prefix: &amp;str,
+                               mutbl: ast::Mutability)
+-&gt; (P&lt;ast::Pat&gt;, Vec&lt;(Span, Option&lt;Ident&gt;, P&lt;Expr&gt;, &amp;[ast::Attribute])&gt;)
+</code></pre>
+<p>and I changed it to</p>
+<pre><code class="language-rust ignore">
+fn create_enum_variant_pattern&lt;'a&gt;(&amp;self,
+                               cx: &amp;mut ExtCtxt,
+                               enum_ident: ast::Ident,
+                               variant: &amp;'a ast::Variant,
+                               prefix: &amp;str,
+                               mutbl: ast::Mutability)
+-&gt; (P&lt;ast::Pat&gt;, Vec&lt;(Span, Option&lt;Ident&gt;, P&lt;Expr&gt;, &amp;'a [ast::Attribute])&gt;)
+</code></pre>
+<p>In this case, the code was uncomfortable with taking a slice of attributes out of an arbitrary <code>StructDef</code> reference and returning it. What if the <code>StructDef</code> doesn't live long enough?
+Generally the compiler internally figures out the lifetimes necessary and uses them here, but if you have too many references there's no single way to make the fix.
+In this case, the compiler suggested I add a <code>'a</code> to <code>&amp;StructDef</code> and the returned <code>&amp;[Attribute]</code>, and I did so. The <code>'a</code> lifetime was declared at <a href="https://github.com/Manishearth/rust/blob/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b/src/libsyntax/ext/deriving/generic/mod.rs#L379">the top of the impl</a>, so it was the lifetime parameter of <code>self</code><sup class="footnote-reference"><a href="where-rust-really-shines.html#2">2</a></sup>. This meant that the returned attribute of the function will
+have a lifetime tied to <code>self</code> and the input <code>StructDef</code>, and due to this it cannot outlive the inputs, which is what we wanted in the first place. In essence, I took a bit of code that was doing:</p>
+<pre><code class="language-rust ignore">fn minicreate(&amp;self, variant: &amp;ast::Variant) -&gt; &amp;[ast::Attribute] {
+    // do stuff
+    // return variant.attributes
+}
+</code></pre>
+<p>and changed it to</p>
+<pre><code class="language-rust ignore">// we are sure that the returned slice cannot outlive the variant argument
+fn minicreate&lt;'a&gt;(&amp;self, variant: &amp;'a ast::Variant) -&gt; &amp;'a [ast::Attribute] {
+    // do stuff
+    // return variant.attributes
+}
+</code></pre>
+<p>Again, I didn't need to think this out much (I'm only thinking it through now for this blog post). I followed the suggestion given to me by the compiler:</p>
+<pre><code class="language-text">error: cannot infer an appropriate lifetime for automatic coercion due to conflicting requirements
+help: consider using an explicit lifetime parameter as shown: fn create_enum_variant_pattern&lt;'a&gt;(&amp;self, cx: &amp;mut ExtCtxt, enum_ident: ast::Ident, variant: &amp;'a ast::Variant, prefix: &amp;str, mutbl: ast::Mutability) -&gt; (P&lt;ast::Pat&gt;, Vec&lt;(Span, Option&lt;Ident&gt;, P&lt;Expr&gt;, &amp;'a [ast::Attribute])&gt;)
+
+</code></pre>
+<p>There were a couple of similar errors elsewhere that were caused by tying these two lifetimes together. Since these methods were chained, updating the lifetimes of a child method
+would mean that I would have to now update the parent method which passes its arguments down to the children and returns a modification of its return value (and thus must now impose the
+same restrictions on its own signature). All of this was done by just listening to the suggestions of the compiler (which all contain a function signature to try out). In <a href="https://github.com/Manishearth/rust/commit/ede7a6dc8ff5455f9d0d39a90e6d11e9a374e93b#diff-6fa0bf762b2ef85690cce1a0fd8d5a20R890">some cases</a> I introduced a <code>'b</code> lifetime, because tying it to <code>'a</code>
+(the self lifetime parameter) was possibly too restrictive. All of this at the suggestion of the compiler.</p>
+<p>While this all seems long and complicated, in reality it wasn't. I simply added the field to the initial struct, tried compiling a couple of times to figure out which code needed updating
+to pass around the attributes, and then went through 3-4 more compilation attempts to fix the lifetimes. It didn't take long, and I didn't need to put much mental effort into it. I just
+listened to the compiler, and it worked.</p>
+<p>And now I trust completely that that code will not cause any segfaults due to attempted access of a destroyed or moved vector. And this is despite the fact that I <em>still</em> don't know
+where that particular vector is modified or destroyed — I didn't explore that far because I didn't need to! (or want to :P)</p>
+<p>And this is one place Rust really shines. It lets you do optimizations which you wouldn't dream of doing in C++. In fact, while the C++ way of looking at this problem
+would probably be to just clone and move on, most Rust programmers would think of using slices as the default, and not even consider it an &quot;optimization&quot;. And again, this wasn't
+with much cognitive overhead; I could just follow the compiler and it fixed everything for me.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Some people have pointed out that a shared pointer to the vector itself would work here too. This is correct, but a shared pointer also has a runtime overhead, and more importantly doesn't prevent iterator invalidation. I had no idea how the vector was being used elsewhere, so this was a risk I didn't want to take. Additionally, whilst a shared pointer to the vector itself is immune to the issue of the vector being moved, since this was an API, someone consuming the API might take a reference of an attribute and hold on to it long enough for it to become invalidated. This is something we can't have either -- an API consumer should not have to worry about where the pointers will invalidate.
+<sup class="footnote-reference"><a href="where-rust-really-shines.html#2">2</a></sup>: Note: This is not the lifetime of the reference <code>&amp;self</code>, which is the lifetime of the pointer (<code>&amp;'b self</code>), but the lifetime parameter of <code>self</code>, a <code>TraitDef&lt;'a&gt;</code>, which has a lifetime parameter for its child fields.</p>
+<blockquote>
+<p><a href="https://manishearth.github.io/blog/2015/05/03/where-rust-really-shines/"><em>Originally published 2015-05-03</em></a></p>
+<p><em>License: TBD</em></p>
+</blockquote>
+</div>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="understanding-over-guesswork.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="the-problem-with-shared-mutability.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="understanding-over-guesswork.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="the-problem-with-shared-mutability.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

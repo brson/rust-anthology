@@ -1,0 +1,428 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Reading Rust Function Signatures - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html" class="active"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <hr />
+<p>layout: post
+title: &quot;Reading Rust Function Signatures&quot;
+author: &quot;Andrew Hobden&quot;
+tags:</p>
+<ul>
+<li>Rust</li>
+<li>Tutorials</li>
+</ul>
+<hr />
+<p>In Rust, function signatures tell a story. Just from glancing at the signature of a function an experienced Rust user can tell much of the functions behaivor.</p>
+<p>In this article we'll explore some signatures and talk about how to read them and extract information from them. While exploring, you can find many great function signature examples in the <a href="https://doc.rust-lang.org/stable/std/">Rust API docs</a>. You can play around on the <a href="https://play.rust-lang.org/">Playpen</a>.</p>
+<p>This article assumes some knowledge of Rust, glossing over a bit of the <a href="https://doc.rust-lang.org/stable/book/README.html">book</a> should be quite sufficient if you are lacking that but have programmed before.</p>
+<p>If you're used to programming in something like Python or Javascript, this all may seem a bit foreign to you. I hope by the end of it that you're convinced this additional information is both a good thing, and that it is not something you often have in dynamically typed languages.</p>
+<p>If you're used to C++, C, or the other systemsy languages hopefully this should all seem very familiar, despite the syntax differences. Ideally by the end of your article you'll think more about your function signatures as you write them!</p>
+<a class="header" href="reading-rust-function-signatures.html#baby-steps" id="baby-steps"><h1>Baby Steps</h1></a>
+<p>Your first function definition in Rust almost definitely looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {}
+</code></pre></pre>
+<p>So since you've already most likely wrote this let's start here!</p>
+<ul>
+<li><code>fn</code>: is the syntax which tells Rust we're declaring a function.</li>
+<li><code>main</code>: is the name of the function. <code>main</code> is special because it's what the program invokes when built and run as a binary. Function names are always <code>snake_case</code> and not <code>camelCase</code>.</li>
+<li><code>()</code>: Is the arguments list. In this case, <code>main</code> accepts no arguments.</li>
+<li><code>{}</code>: Are the delimiters for the inside of a function. In this case, it's empty.</li>
+</ul>
+<p>So what would we write for a function that does nothing useful?</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn do_nothing_useful() {}
+
+#}</code></pre></pre>
+<p>Great, now you too can do nothing useful!</p>
+<a class="header" href="reading-rust-function-signatures.html#visibility" id="visibility"><h1>Visibility</h1></a>
+<p>By default, all functions are private and cannot be used outside of the module they are in. Making them usable by a different module is simple.</p>
+<pre><pre class="playpen"><code class="language-rust">mod dog {
+    fn private_function() {}
+    pub fn public_function() {}
+}
+
+// Optional to avoid `foo::`
+use dog::public_function;
+
+fn main() {
+    dog::public_function();
+    // With `use`
+    public_function();
+}
+</code></pre></pre>
+<p>Like mutability, Rust is conservative in its assumptions about things like visibility. If you try to use a private function the compiler will let you know and help point you to where you need to make the function public.</p>
+<p>If you have a function like <code>foo::bar::baz::rad()</code> in your project and want to make it usable as <code>foo::rad()</code> add <code>pub use bar::baz::rad;</code> to your <code>foo</code> module. This is called re-exporting.</p>
+<a class="header" href="reading-rust-function-signatures.html#simple-parameters" id="simple-parameters"><h1>Simple Parameters</h1></a>
+<p>No longer happy with <code>do_nothing_useful()</code> you decide to adopt a dog. Good for you! Now you have a new problem, you have to walk it and play with it!</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn walk_dog(dog_name: String) {}
+fn play_with(dog_name: String, game_name: String) {}
+
+#}</code></pre></pre>
+<p>Parameters are declared <code>variable_name: Type</code>, and are comma seperated. But c'mon! Our dog is a lot more than just a <code>String</code>! Good news, you can use your own types too.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+struct Dog;  // Let's not go overboard.
+struct Game; // Simple types in demos!
+
+fn walk_dog(dog: Dog) {}
+fn play_with(dog: Dog, game: Game) {}
+
+#}</code></pre></pre>
+<p>Great, looking better already. Let's get that awesome day started.</p>
+<pre><code class="language-rust ignore">fn main() {
+    let rover = Dog;
+    walk_dog(rover);
+
+    let fetch = Game;
+    play_with(rover, fetch); // Compiler Error!
+}
+</code></pre>
+<p>Whoa whoa! That's a perfectly good day the compiler is totally <em>ruining</em> for us! Rover is going to be super sad.</p>
+<p>Let's look at the error:</p>
+<pre><code class="language-ignore">&lt;anon&gt;:11:15: 11:20 error: use of moved value: `rover`
+&lt;anon&gt;:11     play_with(rover, fetch);
+                        ^~~~~
+&lt;anon&gt;:9:14: 9:19 note: `rover` moved here because it has type `Dog`, which is non-copyable
+&lt;anon&gt;:9     walk_dog(rover);
+                      ^~~~~
+</code></pre>
+<p>Here the compiler is telling us that <code>rover</code> was <em>moved</em> when we passed it into <code>walk_dog()</code>. That's because <code>fn walk_dog(dog: Dog) {}</code> accepts a <code>Dog</code> value and we haven't tell the compiler they are copyable! Values with <code>Copy</code> are implictly copied when passed to functions. You can make something <code>Copy</code> by adding <code>#[derive(Copy)]</code> above the declaration.</p>
+<p><strong>We're going to keep <code>Dog</code> not copyable because, gosh darnit, you can't copy dogs.</strong> So how do we fix this?</p>
+<p>We could clone <code>rover</code>. But our <code>Dog</code> struct isn't <code>Clone</code> either! <code>Clone</code> means we can explicitly make a copy of an object. You can make something <code>Clone</code> just like you did as <code>Copy</code>. To clone our dog you can do <code>rover.clone()</code></p>
+<p>But really neither of those possible solutions solved the real problem: <em>We want to walk and play with the same dog!</em></p>
+<a class="header" href="reading-rust-function-signatures.html#borrowing" id="borrowing"><h1>Borrowing</h1></a>
+<blockquote>
+<p>Can I borrow your dog?</p>
+</blockquote>
+<p>Instead of moving our <code>Dog</code> into the <code>walk_dog()</code> function we really just want to <em>lend</em> the function our <code>Dog</code>. When you walk your dog it (generally) ends up coming back to the house with you, right?</p>
+<p>Rust uses <code>&amp;</code> to symbolize a borrow. Borrowing something tells the compiler that when the function is done the ownership of the value returns back to the caller.</p>
+<pre><code class="language-rust ignore">fn walk_dog(dog: &amp;Dog) {}
+fn play_with(dog: &amp;Dog, game: Game) {}
+</code></pre>
+<p>There are immutable borrows as well as mutable borrows (<code>&amp;mut</code>). You can have an immutable borrow passed to any number of things at once, and a mutable borrow only passed to one thing at a time. This provides data safety.</p>
+<p>So our new borrowing functions don't really cut it, do they? We can't even mutate the <code>Dog</code>! Let's try anyways to see the error message.</p>
+<pre><code class="language-rust ignore">struct Dog {
+    walked: bool
+}
+
+fn walk_dog(dog: &amp;Dog) {
+    dog.walked = true;
+}
+
+fn main() {
+    let rover = Dog { walked: false };
+    walk_dog(&amp;rover);
+    assert_eq!(rover.walked, true);
+}
+</code></pre>
+<p>As we expected:</p>
+<pre><code class="language-ignore">&lt;anon&gt;:6:5: 6:22 error: cannot assign to immutable field `dog.walked`
+&lt;anon&gt;:6     dog.walked = true;
+             ^~~~~~~~~~~~~~~~~
+error: aborting due to previous error
+</code></pre>
+<p>Changing the function signature to <code>fn walk_dog(dog: &amp;mut Dog) {}</code> and updating our <code>main()</code> we can solve this.</p>
+<pre><code class="language-rust ignore">fn main() {
+    let mut rover = Dog { walked: false };
+    walk_dog(&amp;mut rover);
+    assert_eq!(rover.walked, true);
+}
+</code></pre>
+<p>As you can see, the function signature tells the programmer <em>if a value is mutable</em> and <em>if the value is consumed or referenced</em>.</p>
+<a class="header" href="reading-rust-function-signatures.html#returning" id="returning"><h1>Returning</h1></a>
+<p>Let's revisit exactly <em>how</em> we get Rover, because thats how we can explore return types! Let's say we want a function <code>adopt_dog()</code> which takes a name and gives us a <code>Dog</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">struct Dog {
+    name: String,
+    walked: bool,
+}
+
+fn adopt_dog(name: String) -&gt; Dog {
+    Dog { name: name, walked: false }
+}
+
+fn main() {
+    let rover = adopt_dog(String::from(&quot;Rover&quot;));
+    assert_eq!(rover.name, &quot;Rover&quot;);
+}
+</code></pre></pre>
+<p>So the <code>-&gt; Dog</code> part of the function signature tells us that the function returns a <code>Dog</code>. Note that the <code>name</code> is <em>moved</em> in and given to the dog, not copied or cloned.</p>
+<a class="header" href="reading-rust-function-signatures.html#inside-traits" id="inside-traits"><h1>Inside Traits</h1></a>
+<p>If you're implementing functions in a trait you also have access the following two tools:</p>
+<ul>
+<li>The <code>Self</code> return type which represents the current type.</li>
+<li>The <code>self</code> parameter which specifies the borrowing/moving/mutability of the structure instance. In <code>walk()</code> below we take a mutable borrow, a bare <code>self</code> moves the value.</li>
+</ul>
+<p>An example:</p>
+<pre><code class="language-rust ignore">// ... `Dog` struct from before.
+impl Dog {
+    pub fn adopt(name: String) -&gt; Self {
+        Dog { name: name, walked: false }
+    }
+    pub fn walk(&amp;mut self) {
+        self.walked = true
+    }
+}
+
+fn main() {
+    let mut rover = Dog::adopt(String::from(&quot;Rover&quot;));
+    assert_eq!(rover.name, &quot;Rover&quot;);
+    rover.walk();
+    assert_eq!(rover.walked, true);
+}
+</code></pre>
+<a class="header" href="reading-rust-function-signatures.html#generics" id="generics"><h1>Generics</h1></a>
+<p>Let's face it, there are a lot of different kinds of dogs! But moreso, there are a lot of types of animals! Some of these we might want to walk too, like our <code>Bear</code>.</p>
+<p>Generics let us do this. We can have a <code>Dog</code> and <code>Bear</code> struct that implement the <code>Walk</code> trait, then have a <code>walk_pet()</code> function accept any <code>Walk</code> traited structure!</p>
+<p>Generics are specified to functions in between the name and the parameters using sharp brackets. The important thing to note about generics is when you're accepting a generic <em>you may only use the functions from the constraints</em>. This means that if you pass a <code>Read</code> to a function that wants <code>Write</code>, it still can't <code>Read</code> in it unless the constraints include it.</p>
+<pre><pre class="playpen"><code class="language-rust">struct Dog { walked: bool, }
+struct Bear { walked: bool, }
+
+trait Walk {
+    fn walk(&amp;mut self);
+}
+impl Walk for Dog {
+    fn walk(&amp;mut self) {
+        self.walked = true
+    }
+}
+impl Walk for Bear {
+    fn walk(&amp;mut self) {
+        self.walked = true
+    }
+}
+
+fn walk_pet&lt;W: Walk&gt;(pet: &amp;mut W) {
+    // Try setting `pet.walked` here!
+    // You can't!
+    pet.walk();
+}
+
+fn walk_pet_2(pet: &amp;mut Walk) {
+    // Try setting `pet.walked` here!
+    // You can't!
+    pet.walk();
+}
+
+fn main() {
+    let mut rover = Dog { walked: false, };
+    walk_pet(&amp;mut rover);
+    assert_eq!(rover.walked, true);
+}
+</code></pre></pre>
+<p>You can also use a different <code>where</code> syntax as function signatures with complex generics can get rather long.</p>
+<pre><code class="language-rust ignore">fn walk_pet&lt;W&gt;(pet: &amp;mut W)
+where W: Walk {
+    pet.walk();
+}
+</code></pre>
+<p>If you have multiple generics you can comma seperate them in both cases. If you'd like more than one trait contraint you can use <code>where W: Walk + Read</code> or <code>&lt;W: Walk + Read&gt;</code>.</p>
+<pre><code class="language-rust ignore">fn stuff&lt;R, W&gt;(r: &amp;R, w: &amp;mut W)
+where W: Write, R: Read + Clone {}
+</code></pre>
+<p>Look at all of the information you can derive from that function signature! It's not helpfully named but you can still tell <em>almost for sure</em> what it does!</p>
+<p>There are also these crazy things called <strong>Associated Types</strong> which are used in stuff like <code>Iterator</code>. When being written in a signature you want to use something like <code>Iterator&lt;Item=Dog&gt;</code> to say an iterator of <code>Dog</code>s.</p>
+<a class="header" href="reading-rust-function-signatures.html#passing-functions" id="passing-functions"><h1>Passing Functions</h1></a>
+<p>Sometimes it's desirable to pass functions into other functions. In Rust, accepting a function as an argument is fairly straightforward. Functions have traits and they are passed like generics!</p>
+<blockquote>
+<p>You should definitely use the <code>where</code> syntax here.</p>
+</blockquote>
+<pre><code class="language-rust ignore">struct Dog {
+    walked: bool
+}
+
+fn do_with&lt;F&gt;(dog: &amp;mut Dog, action: F)
+where F: Fn(&amp;mut Dog) {
+    action(dog);
+}
+
+fn walk(dog: &amp;mut Dog) {
+    dog.walked = true;
+}
+
+fn main() {
+    let mut rover = Dog { walked: false, };
+    // Fn
+    do_with(&amp;mut rover, walk);
+    // Closure
+    do_with(&amp;mut rover, |dog| dog.walked = true);
+}
+</code></pre>
+<p>Functions in Rust implement traits which determine where (and how) they are passed:</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/core/ops/trait.FnOnce.html"><code>FnOnce</code></a> - Takes a by-value reciever.</li>
+<li><a href="https://doc.rust-lang.org/stable/core/ops/trait.FnMut.html"><code>FnMut</code></a> - Takes a mutable reciever.</li>
+<li><a href="https://doc.rust-lang.org/stable/core/ops/trait.Fn.html"><code>Fn</code></a> - Takes a immutable reciever.</li>
+</ul>
+<p>A particular <a href="http://stackoverflow.com/a/30232500/2084424">Stack Overflow answer</a> summises the differences very well:</p>
+<blockquote>
+<p>A closure <code>|...| ...</code> will automatically implement as many of those as it can.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>All closures implement <code>FnOnce</code>: a closure that can't be called once doesn't deserve the name. Note that if a closure only implements <code>FnOnce</code>, it can be called only once.</li>
+<li>Closures that don't move out of their captures implement <code>FnMut</code>, allowing them to be called more than once (if there is unaliased access to the function object).</li>
+<li>Closures that don't need unique/mutable access to their captures implement <code>Fn</code>, allowing them to be called essentially everywhere.</li>
+</ul>
+</blockquote>
+<p>Essentially, the differences between the different types is how they interact with their environment. In my experience, you only <em>really</em> need to worry about the distinction for Closures, which may capture variables in scope (in our above example, the <code>main()</code> function).</p>
+<p>Have no fear, though! The compiler messages when one type is provided when another are needed are very helpful!</p>
+<a class="header" href="reading-rust-function-signatures.html#lifetimes" id="lifetimes"><h1>Lifetimes</h1></a>
+<p>So, you're probably feeling pretty good about yourself right now. I mean, look at that scrollbar, it's almost to the bottom of the page! You'll be a Rust function signature <strong>master</strong> in no time!</p>
+<p>Let's finish up with a bit of talk about lifetimes because you'll eventually come across them and likely get quite confused.</p>
+<blockquote>
+<p>Let me be honest with you upfront here. Lifetimes are an arcane art to me. I used them a bit back in 0.7-0.10 and then I haven't really had to use them since. If you know really anything at all about them you're much more qualified to write this section than I am.</p>
+</blockquote>
+<p>Modern Rust has a really robust and effective <em>lifetime ellision</em> which removes the vast majority of lifetime gymnastics we used to need to concern ourselves with. But <em>when</em> you do things can start to untangle.</p>
+<p>So, if you start dealing with a lot of lifetimes, your first step should really be to <strong>sit back and think about it</strong>. Unless your code is quite complex it's quite likely you won't need to deal with lifetimes. If you're bumping into lifetimes in a simple example your notion of the problem is probably <strong>incorrect</strong>.</p>
+<p>Here is a function with lifetimes from <a href="https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.as_slice"><code>Option</code>'s implementation</a>.</p>
+<pre><code class="language-rust ignore">as_slice&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a [T]
+</code></pre>
+<p>Lifetimes are denoted by the tick (<code>'</code>) and given a name. In this case, <code>'a</code> but they can also be things like <code>'burrito</code> if you prefer inside jokes. Essentially what this is saying is:</p>
+<blockquote>
+<p>The lifetime of the <code>Option&lt;T&gt;</code> this is called upon is the same as the lifetime of the returned <code>[T]</code></p>
+</blockquote>
+<p>Great! I'm really not qualified to write anymore about lifetimes but if you have anything to add let me know and I'll credit you for sure.</p>
+<a class="header" href="reading-rust-function-signatures.html#challenge-time" id="challenge-time"><h1>Challenge Time</h1></a>
+<p>Below, you'll find a set of functions pulled from the standard library along with links to their documentation. Can you tell from their function signature what they do? (For added fun, I've removed the function name!)</p>
+<pre><code class="language-rust ignore">// In `File`
+fn name&lt;P: AsRef&lt;Path&gt;&gt;(path: P) -&gt; Result&lt;File&gt;
+</code></pre>
+<p><a href="https://doc.rust-lang.org/stable/std/fs/struct.File.html#method.create">Source</a></p>
+<pre><code class="language-rust ignore">// In `Option&lt;T&gt;`
+fn name&lt;E, T&gt;(self, err: E) -&gt; Result&lt;T, E&gt;
+</code></pre>
+<p><a href="https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.ok_or">Source</a></p>
+<pre><code class="language-rust ignore">// In `Iterator&lt;Item=T&gt;`
+fn name&lt;B: FromIterator&lt;Self::Item&gt;&gt;(self) -&gt; B
+where Self: Sized
+</code></pre>
+<p><a href="https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.collect">Source</a></p>
+<pre><code class="language-rust ignore">// In `Iterator&lt;Item=T&gt;`
+fn name&lt;B, F&gt;(self, init: B, f: F) -&gt; B
+where Self: Sized, F: FnMut(B, Self::Item) -&gt; B
+</code></pre>
+<p><a href="https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.fold">Source</a></p>
+<pre><code class="language-rust ignore">// In `Result&lt;T,E&gt;`
+fn name&lt;F, O: FnOnce(E) -&gt; F&gt;(self, op: O) -&gt; Result&lt;T, F&gt;
+</code></pre>
+<p><a href="https://doc.rust-lang.org/stable/core/result/enum.Result.html#method.map_err">Source</a></p>
+<p>I hope that went <strong>fantastically</strong>, I was just over here cheering you on!</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="enums-match-mutation-and-moves.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="finding-closure-in-rust.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="enums-match-mutation-and-moves.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="finding-closure-in-rust.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

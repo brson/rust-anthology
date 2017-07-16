@@ -1,0 +1,391 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>What Does Rust's `unsafe` Mean - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html" class="active"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <hr />
+<p>layout: default
+title: What does Rust's “unsafe” mean?
+description: &gt;
+Exploring Rust's escape hatch for writing low-level code that the
+powerful type system of Rust cannot guarantee to be safe.
+comments:
+r_rust: &quot;http://www.reddit.com/r/rust/comments/2bhwgc/what_does_rusts_unsafe_mean/&quot;
+r_programming: &quot;http://www.reddit.com/r/programming/comments/2bhwhl/what_does_rusts_unsafe_mean/&quot;
+# hn: &quot;https://news.ycombinator.com/item?id=8288572&quot;</p>
+<hr />
+<p><a href="http://rust-lang.org/">Rust</a> is an in-development<sup class="footnote-reference"><a href="what-does-rusts-unsafe-mean.html#version">1</a></sup> systems
+programming language with a strong focus on no-overhead memory
+safety. This is achieved through a powerful type system (with
+similarities to Haskell), and careful tracking of ownership and
+pointers, guaranteeing safety. However, this is too restrictive for a
+low-level systems language, an escape hatch is occasionally
+required. Enter the <code>unsafe</code> keyword.</p>
+<div class="footnote-definition" id="version"><sup class="footnote-definition-label">1</sup>
+<p>The code in this post compiles with <code>rustc 0.12.0-pre-nightly (aa0e35bc6 2014-07-22 00:26:21 +0000)</code>.</p>
+<a class="header" href="what-does-rusts-unsafe-mean.html#poking-holes-in-memory-safety" id="poking-holes-in-memory-safety"><h2>Poking holes in memory safety</h2></a>
+<p>Rust aims to be memory safe, so that, by default, code cannot crash
+(or be exploited) due to dangling pointers or iterator
+invalidation. However, there are things that cannot fit into the type
+system, for example, it is not possible to get the raw interactions
+with the operating system and system libraries (like memory allocators
+and thread spawning) to be truly safe. Detailed human knowledge about
+how to use them safely is required to be encoded at some point, and
+this is not easily checkable by a compiler: mistakes can be made.</p>
+<p>Other memory safe languages (e.g. managed ones like Python or Haskell)
+have all this knowledge encoded in the implementations of their
+underlying virtual machines/runtime systems, usually written in
+C. Rust doesn't have a heavy-weight VM or runtime, but still needs to
+provide (preferably safe) interfaces in some manner.</p>
+<p>Rust fills these holes with the <code>unsafe</code> keyword, which opts in to
+possibly dangerous behaviour; like calling into the operating system
+and external libraries via
+<a href="http://doc.rust-lang.org/master/guide-ffi.html">the foreign function interface (FFI)</a>,
+or handling possibly-invalid machine pointers directly.</p>
+<p>Rust uses <code>unsafe</code> to build all the abstractions seen in the standard
+library: the vast majority of it is written in Rust, including
+fundamental types like
+<a href="http://doc.rust-lang.org/master/std/rc/struct.Rc.html">the reference counted <code>Rc</code></a>,
+<a href="http://doc.rust-lang.org/master/std/vec/struct.Vec.html">the dynamic vector <code>Vec</code></a>,
+and
+<a href="http://doc.rust-lang.org/master/std/collections/hashmap/struct.HashMap.html"><code>HashMap</code></a>,
+with only
+<a href="https://github.com/rust-lang/rust/tree/82ec1aef293ddc5c6373bd7f5ec323fafbdf7901/src/rt">a few small C shims</a>
+and some external non-Rust libraries like jemalloc and libuv.</p>
+<a class="header" href="what-does-rusts-unsafe-mean.html#unsafe" id="unsafe"><h2><code>unsafe</code></h2></a>
+<p>There are two ways in which one can opt-in to these possibly dangerous
+behaviours: with an <code>unsafe</code> block, or with an <code>unsafe</code> function.</p>
+<p>{% highlight rust linenos %}
+// calling some C functions imported via FFI:</p>
+<p>unsafe fn foo() {
+some_c_function();
+}
+fn bar() {
+unsafe {
+another_c_function();
+}
+}
+fn baz() {
+// illegal, not inside an <code>unsafe</code> context
+// yet_another_c_function();
+}
+{% endhighlight %}</p>
+<p>Being inside an <code>unsafe</code> context allows one to (not necessarily
+complete):</p>
+<ol>
+<li>call functions marked <code>unsafe</code> (this includes FFI functions)</li>
+<li>dereference raw pointers (the <code>*const</code> and <code>*mut</code> types), which can
+possibly be <code>NULL</code>, or otherwise invalid</li>
+<li>access a mutable global variable</li>
+<li>use inline assembly</li>
+</ol>
+<p>All of these can easily cause large problems. For example, a shared
+reference <code>&amp;T</code> is a machine pointer, but it <em>must</em> always point to a
+valid value of type <code>T</code>; all four of the above can cause this to be
+violated:</p>
+<ol>
+<li>
+<p>There is an <code>unsafe</code> function
+<a href="http://doc.rust-lang.org/master/std/mem/fn.transmute.html"><code>std::mem::transmute</code></a>
+which takes the bytes of its argument and pretends they are of any
+type one wants, thus, one can create an invalid <code>&amp;</code> pointer by
+reinterpreting an integer: <code>transmute::&lt;uint, &amp;Vec&lt;int&gt;&gt;(0)</code>.</p>
+</li>
+<li>
+<p>A raw pointer <code>p: *const T</code> can legally be <code>NULL</code>. The
+&quot;rereferencing&quot; operation <code>&amp;*p</code> creates a reference <code>&amp;T</code> pointing to
+<code>p</code>s data, a no-op at runtime, since <code>*const T</code> and <code>&amp;T</code> are both
+just a single pointer under the hood. If <code>p</code> is <code>NULL</code> this allows
+one to create a <code>NULL</code> <code>&amp;T</code>: invalid!</p>
+</li>
+<li>
+<p>If one has <code>static mut X: Option&lt;i64&gt; = Some(1234);</code>, one can use
+pattern matching to get a reference <code>r: &amp;i64</code> pointing to the <code>1234</code>
+integer, but another thread can overwrite <code>X</code> with <code>None</code>, leaving
+<code>r</code> dangling.</p>
+</li>
+<li>
+<p>Inline assembly can set arbitrary registers to arbitrary values,
+including setting a register meant to be holding a <code>&amp;T</code> to zero.</p>
+</li>
+</ol>
+<a class="header" href="what-does-rusts-unsafe-mean.html#what-does-unsafe-really-mean" id="what-does-unsafe-really-mean"><h2>What does <code>unsafe</code> really mean?</h2></a>
+<p>An <code>unsafe</code> context is the programmer telling the compiler that the
+code is guaranteed to be safe due to invariants impossible to express
+in the type system, and that it satisfies
+<a href="http://doc.rust-lang.org/nightly/reference.html#behavior-considered-undefined">the invariants that Rust itself imposes</a>.</p>
+<p>These invariants are assumed to never be broken, even inside <code>unsafe</code>
+code blocks, and the compiler compiles and optimises with this
+assumption. Thus, breaking any of those invariants is
+<a href="https://en.wikipedia.org/wiki/Undefined_behaviour">undefined behaviour</a><sup class="footnote-reference"><a href="what-does-rusts-unsafe-mean.html#ub-llvm">2</a></sup>
+and can leave a program doing &quot;anything&quot;, even making
+<a href="http://www.catb.org/jargon/html/N/nasal-demons.html">demons fly out your nose</a>.</p>
+</div>
+<div class="footnote-definition" id="ub-llvm"><sup class="footnote-definition-label">2</sup>
+<p><a href="http://blog.llvm.org/2011/05/what-every-c-programmer-should-know.html">&quot;What Every C Programmer Should Know About Undefined Behaviour&quot;</a>
+is a series of articles highlighting how insidious undefined behaviour
+can be, leading to subtly (or not so subtly) broken programs.</p>
+<p>That is, an <code>unsafe</code> context is not a free pass to mutate anything and
+everything, nor is it a free pass to mangle pointers and alias
+references: all the normal rules of Rust still apply, the compiler is
+just giving the programmer more power, at the expense of leaving it up
+to the programmer to ensure everything is safe.</p>
+<p>A non-<code>unsafe</code> function using <code>unsafe</code> internally <em>should</em> be
+implemented to be safe to call; that is, there is no circumstance or
+set of arguments that can make the function violate
+<a href="http://doc.rust-lang.org/nightly/reference.html#behavior-considered-undefined">any invariants</a>. If
+there are such circumstances, it should be marked <code>unsafe</code>.</p>
+<p>This rule is most important for public, exported functions; private
+functions are guaranteed to only be called in a limited set of
+configurations (since all calls are in the crate/module in which it is
+defined), so the author has more flexibility about what sort of safety
+guarantees they give. However, marking possibly-dangerous things
+<code>unsafe</code> helps the compiler help the programmer do the right thing, so
+is encouraged even for private items.</p>
+</div>
+<a class="header" href="what-does-rusts-unsafe-mean.html#case-study-vec" id="case-study-vec"><h3>Case study: <code>Vec</code></h3></a>
+<p>The <code>Vec&lt;T&gt;</code> type is
+<a href="https://github.com/rust-lang/rust/blob/82ec1aef293ddc5c6373bd7f5ec323fafbdf7901/src/libcollections/vec.rs#L55-L59">defined</a>
+as:</p>
+<p>{% highlight rust linenos %}
+pub struct Vec<T> {
+len: uint,
+cap: uint,
+ptr: *mut T
+}
+{% endhighlight %}</p>
+<p>There are (at least) two invariants here:</p>
+<ol>
+<li><code>ptr</code> holds an allocation with enough space for <code>cap</code> values of type <code>T</code></li>
+<li>That allocation holds <code>len</code> valid values of type <code>T</code> (i.e. the
+first <code>len</code> out of <code>cap</code> of the <code>T</code>s are valid, implying <code>len &lt;= cap</code>)</li>
+</ol>
+<p>It's not feasible to express these in Rust's type system, so they are
+guaranteed by a careful implementation. The implementation is then
+forced to use <code>unsafe</code> to assuage the compiler's doubts about certain
+operations. The compiler does not and cannot understand the invariants
+stated above, and so cannot be sure that
+<a href="https://github.com/rust-lang/rust/blob/82ec1aef293ddc5c6373bd7f5ec323fafbdf7901/src/libcollections/vec.rs#L1430">creating a slice view into the vector</a>
+is safe. It is implemented like so:</p>
+<p>{% highlight rust linenos %}
+fn as_slice&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a [T] {
+unsafe { mem::transmute(Slice { data: self.as_ptr(), len: self.len }) }
+}
+{% endhighlight %}</p>
+<p>And you can see that it could easily be unsafe e.g. if one
+accidentally wrote <code>self.cap</code> instead of <code>self.len</code>, the resulting
+slice would be too long and the last elements of it would be
+uninitialised data. The compiler can't verify that this is correct,
+and so assumes the worst, disallowing it without the explicit opt-in.</p>
+<p>Another thing to note is these <code>Vec</code> invariants are required to always
+hold or else <code>Vec</code> will be allowing incorrect behaviour to happen via
+the safe methods it exposes (e.g. if someone could increase <code>len</code>
+without initialising the elements appropriately, the <code>as_slice</code> method
+above would be broken).</p>
+<p>Unfortunately, it's not possible to get the Rust compiler to directly
+enforce them, so the <code>Vec</code> API has to be careful to guarantee that
+they can't be violated; part of this is keeping the fields private, so
+they cannot be directly changed, another part is being careful to mark
+the <code>unsafe</code> parts of the API as <code>unsafe</code>, e.g.
+<a href="http://doc.rust-lang.org/master/collections/vec/struct.Vec.html#method.set_len">the <code>set_len</code> method</a>
+can directly change the <code>len</code> field.</p>
+<a class="header" href="what-does-rusts-unsafe-mean.html#case-study-malloc" id="case-study-malloc"><h3>Case study: <code>malloc</code></h3></a>
+<p>The C function <code>malloc</code> is described by my man page as the following:</p>
+<blockquote>
+<p>The <code>malloc()</code> function allocates size bytes and returns a pointer to the
+allocated memory.  The memory is not initialized.  If size is  0,  then
+<code>malloc()</code>  returns either <code>NULL</code>, or a unique pointer value that can later
+be successfully passed to <code>free()</code>.</p>
+<p>The <code>malloc()</code> and <code>calloc()</code> functions return a pointer to  the  allocated
+memory,  which  is  suitably  aligned for any built-in type.  On error,
+these functions return <code>NULL</code>.  [...].</p>
+</blockquote>
+<p>The <code>libc</code> crate predefines most of the common symbols from the <code>libc</code>
+on various platforms, including <code>libc::malloc</code>. Let's write a safe
+program that creates memory for, stores and prints an 8-byte <code>i64</code>
+integer, carefully justifying why we know more than the compiler, and
+thus why each <code>unsafe</code> is safe (in a perfect world all <code>unsafe</code> blocks
+would be justified/proved correct).</p>
+<pre><code class="language-rust ignore">extern crate libc;
+use std::ptr;
+
+fn main() {
+    let pointer: *mut i64 = unsafe {
+        // rustc doesn't know what `malloc` does, and so doesn't know
+        // that calling it with argument 8 is always safe; but we do,
+        // so we override the compiler's concern with
+        // `unsafe`. (`malloc` returns a `*mut libc::c_void` so we
+        // need to cast it to the type we want.)
+        libc::malloc(8) as *mut i64
+    };
+
+    // we know that the only failure condition is the pointer being
+    // NULL, in any other circumstance the pointer points to a valid
+    // memory allocation of at least 8 bytes.
+    if pointer.is_null() {
+        println!(&quot;could not allocate&quot;);
+    } else {
+        // here, the only thing missing is initialisation, the memory
+        // is valid but uninitialised, so lets fix that. Since it is
+        // not initialised, we have to be careful to avoid running
+        // destructors on the old memory; via `std::ptr::write`.
+        unsafe {
+            // allocation is valid, and the memory is uninitialised,
+            // so this is safe and correct.
+            ptr::write(pointer, 1234i64);
+        }
+
+        // now `pointer` is looking at initialised, valid memory, so
+        // it is valid to read from it, and to obtain a reference to
+        // it.
+        let data: &amp;i64 = unsafe { &amp;*pointer };
+        println!(&quot;The data is {}&quot;, *data);
+        // prints: The data is 1234
+    }
+
+    // (leaking memory is not `unsafe`.)
+}
+</code></pre>
+<p>(Keen eyes will note that <code>i64</code> doesn't have a destructor and so the
+<a href="http://doc.rust-lang.org/master/std/ptr/fn.write.html"><code>ptr::write</code></a>
+call isn't strictly required, but it's good practice.)</p>
+<a class="header" href="what-does-rusts-unsafe-mean.html#faq-why-isnt-unsafe-viral" id="faq-why-isnt-unsafe-viral"><h2>FAQ: Why isn't <code>unsafe</code> viral?</h2></a>
+<p>One <em>might</em> expect a function containing an <code>unsafe</code> block to be
+<code>unsafe</code> to call, that is, <code>unsafe</code>ty infects everything it touches,
+similar to how Haskell forces one to mark all impure calculations with
+the <code>IO</code> type.</p>
+<p>However, this is not the case, <code>unsafe</code> is just an implementation
+detail; if a safe function uses <code>unsafe</code> internally, it just means the
+author has been forced to step around the type system, but still
+exposes a safe interface.</p>
+<p>More pragmatically, if <code>unsafe</code> were viral, every Rust program ever
+would be entirely <code>unsafe</code>, since the whole standard library is
+written in Rust, built on top of <code>unsafe</code> internals.</p>
+<a class="header" href="what-does-rusts-unsafe-mean.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
+<p>The <code>unsafe</code> marker is a way to step around Rust's type system; by
+telling <code>rustc</code> that there are external conditions/invariants that
+guarantee correctness: the compiler steps back and locally leaves the
+programmer to verify that
+<a href="http://doc.rust-lang.org/reference.html#behavior-considered-undefined">various properties</a>
+hold. This allows Rust to write very low-level code like C, but still
+be memory safe by default, by forcing programmers to opt-in to the
+risky behaviour.</p>
+<p>The
+<a href="http://doc.rust-lang.org/master/guide-unsafe.html">&quot;Writing Safe Unsafe and Low-Level Code&quot;</a>
+provides guidance and tips about using <code>unsafe</code> correctly.</p>
+<p>{% include comments.html c=page.comments %}</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="effectively-using-iterators.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="memory-leaks-are-memory-safe.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="effectively-using-iterators.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="memory-leaks-are-memory-safe.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

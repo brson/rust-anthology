@@ -1,0 +1,1082 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>All About Trait Objects - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html" class="active"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="all-about-trait-objects.html#all-about-trait-objects" id="all-about-trait-objects"><h1>All About Trait Objects</h1></a>
+<p>One of the most powerful parts of
+<a href="http://rust-lang.org">the Rust programming language</a><sup class="footnote-reference"><a href="all-about-trait-objects.html#version">1</a></sup> is the
+<a href="http://doc.rust-lang.org/nightly/book/traits.html">trait system</a>. They form the basis of the generic system and
+polymorphic functions and types. There's an interesting use of traits,
+as so-called &quot;trait objects&quot;, that allows for dynamic polymorphism and
+heterogeneous uses of types, which I'm going to look at in more detail
+over a short series of posts.</p>
+<p><em>Update 2015-02-19</em>: A lot of this document has been copied into
+<a href="http://doc.rust-lang.org/nightly/book/trait-objects.html">the main book</a>, with improvements and updates.</p>
+<div class="footnote-definition" id="version"><sup class="footnote-definition-label">1</sup>
+<p>It's generally good practice for Rust posts to mention
+their version due to language instability, but this post
+and the series won't have much real runnable code and the
+concepts described are pretty stable... but habits die
+hard: <code>rustc 1.0.0-nightly (44a287e6e 2015-01-08 17:03:40 -0800)</code>.</p>
+<p>which should also be the 1.0.0-alpha release (speaking of which,
+the language instability should be starting to settle down now).</p>
+<a class="header" href="all-about-trait-objects.html#part-1-peeking-inside-trait-objects" id="part-1-peeking-inside-trait-objects"><h2>Part 1: Peeking Inside Trait Objects</h2></a>
+<p>This post will set the scene, with an introduction to the internals of
+a trait object; the remaining posts will look at the <code>Sized</code> trait and
+&quot;object safety&quot; in detail (a lot of people have encountered trouble
+with somewhat abstruse compiler errors about this recently).</p>
+</div>
+<a class="header" href="all-about-trait-objects.html#traits" id="traits"><h3>Traits</h3></a>
+<p>A simple example of a <code>trait</code> is this <code>Foo</code>. It has one method that is
+expected to return a <code>String</code>, and, in the real world, there would be
+some expectation about what the string would mean, but this is just a
+blog, so you're free to make up your own favourite meaning.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Foo {
+    fn method(&amp;self) -&gt; String;
+}
+
+#}</code></pre></pre>
+<p>This can then be implemented for certain types, stating that these
+types satisfy whatever behaviours the trait is trying to summarise and
+allow polymorphism over. For example, bytes and strings are <code>Foo</code>,
+apparently:</p>
+<pre><code class="language-rust ignore">impl Foo for u8 {
+    fn method(&amp;self) -&gt; String { format!(&quot;u8: {}&quot;, *self) }
+}
+impl Foo for String {
+    fn method(&amp;self) -&gt; String { format!(&quot;string: {}&quot;, *self) }
+}
+</code></pre>
+<p>There's two basic ways to use traits to be polymorphic:</p>
+<p>The first and most common are generic functions like <code>fn func&lt;T: Foo&gt;(x: &amp;T)</code>. These are implemented via monomorphisation, the compiler
+creates a specialised version of the generic function for every type
+used with it. This has some upsides—static dispatching of any
+method calls<sup class="footnote-reference"><a href="all-about-trait-objects.html#upsides">2</a></sup>, allowing for inlining and hence usually higher
+performance—and some downsides—causing code bloat due to
+many copies of the same function existing in the binary, one for each
+type<sup class="footnote-reference"><a href="all-about-trait-objects.html#one-per-type">3</a></sup>.</p>
+<p>Fortunately, there's second option if that trade-off is inappropriate,
+or if being required to know every type everywhere is impossible or
+undesirable.</p>
+<div class="footnote-definition" id="upsides"><sup class="footnote-definition-label">2</sup>
+<p>Static dispatching isn't <em>guaranteed</em> to be an upside:
+compilers aren't perfect and may &quot;optimise&quot; code to become
+slower. For example, functions inlined too eagerly will
+bloating the instruction cache (cache rules everything
+around us). This is part of the reason that <code>#[inline]</code>
+and <code>#[inline(always)]</code> that should be used carefully, and
+one reason why using a trait object—with its dynamic
+dispatch—is sometimes more efficient.</p>
+<p>However, the common case is that it is more efficient to use static
+dispatch, and one can always have a thin statically-dispatched wrapper
+function that does a dynamic, but not vice versa, meaning static calls
+are more flexible. The standard library tries to be statically
+dispatched where possible for this reason.</p>
+</div>
+<div class="footnote-definition" id="one-per-type"><sup class="footnote-definition-label">3</sup>
+<p>There's no guarantee that there will actually be a
+copy of the function for each type that implements
+the trait, or even for each type that is used with
+the function, since the compiler is free to combine
+copies if it can tell that sharing the code would not
+change semantics. But, in general, this optimisation
+doesn't trigger.</p>
+<a class="header" href="all-about-trait-objects.html#trait-objects" id="trait-objects"><h3>Trait objects</h3></a>
+<p>Trait objects, like <code>&amp;Foo</code> or <code>Box&lt;Foo&gt;</code>, are normal values that store
+a value of <em>any</em> type that implements the given trait, where the
+precise type can only be known at runtime. The methods of the trait
+can be called on a trait object via a special record of function
+pointers (created and managed by the compiler).</p>
+<p>A function that takes a trait object—say <code>fn func(x: &amp;Foo)</code>—is not
+specialised to each of the types that implements <code>Foo</code>: only one copy
+is generated, often (but not always) resulting in less code
+bloat. However, this comes at the cost of requiring slower virtual
+function calls, and effectively inhibiting any chance of inlining and
+related optimisations from occurring.</p>
+<p>Trait objects are both simple and complicated: their core
+representation and layout is quite straight-forward, but there are
+some curly error messages and surprising behaviours to discover.</p>
+<a class="header" href="all-about-trait-objects.html#obtaining-a-trait-object" id="obtaining-a-trait-object"><h3>Obtaining a trait object</h3></a>
+<p>There's two similar ways to get a trait object value: casts and
+coercions. If <code>T</code> is a type that implements a trait <code>Foo</code> (e.g. <code>u8</code>
+for the <code>Foo</code> above), then the two ways to get a <code>Foo</code> trait object
+out of a pointer to <code>T</code> look like:</p>
+<pre><code class="language-rust ignore">let ref_to_t: &amp;T = ...;
+
+// `as` keyword for casting
+let cast = ref_to_t as &amp;Foo;
+
+// using a `&amp;T` in a place that has a known type of `&amp;Foo` will implicitly coerce:
+let coerce: &amp;Foo = ref_to_t;
+
+fn also_coerce(_unused: &amp;Foo) {}
+also_coerce(ref_to_t);
+</code></pre>
+<p>These trait object coercions and casts also work for pointers like
+<code>&amp;mut T</code> to <code>&amp;mut Foo</code> and <code>Box&lt;T&gt;</code> to <code>Box&lt;Foo&gt;</code>, but that's all at
+the moment. Other than some bugs, coercions and casts are identical.</p>
+<p>This operation can be seen as &quot;erasing&quot; the compiler's knowledge about
+the specific type of the pointer, and hence trait objects are
+sometimes referred to &quot;type erasure&quot;.</p>
+</div>
+<a class="header" href="all-about-trait-objects.html#representation" id="representation"><h3>Representation</h3></a>
+<p>Let's start simple, with the runtime representation of a trait
+object. The <code>std::raw</code> module contains structs with layouts that are
+the same as the complicated build-in types,
+<a href="http://doc.rust-lang.org/nightly/std/raw/struct.TraitObject.html">including trait objects</a>:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct TraitObject {
+    pub data: *mut (),
+    pub vtable: *mut (),
+}
+
+#}</code></pre></pre>
+<p>That is, a trait object like <code>&amp;Foo</code> consists of a &quot;data&quot; pointer and a
+&quot;vtable&quot; pointer.</p>
+<p>The data pointer addresses the data (of some unknown type <code>T</code>) that
+the trait object is storing, and the vtable pointer points to the
+<a href="https://en.wikipedia.org/wiki/Virtual_method_table">vtable</a> (&quot;virtual method table&quot;) corresponding to the implementation
+of <code>Foo</code> for <code>T</code>.</p>
+<p>A vtable is essentially a struct of function pointers, pointing to the
+concrete piece of machine code for each method in the
+implementation. A method call like <code>trait_object.method()</code> will
+retrieve the correct pointer out of the vtable and then do a dynamic
+call of it. For example:</p>
+<pre><code class="language-rust ignore">struct FooVtable {
+    destructor: fn(*mut ()),
+    size: usize,
+    align: usize,
+    method: fn(*const ()) -&gt; String,
+}
+
+
+// u8:
+
+fn call_method_on_u8(x: *const ()) -&gt; String {
+    // the compiler guarantees that this function is only called
+    // with `x` pointing to a u8
+    let byte: &amp;u8 = unsafe { &amp;*(x as *const u8) };
+
+    byte.method()
+}
+
+static Foo_for_u8_vtable: FooVtable = FooVtable {
+    destructor: /* compiler magic */,
+    size: 1,
+    align: 1,
+
+    // cast to a function pointer
+    method: call_method_on_u8 as fn(*const ()) -&gt; String,
+};
+
+
+// String:
+
+fn call_method_on_String(x: *const ()) -&gt; String {
+    // the compiler guarantees that this function is only called
+    // with `x` pointing to a String
+    let string: &amp;String = unsafe { &amp;*(x as *const String) };
+
+    string.method()
+}
+
+static Foo_for_String_vtable: FooVtable = FooVtable {
+    destructor: /* compiler magic */,
+    // values for a 64-bit computer, halve them for 32-bit ones
+    size: 24,
+    align: 8,
+
+    method: call_method_on_String as fn(*const ()) -&gt; String,
+};
+</code></pre>
+<p>(The <code>call_method_on_...</code> functions could also be UFCS: <code>&lt;... as Foo&gt;::method</code>, but that's somewhat less clear.)</p>
+<p>The <code>destructor</code> field in each vtable points to a function that will
+clean up any resources of the vtable's type, for <code>u8</code> it is trivial,
+but for <code>String</code> it will free the memory. This is necessary for owning
+trait objects like <code>Box&lt;Foo&gt;</code>, which need to clean-up both the <code>Box</code>
+allocation and as well as the internal type when they go out of
+scope. The <code>size</code> and <code>align</code> fields store the size of the erased
+type, and its alignment requirements; these are essentially unused at
+the moment since the information is embedded in the destructor, but
+will be used in future, as trait objects are progressively made more
+flexible.</p>
+<p>Suppose we've got some values that implement <code>Foo</code>, the explicit form
+of construction and use of <code>Foo</code> trait objects might look a bit like
+(ignoring the type mismatches: they're all just pointers anyway):</p>
+<pre><code class="language-rust ignore">let a: String = &quot;foo&quot;.to_string();
+let x: u8 = 1;
+
+// let b: &amp;Foo = &amp;a;
+let b = TraitObject {
+    // store the data
+    data: &amp;a,
+    // store the methods
+    vtable: &amp;Foo_for_String_vtable
+};
+
+// let y: &amp;Foo = x;
+let y = TraitObject {
+    // store the data
+    data: &amp;x,
+    // store the methods
+    vtable: &amp;Foo_for_u8_vtable
+};
+
+// b.method();
+(b.vtable.method)(b.data);
+
+// y.method();
+(y.vtable.method)(y.data);
+</code></pre>
+<p>If <code>b</code> or <code>y</code> were owning trait objects (<code>Box&lt;Foo&gt;</code>), there would be a
+<code>(b.vtable.destructor)(b.data)</code> (respectively <code>y</code>) call when they went
+out of scope.</p>
+<a class="header" href="all-about-trait-objects.html#why-pointers" id="why-pointers"><h4>Why pointers?</h4></a>
+<p>The use of language like &quot;fat pointer&quot; implies that a trait object is
+always a pointer of some form, but why? I wrote above that</p>
+<blockquote>
+<p>[Trait objects] are normal values and can store a value of <em>any</em> type
+that implements the given trait, where the precise type can only
+be known at runtime.</p>
+</blockquote>
+<p>Rust does not put things behind a pointer by default, unlike many
+managed languages, so types can have different sizes. Knowing the size
+of the value at compile time is important for things like passing it
+as an argument to a function, moving it about on the stack and
+allocating (and deallocating) space on the heap to store it.</p>
+<p>For <code>Foo</code>, we would need to have a value that could be at least either
+a <code>String</code> (24 bytes) or a <code>u8</code> (1 byte), as well as any other type
+for which dependent crates may implement <code>Foo</code> (any number of bytes at
+all). There's no way to guarantee that this last point can work if the
+values are stored without a pointer, because those other types can be
+arbitrarily large.</p>
+<p>Putting the value behind a pointer means the size of the value is not
+relevant when we are tossing a trait object around, only the size of
+the pointer itself.</p>
+<a class="header" href="all-about-trait-objects.html#part-2-the-sized-trait" id="part-2-the-sized-trait"><h2>Part 2: The <code>Sized</code> Trait</h2></a>
+<p>An important piece in my story about trait objects in
+<a href="http://rust-lang.org">Rust</a><sup class="footnote-reference"><a href="all-about-trait-objects.html#version">1</a></sup> is <a href="https://doc.rust-lang.org/nightly/std/marker/trait.Sized.html">the <code>Sized</code> trait</a>,
+so I'm slotting in this short post between
+[my discussion of low-level details][previouspost] and
+[the post on &quot;object safety&quot;][nextpost].</p>
+<div class="footnote-definition" id="version"><sup class="footnote-definition-label">1</sup>
+<p>Per the [previous post][previouspost], this post is
+designed to reflect the state of Rust at version: <code>rustc 1.0.0-nightly (44a287e6e 2015-01-08 17:03:40 -0800)</code>.</p>
+<p>[previouspost]: {% post_url 2015-01-10-peeking-inside-trait-objects %}
+[nextpost]: {% post_url 2015-01-13-object-safety %}</p>
+<p><code>Sized</code> is a (very) special compiler built-in trait that is
+automatically implemented or not based on the sizedness of a type. A
+type is considered sized if the precise size of a value of type is
+known and fixed at compile time once the real types of the type
+parameters are known (i.e. after completing monomorphisation). For
+example,</p>
+<ul>
+<li><code>u8</code> is one byte,</li>
+<li><code>Vec&lt;T&gt;</code> is either 12 or 24 bytes (platforms with 32 and 64 bit
+pointers respectively), independent of <code>T</code>,</li>
+<li>pointers like <code>&amp;T</code> are sized too, on 64-bit platforms <code>&amp;T</code> is either
+8 or 16 bytes, for sized <code>T</code> and unsized <code>T</code> respectively. This may
+seems like the size isn't known, but the sizedness of <code>T</code> is always
+known at compile time, so the precise one of those options is also
+known.</li>
+</ul>
+<p>Types for which the size is not known are called
+[dynamically sized types (DSTs)][dst], and there's two classes of
+examples in current Rust<sup class="footnote-reference"><a href="all-about-trait-objects.html#virtual">4</a></sup>: <code>[T]</code> and <code>Trait</code>. A slice<sup class="footnote-reference"><a href="all-about-trait-objects.html#str">5</a></sup>
+<code>[T]</code> is unsized because it represents an unknown-at-compile-time
+number of <code>T</code>s contiguous in memory. A <code>Trait</code> is unsized because it
+represents a value of any type that implements <code>Trait</code> and these have
+wildly different sizes; I discussed this
+[in the previous post too][whypointers]. Unsized values must always
+appear behind a pointer at runtime, like <code>&amp;[T]</code> or <code>Box&lt;Trait&gt;</code>, and
+have the information required to compute their size and other relevant
+properties (the length for <code>[T]</code>, the vtable for <code>Trait</code>) stored next
+to that pointer.</p>
+</div>
+<div class="footnote-definition" id="virtual"><sup class="footnote-definition-label">4</sup>
+<p>There is the possibility that Rust will gain some form of
+<a href="http://discuss.rust-lang.org/t/summary-of-efficient-inheritance-rfcs/494">&quot;inheritance&quot;</a>, and Niko points out to me that
+<code>Sized</code> may play an important role there too: certain
+types (e.g. &quot;base classes&quot; in an conventional inheritance
+scheme)  make sense to be unsized.</p>
+</div>
+<div class="footnote-definition" id="str"><sup class="footnote-definition-label">5</sup>
+<p>The unsized string type <code>str</code> is usually considered a slice,
+since it is just a <code>[u8]</code> with the guarantee that the bytes
+are valid UTF-8.</p>
+</div>
+<p>Sized types are more flexible, since the compiler knows how to
+manipulate them directly: passing them directly into functions, moving
+them about in memory. Putting an unsized type behind a pointer
+effectively makes it sized. A <code>Box</code> trait object, like <code>Box&lt;Trait&gt;</code>,
+is the closest one can get to handling a trait object as a normal
+value; the <code>Box</code> ensures sizedness (at the expense of an allocation)
+without fundamentally changing the ownership semantics of a normal
+value.</p>
+<a class="header" href="all-about-trait-objects.html#sized" id="sized"><h3><code>?Sized</code></h3></a>
+<p>The <code>Sized</code> trait gets some special syntax for use in bounds, at the
+moment: <code>?Sized</code>. Such a bound is necessary because <code>Sized</code> is
+special: it is a default bound for type parameters in most positions,
+and so one needs some way to opt-in to a parameter not necessarily
+being sized.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn foo&lt;T&gt;() {} // can only be used with sized T
+
+fn bar&lt;T: ?Sized&gt;() {} // can be used with both sized and unsized T
+
+#}</code></pre></pre>
+<p>This bound is particularly special because adding the <code>?Sized</code> bound
+to a parameter <code>T</code> increases the number of types that can be used for
+<code>T</code>, whereas every other trait bound reduces it.</p>
+<p>This unusual decision was chosen because of the increased flexibility
+of sized types, and some data (which I now can't find in the issue
+tracker) which indicated that most type parameters needed to be
+sized. That is, not having these defaults would result in many
+instances of <code>T: Sized</code> bounds in the standard library and elsewhere.</p>
+<p>However, I believe this data did not consider using some form of
+inference (like lifetime elision) to try to guess when sizedness was
+likely to be needed, and some data Niko has been collecting apparently
+implies that such inference may make removing this special case
+significantly more palatable. (It may or may not be so palatable so as
+to be worth the breaking change...)</p>
+<p>[whypointers]: {% post_url 2015-01-10-peeking-inside-trait-objects %}#why-pointers
+[dst]: http://smallcultfollowing.com/babysteps/blog/2014/01/05/dst-take-5/</p>
+<a class="header" href="all-about-trait-objects.html#part-3-object-safety" id="part-3-object-safety"><h2>Part 3: Object Safety</h2></a>
+<p>A trait object in <a href="http://rust-lang.org">Rust</a><sup class="footnote-reference"><a href="all-about-trait-objects.html#version">1</a></sup> can only be
+constructed out of traits that satisfy certain restrictions, which are
+collectively called &quot;object safety&quot;. This object safety can appear to
+be a needless restriction at first, I'll try to give a deeper
+understanding into why it exists and related compiler behaviour.</p>
+<div class="footnote-definition" id="version"><sup class="footnote-definition-label">1</sup>
+<p>[As usual][previouspost], this post is designed to reflect
+the state of Rust at version <code>rustc 1.0.0-nightly (44a287e6e 2015-01-08 17:03:40 -0800)</code>.</p>
+</div>
+<p>[previouspost]: {% post_url 2015-01-10-peeking-inside-trait-objects %}
+[sizedpost]: {% post_url 2015-01-12-the-sized-trait %}</p>
+<p>This is the second (and a half) in a short series of articles on trait
+objects. The first
+one---[Peeking inside Trait Objects][previouspost]---set the scene by
+looking into the low-level implementation details of trait objects,
+and the
+first-and-a-half-th---[an interlude about <code>Sized</code>][sizedpost]---looked
+at the special <code>Sized</code> trait. I strongly recommended at least glancing
+over it to be familiar with trait objects, vtables and <code>Sized</code>,
+since this post builds on those concepts.</p>
+<a class="header" href="all-about-trait-objects.html#motivation" id="motivation"><h2>Motivation</h2></a>
+<p>The notion of object safety was introduced in <a href="https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md">RFC 255</a>, with
+the motivation that one should be able to use the dynamic trait object
+types <code>Foo</code> (as a type) in more places where a &quot;static&quot; <code>Foo</code> (as a
+trait) generic is expected. In a sense, it is bringing the two uses of
+traits---static dispatch and dynamic dispatch---closer together,
+reducing special handling in the language.</p>
+<p>The high-level behaviour/restriction imposed by that RFC is: a trait
+object---<code>&amp;Foo</code>, <code>&amp;mut Foo</code>, etc.---can only be made out of a trait
+<code>Foo</code> if <code>Foo</code> is object safe. This section will focus on borrowed <code>&amp;</code>
+trait objects, but what is said applies to any.</p>
+<p>Let's look at an example of the things object safety enables: if we
+have a trait <code>Foo</code> and a function like</p>
+<pre><code class="language-rust ignore">fn func&lt;T: Foo + ?Sized&gt;(x: &amp;T) { ... }
+</code></pre>
+<p>It would be nice to be able to call it like <code>func(object)</code> where
+<code>object: &amp;Foo</code>; that is, take <code>T</code> to be the dynamically sized type
+<code>Foo</code>. As you might guess from the context, it is not possible to
+do this without some notion of object safety: the arbitrary piece of
+code <code>...</code> can do bad (uncontrolled) things.</p>
+<p>Take it on faith (for a few paragraphs) that calling a generic method
+is one example of something that can't be done on a trait object. So,
+let's define a trait and a function like:</p>
+<pre><code class="language-rust ignore">trait Bad {
+    fn generic_method&lt;A&gt;(&amp;self, value: A);
+}
+
+fn func&lt;T: Bad + ?Sized&gt;(x: &amp;T) {
+    x.generic_method(&quot;foo&quot;); // A = &amp;str
+    x.generic_method(1_u8); // A = u8
+}
+</code></pre>
+<p>The function <code>func</code> <em>can't</em> be called like <code>foo(obj)</code> where <code>obj</code> is a
+trait object <code>&amp;Bad</code> because the generic method calls are
+illegal. There's a possible approaches here, like</p>
+<ol>
+<li>have signatures like <code>&lt;T: Foo + ?Sized&gt;(x: &amp;T)</code> not work with <code>T = Foo</code> by default, for any trait <code>Foo</code>,</li>
+<li>check the body of the function to see if it is legal to have <code>T = Bad</code> when we ask for that, or</li>
+<li>ensure that we can never pass a <code>&amp;Bad</code> into <code>func</code>.</li>
+</ol>
+<p>Approach 1 is what existed before object safety, and is what object
+safety was designed to solve. Approach 2 violates Rust's goal of
+needing to know only the signatures of any function/method called to
+type-check a program. That is, if one satisfies the signature one can
+call it, unlike C++, there's no need to type-check internal code of
+each the actual instantiation of a generic because the signatures
+guarantee that the internals will be legal.</p>
+<p>Approach 3 is the one that Rust takes via object safety, by ensuring
+that it is impossible to ever encounter a scenario in which a function
+with signature <code>fn func&lt;T: Foo + ?Sized&gt;(x: &amp;T)</code> that does bad things,
+could have <code>T == Foo</code>. That is, make it so that the only way that a
+<code>&amp;Foo</code> can be created is if there's no way that <code>func</code> can misbehave.</p>
+<p>Object safety and those sort of function signatures apply particularly
+to UFCS (uniform function call syntax), which allows one to call
+methods as normal, generic function scoped under the type/trait in
+which they are defined, for example, the UFCS function
+<code>Bad::generic_method</code> from the trait above effectively has signature:</p>
+<pre><code class="language-rust ignore">fn Bad::generic_method&lt;Self: Bad + ?Sized, A&gt;(self: &amp;Self, x: A)
+</code></pre>
+<p>If <code>fn method(&amp;self)</code> comes from a trait <code>Foo</code>, <code>x.method()</code> can
+always be rewritten to <code>Foo::method(x)</code> (modulo auto-deref and
+auto-ref, which possibly add an <code>&amp;</code> and/or some number of <code>*</code>s),
+however, without object safety, it may not be possible to write
+<code>trait_object.method()</code> as <code>Foo::method(trait_object)</code>. Object safety
+guarantees this transformation is always valid---making UFCS and
+method calls essentially equivalent---by outlawing creating a trait
+object in situations where it would be invalid.</p>
+<a class="header" href="all-about-trait-objects.html#how-it-works" id="how-it-works"><h2>How it works</h2></a>
+<p>After <a href="https://github.com/rust-lang/rfcs/blob/master/text/0546-Self-not-sized-by-default.md">RFC 546</a> and <a href="https://github.com/rust-lang/rust/pull/20341">PR 20341</a>, making trait objects
+automatically work with those sort of generic functions is achieved by
+effectively having the compiler implicitly create an implementation of
+<code>Foo</code> (as a trait) for <code>Foo</code> (as a type). Each method of the trait is
+implemented to call into the corresponding method in the vtable. In
+the explicit notation of [my previous post][previouspost], the
+situation might look something like:</p>
+<pre><code class="language-rust ignore">trait Foo {
+    fn method1(&amp;self);
+    fn method2(&amp;mut self, x: i32, y: String) -&gt; usize;
+}
+
+// autogenerated impl
+impl&lt;'a&gt; Foo for Foo+'a {
+    fn method1(&amp;self) {
+        // `self` is an `&amp;Foo` trait object.
+
+        // load the right function pointer and call it with the opaque data pointer
+        (self.vtable.method1)(self.data)
+    }
+    fn method2(&amp;mut self, x: i32, y: String) -&gt; usize {
+        // `self` is an `&amp;mut Foo` trait object
+
+        // as above, passing along the other arguments
+        (self.vtable.method2)(self.data, x, y)
+    }
+}
+</code></pre>
+<p>To be clear: the <code>.vtable</code> and <code>.data</code> notation doesn't work directly
+on trait objects, so that code has no hope of compiling, I am just
+being explicit about actual behaviour.</p>
+<a class="header" href="all-about-trait-objects.html#object-safety" id="object-safety"><h2>Object safety</h2></a>
+<p>The rules for object safety were set-out in that initial
+<a href="https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md">RFC 255</a>, with two missed cases identified and resolved in
+<a href="https://github.com/rust-lang/rfcs/issues/428">RFC 428</a> and <a href="https://github.com/rust-lang/rfcs/blob/master/text/0546-Self-not-sized-by-default.md">RFC 546</a>. At the time of writing, the
+possible ways to be object-unsafe are described
+<a href="https://github.com/rust-lang/rust/blob/2127e0d56d85ff48aafce90ab762650e46370b63/src/librustc/middle/traits/object_safety.rs#L30-L52">by two enums</a>:</p>
+<pre><code class="language-rust ignore">pub enum ObjectSafetyViolation&lt;'tcx&gt; {
+    /// Self : Sized declared on the trait
+    SizedSelf,
+
+    /// Method has someting illegal
+    Method(Rc&lt;ty::Method&lt;'tcx&gt;&gt;, MethodViolationCode),
+}
+
+/// Reasons a method might not be object-safe.
+#[derive(Copy,Clone,Show)]
+pub enum MethodViolationCode {
+    /// e.g., `fn(self)`
+    ByValueSelf,
+
+    /// e.g., `fn foo()`
+    StaticMethod,
+
+    /// e.g., `fn foo(&amp;self, x: Self)` or `fn foo(&amp;self) -&gt; Self`
+    ReferencesSelf,
+
+    /// e.g., `fn foo&lt;A&gt;()`
+    Generic,
+}
+</code></pre>
+<p>Let's go through each case.</p>
+<p><em>Update 2015-05-06</em>: <a href="https://github.com/rust-lang/rfcs/pull/817">RFC 817</a> added more precise control
+over object safety via <code>where</code> clauses, see
+[<em>Where Self Meets Sized: Revisiting Object Safety</em>][whereselfsized].</p>
+<p>[whereselfsized]: {% post_url 2015-05-06-where-self-meets-sized-revisiting-object-safety %}</p>
+<a class="header" href="all-about-trait-objects.html#sized-self" id="sized-self"><h3>Sized <code>Self</code></h3></a>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Foo: Sized {
+    fn method(&amp;self);
+}
+
+#}</code></pre></pre>
+<p>The trait <code>Foo</code> inherits from <code>Sized</code>, requiring the <code>Self</code> type to be
+sized, and hence writing <code>impl Foo for Foo</code> is illegal: the type <code>Foo</code>
+is not sized and doesn't implement <code>Sized</code>. Traits default to <code>Self</code>
+being possibly-unsized---effectively a bound <code>Self: ?Sized</code>---to make
+more traits object safe by default.</p>
+<a class="header" href="all-about-trait-objects.html#by-value-self" id="by-value-self"><h3>By-value <code>self</code></h3></a>
+<p><em>Update 2015-05-06</em>: this is no longer object unsafe, but it is
+impossible to call such methods on possibly-unsized types, including
+trait objects. That is, one can define traits with <code>self</code> methods,
+but one is statically disallowed from call those methods on trait
+objects (and on generics that could be trait objects).</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Foo {
+    fn method(self);
+}
+
+#}</code></pre></pre>
+<p>At the moment<sup class="footnote-reference"><a href="all-about-trait-objects.html#change-is-in-the-air">6</a></sup>, it's not possible to use trait
+objects by-value anywhere, due to the lack of sizedness. If one were
+to write an <code>impl Foo for Foo</code>, the signature of <code>method</code> would mean
+<code>self</code> has type <code>Foo</code>: a by-value unsized type, illegal!</p>
+<div class="footnote-definition" id="change-is-in-the-air"><sup class="footnote-definition-label">6</sup>
+<p>There is desire to remove/relax this
+restriction for function parameters, and
+especially <code>self</code>, to allow them to be
+unsized types. Niko's <a href="http://smallcultfollowing.com/babysteps/blog/2014/11/26/purging-proc/">&quot;Purging proc&quot;</a>
+describes the problem and the necessity for
+<a href="http://doc.rust-lang.org/nightly/std/thunk/trait.Invoke.html">the <code>Invoke</code> trait</a> as a work-around
+for the <code>FnOnce</code> trait.</p>
+<a class="header" href="all-about-trait-objects.html#static-method" id="static-method"><h3>Static method</h3></a>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Foo {
+    fn func() -&gt; i32;
+}
+
+#}</code></pre></pre>
+<p>There's no way to provide a sensible implementation of <code>func</code> as a
+static method on the type <code>Foo</code>:</p>
+<pre><code class="language-rust ignore">impl&lt;'a&gt; Foo for Foo+'a {
+    fn func() -&gt; i32 {
+        // what goes here??
+    }
+}
+</code></pre>
+<p>The compiler can't just conjure up some <code>i32</code>---the chosen value may
+make no sense in context---and it can't call some other type's
+<code>Foo::func</code> method---which type would it choose? The whole scenario
+makes no sense.</p>
+<a class="header" href="all-about-trait-objects.html#references-self" id="references-self"><h3>References <code>Self</code></h3></a>
+<p>There's two fundamental ways in which this can happen, as an argument
+or as a return value, in either case a reference to the <code>Self</code> type
+means that it must match the type of the <code>self</code> value, the true type
+of which is unknown at compile time. For example:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Foo {
+    fn method(&amp;self, other: &amp;Self);
+}
+
+#}</code></pre></pre>
+<p>The types of the two arguments have to match, but this can't be
+guaranteed with a trait object: the erased types of two separate
+<code>&amp;Foo</code> values may not match:</p>
+<pre><code class="language-rust ignore">impl&lt;'a&gt; Foo for Foo+'a {
+    fn method(&amp;self, other: &amp;(Foo+'a))
+        (self.vtable.method)(self.data, /* what goes here? */)
+    }
+}
+</code></pre>
+<p>(Using the explicit-but-invalid notation as above.)</p>
+<p>One can't use <code>other.data</code> because the <code>method</code> entry of <code>self.vtable</code>
+is assuming that both pointers point to the same, specific type
+(whatever type the vtable is specialised for), but there's absolutely
+no guarantee <code>other.data</code> points to matching data. There's also not
+necessarily a (reliable) way to detect a mismatch, and no way the
+compiler can know a correct way to handle a mismatch even if it can be
+detected.</p>
+<a class="header" href="all-about-trait-objects.html#generic-method" id="generic-method"><h3>Generic method</h3></a>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Foo {
+    fn method&lt;A&gt;(&amp;self, a: A);
+}
+
+#}</code></pre></pre>
+<p>As discussed briefly in [the first post][previouspost], generic
+functions in Rust are monomorphised, that is, a copy of the function
+is created for each type used as a generic parameter. An attempted
+implementation might look like</p>
+<pre><code class="language-rust ignore">impl&lt;'a&gt; Foo for Foo+'a {
+    fn method&lt;A&gt;(&amp;self, a: A) {
+        (self.vtable./* ... huh ???*/)(self.data, a: A)
+    }
+}
+</code></pre>
+<p>The vtable is a static struct of function pointers, somehow we have to
+select a function pointer from it that will work with the arbitrary
+type <code>A</code>. To have any hope of doing this, one would have<sup class="footnote-reference"><a href="all-about-trait-objects.html#alternative">7</a></sup>
+to pregenerate code for every type that could possibly be used for <code>A</code>
+and then fill in the <code>huh</code> above to select the right one. This would
+be effectively implicitly adding a whole series of methods to the
+trait:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+trait Foo {
+    fn method_u8(&amp;self);     // A = u8
+    fn method_i8(&amp;self);     // A = i8
+    fn method_String(&amp;self); // A = String
+    fn method_unit(&amp;self);   // A = ()
+    // ...
+}
+
+#}</code></pre></pre>
+<p>and each one would need an entry in the vtable struct. If it is even
+possible, this would be some serious bloat, especially as I imagine
+most possibilities wouldn't be used.</p>
+<p>For the more fundamental question of &quot;is it possible&quot;, the answer is
+rarely: it only works if the number of possible types that can be used
+with the generic parameters is finite and completely known, so that a
+complete list can be written. I think the only circumstance in which
+this occurs is if all the parameters have to be bounded by some
+private trait (the example above fails, since <code>A</code> is unbounded and so
+can be used with every type ever, including ones that aren't even
+defined in scope).</p>
+</div>
+<div class="footnote-definition" id="alternative"><sup class="footnote-definition-label">7</sup>
+<p>Strictly speaking I suppose one could do some type of
+runtime codegen/JITing, but that's not really
+something Rust wants to build into the language, as it
+would require Rust programs to essentially carry
+around a compiler.</p>
+</div>
+<a class="header" href="all-about-trait-objects.html#part-4-where-self-meets-sized" id="part-4-where-self-meets-sized"><h2>Part 4: Where <code>Self</code> Meets <code>Sized</code></h2></a>
+<p>The concept of object safety in Rust was recently refined to be more
+flexible in an important way: the checks can be disabled for specific
+methods by using <code>where</code> clauses to restrict them to only work when
+<code>Self: Sized</code>.</p>
+<p>[trait-objects]: {% post_url 2015-01-10-peeking-inside-trait-objects %}
+<a href="https://doc.rust-lang.org/nightly/std/marker/trait.Sized.html">sized</a>: {% post_url 2015-01-12-the-sized-trait %}
+[object-safety]: {% post_url 2015-01-13-object-safety %}</p>
+<p>This post is a rather belated fourth entry in my series on trait
+objects and object safety:
+[<em>Peeking inside Trait Objects</em>][trait-objects],
+<a href="https://doc.rust-lang.org/nightly/std/marker/trait.Sized.html"><em>The Sized Trait</em></a> and [<em>Object Safety</em>][object-safety]. It's
+been long enough that a refresher is definitely in order, although this
+isn't complete coverage of the details.</p>
+<a class="header" href="all-about-trait-objects.html#recap" id="recap"><h2>Recap</h2></a>
+<p>Rust offers open sets of types, type erasure and dynamic dispatch via
+[trait objects][trait-objects]. However, to ensure a uniform handling
+of trait objects and non-trait objects in generic code, there are
+certain restrictions about exactly which traits can be used to create
+objects: this is [object safety][object-safety].</p>
+<p>A trait is object safe only if the compiler can automatically
+implement it for itself, by implementing each method as a dynamic
+function call through the vtable stored in a trait object.</p>
+<pre><code class="language-rust ignore">trait Foo {
+    fn method_a(&amp;self) -&gt; u8;
+
+    fn method_b(&amp;self, x: f32) -&gt; String;
+}
+
+// automatically inserted by the compiler
+impl&lt;'a&gt; Foo for Foo+'a {
+    fn method_a(&amp;self) -&gt; u8 {
+         // dynamic dispatch to `method_a` of erased type
+         self.method_a()
+    }
+    fn method_b(&amp;self, x: f32) -&gt; String {
+         // as above
+         self.method_b(x)
+    }
+}
+</code></pre>
+<p>Without the object safety rules one can write functions with type
+signatures satisfied by trait objects, where the internals make it
+impossible to actually use with trait objects. However, Rust tries to ensure
+that this can't happen---code should only need to know the signatures
+of anything it calls, not the internals---and hence object safety.</p>
+<p>These rules outlaw creating trait objects of, for example, traits with
+generic methods:</p>
+<pre><code class="language-rust ignore">trait Bar {
+    fn bad&lt;T&gt;(&amp;self, x: T);
+}
+
+impl Bar for u8 {
+    fn bad&lt;T&gt;(&amp;self, _: T) {}
+}
+
+fn main() {
+    &amp;1_u8 as &amp;Bar;
+}
+
+/*
+...:10:5: 10:7 error: cannot convert to a trait object because trait `Bar` is not object-safe [E0038]
+...:10     &amp;1 as &amp;Bar;
+           ^~
+...:10:5: 10:7 note: method `bad` has generic type parameters
+...:10     &amp;1 as &amp;Bar;
+           ^~
+*/
+</code></pre>
+<p>Trait object values always appear behind a pointer, like <code>&amp;SomeTrait</code>
+or <code>Box&lt;AnotherTrait&gt;</code>, since the trait value &quot;<code>SomeTrait</code>&quot; itself
+doesn't have size known at compile time. This property is captured via
+the <a href="https://doc.rust-lang.org/nightly/std/marker/trait.Sized.html"><code>Sized</code> trait</a>, which is implemented for types like <code>i32</code>,
+or simple <code>struct</code>s and <code>enum</code>s, but not for unsized slices <code>[T]</code>, or
+the plain trait types <code>SomeTrait</code>.</p>
+<a class="header" href="all-about-trait-objects.html#iterating-on-the-design" id="iterating-on-the-design"><h2>Iterating on the design</h2></a>
+<p>One impact of introducing object safety was that the design of several
+traits had to change. The most noticeable ones were <code>Iterator</code>, and
+the IO traits <code>Read</code> and <code>Write</code> (although they were probably <code>Reader</code>
+and <code>Writer</code> at that point).</p>
+<p>Focusing on the former, before object safety it was defined
+something<sup class="footnote-reference"><a href="all-about-trait-objects.html#associated-type">8</a></sup> like:</p>
+<div class="footnote-definition" id="associated-type"><sup class="footnote-definition-label">8</sup>
+<p>I'm using an associated type for <code>Item</code> here, but
+I believe it was probably still a generic
+parameter <code>trait Iterator&lt;Item&gt; { ...</code> at this
+point, and the <code>IntoIterator</code> trait didn't
+exist. However it doesn't matter: the exact same
+problems existed, just with different syntax.</p>
+<pre><code class="language-rust ignore">trait Iterator {
+    type Item;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+    fn size_hint(&amp;self) -&gt; (usize, Option&lt;usize&gt;) { /* ... */ }
+
+    // ... methods methods methods ...
+
+    fn zip&lt;U&gt;(self, other: U) -&gt; Zip&lt;Self, U::IntoIter&gt;
+        where U: IntoIterator
+    { /* ... */ }
+
+    fn map&lt;B, F&gt;(self, f: F) -&gt; Map&lt;Self, F&gt;
+        where F: FnMut(Self::Item) -&gt; B
+    { /* ... */ }
+
+    // etc
+}
+</code></pre>
+<p>The above <code>Iterator</code> isn't object safe: it has generic methods, and so
+it isn't possible to implement <code>Iterator</code> for <code>Iterator</code> itself. This
+is unfortunate, since it is very useful to be able to create and use
+<code>Iterator</code> trait objects, so it <em>had</em> to be made object safe.</p>
+<p>The solution at the time was extension traits: define a new trait
+<code>IteratorExt</code> that incorporated all the object unsafe methods, and use
+a blanket implementation to implement it for all <code>Iterator</code>s &quot;from the
+outside&quot;.</p>
+<pre><code class="language-rust ignore">trait Iterator {
+    type Item;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+
+    fn size_hint(&amp;self) -&gt; (usize, Option&lt;usize&gt;) { /* ... */ }
+}
+
+trait IteratorExt: Sized + Iterator {
+    // ... methods methods methods ...
+
+    fn zip&lt;U&gt;(self, other: U) -&gt; Zip&lt;Self, U::IntoIter&gt;
+        where U: IntoIterator
+    { /* ... */ }
+
+    fn map&lt;B, F&gt;(self, f: F) -&gt; Map&lt;Self, F&gt;
+        where F: FnMut(Self::Item) -&gt; B
+    { /* ... */ }
+
+    // etc
+}
+// blanket impl, for all iterators
+impl&lt;I: Iterator&gt; IteratorExt for I {}
+</code></pre>
+<p>The <code>next</code> and <code>size_hint</code> methods are object safe, so this version of
+<code>Iterator</code> can create trait objects: <code>Box&lt;Iterator&lt;Item = u8&gt;&gt;</code> is a
+legal iterator over bytes. It works because the methods of
+<code>IteratorExt</code> are no longer part of <code>Iterator</code> and so they're not
+involved in any object considerations for it.</p>
+<p>Fortunately, those methods aren't lost on trait objects, because there
+are implementations like the following, allowing the blanket
+implementation of <code>IteratorExt</code> to kick in:</p>
+<pre><code class="language-rust ignore">// make Box&lt;...&gt; an Iterator by deferring to the contents
+impl&lt;I: Iterator + ?Sized&gt; Iterator for Box&lt;I&gt; {
+    type Item = I::Item;
+
+    fn next(&amp;mut self) -&gt; Option&lt;I::Item&gt; {
+        (**self).next()
+    }
+
+    fn size_hint(&amp;self) -&gt; (usize, Option&lt;usize&gt;) {
+        (**self).size_hint()
+    }
+}
+</code></pre>
+<div class="join"></div>
+<p>(The <code>?Sized</code> ensures this applies to <code>Box&lt;Iterator&lt;...&gt;&gt;</code> trait
+objects as well as simply <code>Box&lt;SomeType&gt;</code> where <code>SomeType</code> is a normal
+type that implements <code>Iterator</code>.)</p>
+<p>This approach has some benefits, like clarifying the separation
+between the &quot;core&quot; methods (<code>next</code> and <code>size_hint</code>) and the
+helpers. However, it has several downsides, especially for cases that
+aren't <code>Iterator</code>:</p>
+<ul>
+<li>extra traits in the documentation,</li>
+<li>users will have to import those extra traits</li>
+<li>it only works with default-able methods,</li>
+<li>the defaults can't be overridden, e.g. there's no way for a specific
+type to slot in a more efficient way to implement a method</li>
+</ul>
+<p>All-in-all, it was a wet blanket on libraries. Fortunately, not all
+was lost: let's meet our saviour.</p>
+<a class="header" href="all-about-trait-objects.html#its-a-bird-its-a-plane" id="its-a-bird-its-a-plane"><h2>It's a bird... it's a plane...</h2></a>
+<p>It's a <a href="https://github.com/rust-lang/rfcs/blob/master/text/0135-where.md"><code>where</code> clause</a>!</p>
+<p><code>where</code> clauses allow predicating functions/methods/types on
+essentially arbitrary trait relationships, not just the plain <code>&lt;T: SomeTrait&gt;</code>, where the left-hand side has to be a generic type
+declared right then and there. For example, one can use
+<a href="http://doc.rust-lang.org/std/convert/trait.From.html"><code>From</code></a> to
+convert <em>to</em> types with a <code>where</code> clause.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn convert_to_string&lt;T&gt;(x: T) -&gt; String
+    where String: From&lt;T&gt;
+{
+    String::from(x)
+}
+
+#}</code></pre></pre>
+<p>The important realisation was that <code>where</code> allows placing restrictions
+on <code>Self</code> directly on methods, so that certain methods only exist for
+some implementing types. This was used to great effect to collapse
+piles of traits into a single one, for example in <code>std::iter</code>.
+<a href="http://doc.rust-lang.org/0.12.0/std/iter/#traits">Rust 0.12.0 had</a> a
+swathe of extra <code>Iterator</code> traits: <code>Additive...</code>, <code>Cloneable...</code>,
+<code>Multiplicative...</code>, <code>MutableDoubleEnded...</code>, <code>Ord...</code>.</p>
+<p>Each of these were designed to define a few extra methods that
+required specific restrictions on the element type of the iterator,
+for example, <code>OrdIterator</code> needed <code>Ord</code> elements:</p>
+<pre><code class="language-rust ignore">trait OrdIterator: Iterator {
+     fn max(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+     // ...
+}
+
+impl&lt;A: Ord, I: Iterator&lt;Item = A&gt;&gt; OrdIterator for I {
+    fn max(&amp;mut self) -&gt; Option&lt;A&gt; { /* ... */ }
+
+    // ...
+}
+</code></pre>
+<p>The <a href="http://doc.rust-lang.org/std/iter">current <code>std::iter</code></a> is much
+cleaner: all the traits above have been merged into <code>Iterator</code> itself
+with <code>where</code> clauses, e.g.
+<a href="http://doc.rust-lang.org/nightly/std/iter/trait.Iterator.html#method.max"><code>max</code></a>:</p>
+<pre><code class="language-rust ignore">trait Iterator {
+    type Item;
+
+    // ...
+
+    fn max(self) -&gt; Option&lt;Self::Item&gt;
+        where Self::Item: Ord
+    { /* ... */ }
+
+    // ...
+}
+</code></pre>
+<p>Notably, there's no restriction on <code>Item</code> for general <code>Iterator</code>s,
+only on <code>max</code>, so iterators retain full flexibility while still
+gaining a <code>max</code> method that only works when it should:</p>
+<pre><code class="language-rust ignore">struct NotOrd;
+
+fn main() {
+    (0..10).max(); // ok
+    (0..10).map(|_| NotOrd).max();
+}
+</code></pre>
+<pre><code class="language-text">...:5:29: 5:34 error: the trait `core::cmp::Ord` is not implemented for the type `NotOrd` [E0277]
+...:5     (0..10).map(|_| NotOrd).max();
+</code></pre>
+<p>This approach works fine for normal traits like <code>Ord</code>, and also works
+equally well for &quot;special&quot; traits like <code>Sized</code>:
+<a href="http://stackoverflow.com/a/27820018/1256624">it is possible</a> to
+restrict methods to only work when <code>Self</code> has a statically known size
+with <code>where Self: Sized</code>. Initially this had no interaction with
+object safety, it would just influence what exactly that method could
+do.</p>
+<a class="header" href="all-about-trait-objects.html#putting-it-together" id="putting-it-together"><h2>Putting it together</h2></a>
+<p>The piece that interacts with object safety is <a href="https://github.com/rust-lang/rfcs/pull/817">RFC 817</a>, which
+made <code>where Self: Sized</code> special: the compiler now understands that
+methods tagged with that cannot ever be used on a trait object, even
+in generic code.  This means it is perfectly correct to completely
+ignores any methods with that <code>where</code> clause when checking object
+safety.</p>
+<p>The bad example from the start can be written to compile:</p>
+<pre><code class="language-rust ignore">trait Bar {
+    fn bad&lt;T&gt;(&amp;self, x: T)
+        where Self: Sized;
+}
+
+impl Bar for u8 {
+    fn bad&lt;T&gt;(&amp;self, _: T)
+        where Self: Sized
+    {}
+}
+
+fn main() {
+    &amp;1_u8 as &amp;Bar;
+}
+</code></pre>
+<div class="join"></div>
+<p>And also adjusted to not compile: try calling <code>(&amp;1_u8 as &amp;Bar).bad(&quot;foo&quot;)</code> in <code>main</code> and the compiler spits out an error,</p>
+<pre><code class="language-text">...:13:21: 13:31 error: the trait `core::marker::Sized` is not implemented for the type `Bar` [E0277]
+...:13     (&amp;1_u8 as &amp;Bar).bad(&quot;foo&quot;)
+                           ^~~~~~~~~~
+...:13:21: 13:31 note: `Bar` does not have a constant size known at compile-time
+...:13     (&amp;1_u8 as &amp;Bar).bad(&quot;foo&quot;)
+                           ^~~~~~~~~~
+</code></pre>
+<p>Importantly, this solves the <code>Iterator</code> problem: there's no longer a
+need to split methods into extension traits to ensure object safety,
+one can instead just guard the bad ones. <code>Iterator</code> now looks like:</p>
+<pre><code class="language-rust ignore">trait Iterator {
+    type Item;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+
+    fn size_hint(&amp;self) -&gt; (usize, Option&lt;usize&gt;) { /* ... */ }
+
+    // ... methods methods methods ...
+
+    fn zip&lt;U&gt;(self, other: U) -&gt; Zip&lt;Self, U::IntoIter&gt;
+        where Self: Sized, U: IntoIterator
+    { /* ... */ }
+
+    fn map&lt;B, F&gt;(self, f: F) -&gt; Map&lt;Self, F&gt;
+        where Self: Sized, F: FnMut(Self::Item) -&gt; B
+    { /* ... */ }
+
+    // etc
+}
+</code></pre>
+<div class="join"></div>
+<p>(Along with <code>max</code> and the other <code>where</code>-reliant methods from the other
+<code>*Iterator</code> traits mentioned above.)</p>
+<p>The extra flexibility this <code>where</code> clauses offer is immensely helpful
+for designing that perfect API.  Of course, just adding <code>where Self: Sized</code> isn't a complete solution or the only trick: the current
+<code>Iterator</code> still has the same sort of implementations of <code>Iterator</code>
+for <code>Box&lt;I&gt;</code> where <code>I: Iterator + ?Sized</code>, and traits using the
+<code>where</code> technique may want to adopt others that <code>Iterator</code> does.</p>
+<blockquote>
+<p><a href="https://huonw.github.io/blog/2015/01/peeking-inside-trait-objects/"><em>Originally published 2015-01-10</em></a>,
+<a href="https://huonw.github.io/blog/2015/01/the-sized-trait/">2015-01-12</a>,
+<a href="https://huonw.github.io/blog/2015/01/object-safety/">2015-01-13</a>, and
+<a href="https://huonw.github.io/blog/2015/05/where-self-meets-sized-revisiting-object-safety/">2015-05-06</a>.</p>
+<p><em>License: TBD</em></p>
+</blockquote>
+</div>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="abstraction-without-overhead.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="rust-reuse-and-recycle.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="abstraction-without-overhead.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="rust-reuse-and-recycle.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

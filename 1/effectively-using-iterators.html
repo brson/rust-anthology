@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Effectively Using Iterators - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html" class="active"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <hr />
+<p>layout: post
+title: &quot;Effectively Using Iterators In Rust&quot;
+tags:</p>
+<ul>
+<li>rustlang
+status: publish
+type: post
+published: true</li>
+</ul>
+<hr />
+<p>In Rust, you quickly learn that vector and slice types are not iterable themselves. Depending on which tutorial or example you see first, you call <code>.iter()</code> or <code>.into_iter()</code>. If you do not realize both of these functions exist or that they do different things, you may find yourself fighting with the compiler to get your code to work. Let us take a journey through the world of iterators and figure out the differences between iter() and into_iter() in Rust.</p>
+<a class="header" href="effectively-using-iterators.html#iter" id="iter"><h2>Iter</h2></a>
+<p>Most examples I have found use <code>.iter()</code>. We can call <code>v.iter()</code> on something like a vector or slice. This creates an <code>Iter&lt;'a, T&gt;</code> type and it is this <code>Iter&lt;'a, T&gt;</code> type that implements the <code>Iterator</code> trait and allows us to call functions like <code>.map()</code>. It is important to note that this <code>Iter&lt;'a, T&gt;</code> type only has a reference to <code>T</code>. This means that calling <code>v.iter()</code> will create a struct that <em>borrows</em> from <code>v</code>. Use the <code>iter()</code> function if you want to iterate over the values by <em>reference</em>.</p>
+<p>Let us write a simple map/reduce example:</p>
+<pre><pre class="playpen"><code class="language-rust">fn use_names_for_something_else(_names: Vec&lt;&amp;str&gt;) {
+}
+
+fn main() {
+    let names = vec![&quot;Jane&quot;, &quot;Jill&quot;, &quot;Jack&quot;, &quot;John&quot;];
+    
+    let total_bytes = names
+        .iter()
+        .map(|name: &amp;&amp;str| name.len())
+        .fold(0, |acc, len| acc + len );
+        
+    assert_eq!(total_bytes, 16);
+    use_names_for_something_else(names);
+}
+</code></pre></pre>
+<p>In this example, we are using <code>.map()</code> and <code>.fold()</code> to count the number of bytes (not characters! Rust strings are UTF-8) for all strings in the <code>names</code> vector. We <a href="/2015/06/09/strategies-for-solving-cannot-move-out-of-borrowing-errors-in-rust.html">know</a> that the <code>len()</code> function can use an immutable reference. As such, we prefer <code>iter()</code> instead of <code>iter_mut()</code> or <code>into_iter()</code>. This allows us to <em>move</em> the <code>names</code> vector later if we want. I put a bogus <code>use_names_for_something()</code> function in the example just to prove this. If we had used <code>into_iter()</code> instead, the compiler would have given us an <em>error: use of moved value: <code>names</code></em> response.</p>
+<p>The closure used in <code>map()</code> does not require the <code>name</code> parameter to have a type, but I specified the type to show how it is being passed as a reference. Notice that the type of name is <code>&amp;&amp;str</code> and not <code>&amp;str</code>. The string <code>&quot;Jane&quot;</code> is of type <code>&amp;str</code>. The <code>iter()</code> function creates an iterator that has a <em>reference</em> to each element in the <code>names</code> vector. Thus, we have a <em>reference</em> to a <em>reference</em> of a string slice. This can get a little unwieldy and I generally do not worry about the type. However, if we are destructuring the type, we do need to specify the reference:</p>
+<pre><code class="language-rust ignore">fn main() {
+    let player_scores = [
+        (&quot;Jack&quot;, 20), (&quot;Jane&quot;, 23), (&quot;Jill&quot;, 18), (&quot;John&quot;, 19),
+    ];
+
+    let players = player_scores
+        .iter()
+        .map(|(player, _score)| {
+            player
+        })
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+
+    assert_eq!(players, [&quot;Jack&quot;, &quot;Jane&quot;, &quot;Jill&quot;, &quot;John&quot;]);
+}
+</code></pre>
+<p>In the above example, the compiler will complain that we are specifying the type <code>(_, _)</code> instead of <code>&amp;(_, _)</code>. Changing the pattern to <code>&amp;(player, _score)</code> will satisfy the compiler.</p>
+<p>Rust is immutable by default and iterators make it easy to manipulate data without needing mutability. If you do find yourself wanting to mutate some data, you can use the <code>iter_mut()</code> method to get a mutable reference to the values. Example use of <code>iter_mut()</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    let mut teams = [
+        [ (&quot;Jack&quot;, 20), (&quot;Jane&quot;, 23), (&quot;Jill&quot;, 18), (&quot;John&quot;, 19), ],
+        [ (&quot;Bill&quot;, 17), (&quot;Brenda&quot;, 16), (&quot;Brad&quot;, 18), (&quot;Barbara&quot;, 17), ]
+    ];
+    
+    let teams_in_score_order = teams
+        .iter_mut()
+        .map(|team| {
+            team.sort_by(|&amp;a, &amp;b| a.1.cmp(&amp;b.1).reverse());
+            team
+        })
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+        
+    println!(&quot;Teams: {:?}&quot;, teams_in_score_order);
+}
+</code></pre></pre>
+<p>Here we are using a mutable reference to sort the list of players on each team by highest score. The <code>sort_by()</code> function performs the sorting of the Vector/slice in place. This means we need the ability to mutate <code>team</code> in order to sort. I do not use <code>.iter_mut()</code> often, but sometimes functions like <code>.sort_by()</code> provide no immutable alternative.</p>
+<p>I tend to use <code>.iter()</code> most. I try to be very concious and deliberate about when I <em>move</em> resources and default to borrowing (or referencing) first. The reference created by <code>.iter()</code> is short-lived, so we can <em>move</em> or use our original value afterwards. If you find yourself running into <em>does not live long enough</em>, <em>move</em> errors or using the <code>.clone()</code> function, this is a sign that you probably want to use <code>.into_iter()</code> instead.</p>
+<a class="header" href="effectively-using-iterators.html#intoiter" id="intoiter"><h2>IntoIter</h2></a>
+<p>Use the <code>into_iter()</code> function when you want to <em>move</em>, instead of <em>borrow</em>, your value. The <code>.into_iter()</code> function creates a <code>IntoIter&lt;T&gt;</code> type that now has ownership of the original value. Like <code>Iter&lt;'a, T&gt;</code>, it is this <code>IntoIter&lt;T&gt;</code> type that actually implements the <code>Iterator</code> trait. The word <em>into</em> is commonly used in Rust to signal that <code>T</code> is being <em>moved</em>. The docs also use the words <em>owned</em> or <em>consumed</em> interchangeably with <em>moved</em>. I normally find myself using <code>.into_iter()</code> when I have a function that is transforming some values:</p>
+<pre><pre class="playpen"><code class="language-rust">fn get_names(v: Vec&lt;(String, usize)&gt;) -&gt; Vec&lt;String&gt; {
+    v.into_iter()
+        .map(|(name, _score)| name)
+        .collect()
+}
+
+fn main() {
+    let v = vec!( (&quot;Herman&quot;.to_string(), 5));
+    let names = get_names(v);
+
+    assert_eq!(names, [&quot;Herman&quot;]);
+}
+</code></pre></pre>
+<p>The <code>get_names</code> function is plucking out the name from a list of tuples. I chose <code>.into_iter()</code> here because we are transforming the tuple into a <code>String</code> type.</p>
+<p>The concept behind <code>.into_iter()</code> is similar to the <a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">core::convert::Into</a> trait we discussed when accepting <code>&amp;str</code> and <code>String</code> in a function. In fact, the <a href="https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html">std::iter::Iterator</a> type implements <a href="https://github.com/rust-lang/rust/blob/b5b3a99f84f2b4dbf9495dccd7112c74f4357acc/src/libcore/iter.rs#L1184-1192">std::iter::IntoIterator</a> too. That means we can do something like <code>vec![1, 2, 3, 4].into_iter().into_iter().into_iter()</code>. In each subsequent call to <code>.into_iter()</code> just returns itself. This is an example of the <a href="https://en.wikipedia.org/wiki/Identity_function">identity function</a>. I mention that only because I find it interesting to identify functional concepts that I see being used in the wild.</p>
+<a class="header" href="effectively-using-iterators.html#how-for-loops-actually-work" id="how-for-loops-actually-work"><h3>How for Loops Actually Work</h3></a>
+<p>One of the first errors a new Rustacean will run into is the <em>move</em> error after using a for loop:</p>
+<pre><code class="language-rust ignore">fn main() {
+    let values = vec![1, 2, 3, 4];
+
+    for x in values {
+        println!(&quot;{}&quot;, x);
+    }
+
+    let y = values; // move error
+}
+</code></pre>
+<p>The question we immediately ask ourselves is &quot;How do I create a for loop that uses a reference?&quot;. A <a href="https://doc.rust-lang.org/stable/std/iter/index.html">for loop</a> in Rust is really just syntatic sugar around <code>.into_iter()</code>. From the manual:</p>
+<pre><code class="language-rust ignore">// Rough translation of the iteration without a `for` iterator.
+let mut it = values.into_iter();
+loop {
+    match it.next() {
+        Some(x) =&gt; println!(&quot;{}&quot;, x),
+        None =&gt; break,
+    }
+}
+</code></pre>
+<p>Now that we know <code>.into_iter()</code> creates a type <code>IntoIter&lt;T&gt;</code> that <em>moves</em> <code>T</code>, this behavior makes perfect sense. If we want to use <code>values</code> after the for loop, we just need to use a reference instead:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    let values = vec![1, 2, 3, 4];
+
+    for x in &amp;values {
+        println!(&quot;{}&quot;, x);
+    }
+
+    let y = values; // perfectly valid
+}
+</code></pre></pre>
+<p>Instead of moving <code>values</code>, which is type <code>Vec&lt;i32&gt;</code>, we are moving <code>&amp;values</code>, which is type <code>&amp;Vec&lt;i32&gt;</code>. The for loop only <em>borrows</em> <code>&amp;values</code> for the duration of the loop and we are able to <em>move</em> <code>values</code> as soon as the for loop is done.</p>
+<a class="header" href="effectively-using-iterators.html#coreitercloned" id="coreitercloned"><h2>core::iter::Cloned</h2></a>
+<p>There are times when you want create a new value when iterating over your original value. You might first try something like:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    let x = vec![&quot;Jill&quot;, &quot;Jack&quot;, &quot;Jane&quot;, &quot;John&quot;];
+
+    let _ = x
+        .clone()
+        .into_iter()
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+}
+</code></pre></pre>
+<p>Exercise for the reader: <em>Why would <code>.iter()</code> not work in this example?</em></p>
+<p>While this is valid, we want to give Rust every chance to optimize our code. What if we only wanted the first two names from that list?</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    let x = vec![&quot;Jill&quot;, &quot;Jack&quot;, &quot;Jane&quot;, &quot;John&quot;];
+
+    let _ = x
+        .clone()
+        .into_iter()
+        .take(2)
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+}
+</code></pre></pre>
+<p>If we clone all of <code>x</code>, then we are cloning all four elements, but we only need two of them. We can do better by using <code>.map()</code> to clone the elements of the underlying iterator:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    let x = vec![&quot;Jill&quot;, &quot;Jack&quot;, &quot;Jane&quot;, &quot;John&quot;];
+
+    let y = x
+        .iter()
+        .map(|i| i.clone())
+        .take(2)
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+}
+</code></pre></pre>
+<p>The Rust compiler can now optimize this code and only clone two out of the four elements of <code>x</code>. This pattern is used so often that Rust core now has a special function that does this for us called <a href="https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.cloned">cloned()</a>. This is a recent addition and will be stable in Rust 1.1. Our code now looks something like:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    let x = vec![&quot;Jill&quot;, &quot;Jack&quot;, &quot;Jane&quot;, &quot;John&quot;];
+
+    let y = x
+        .iter()
+        .cloned()
+        .take(2)
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+}
+</code></pre></pre>
+<a class="header" href="effectively-using-iterators.html#iterators-outside-of-core" id="iterators-outside-of-core"><h2>Iterators Outside of Core</h2></a>
+<p>There is a really great crate, called <a href="https://crates.io/crates/itertools">itertools</a>, that provides extra iterator adaptors, iterator methods and macros. If you are looking for some iterator functionality in the Rust docs and do not see it, there is a good chance it is part of itertools. I recently added an <a href="http://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.sort_by">itertools::IterTools::sort_by()</a> function so we can sort collections without needed to use a mutable iterator. One of the nice things about working with Rust is that the documentation looks the same across all these crates. The <a href="http://bluss.github.io/rust-itertools/doc/itertools/index.html">documentation for itertools</a> looks the same as the <a href="https://doc.rust-lang.org/std/">documentation for Rust std library</a>.</p>
+<a class="header" href="effectively-using-iterators.html#related" id="related"><h2>Related</h2></a>
+<ul>
+<li><a href="/2015/05/06/creating-a-rust-function-that-accepts-string-or-str.html">Creating a Rust function that accepts String or &amp;str</a></li>
+</ul>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="myths-and-legends-about-integer-overflow.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="what-does-rusts-unsafe-mean.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="myths-and-legends-about-integer-overflow.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="what-does-rusts-unsafe-mean.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

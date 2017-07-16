@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Introduction - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html" class="active"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="intro.html#rust-anthology-1" id="rust-anthology-1"><h1>Rust Anthology 1</h1></a>
+<p><em>This is a work in progress draft</em>.</p>
+<p>TODO: 1 paragraph intro.</p>
+<p>Something, something <a href="authors.html">about the authors</a>.</p>
+<a class="header" href="intro.html#why-rust" id="why-rust"><h2>Why Rust?</h2></a>
+<p><a href="understanding-over-guesswork.html"><strong>Understanding Over Guesswork</strong></a>
+★ <a href="authors.html#Andrew%20Hobden">Andrew Hobden</a>.
+Some bugs are just that — a one off. A wayward moth that just
+happens to be innocently fluttering through the wrong relay at the
+wrong time. But some kinds of bugs aren't like that. Instead, they
+have risen to superstar status, plaguing veterans and newcomers alike.
+But what if these aren't bugs at all? What if they are actual
+deficiencies in safety and robustness offered by the C programming
+language as a consequence of the degree to which guesswork is
+introduced? This chapter, a proposal to teach an operating systems
+course in Rust at the University of Victoria, shows why Rust
+is a superior language for writing reliable systems software.</p>
+<a class="header" href="intro.html#ownership" id="ownership"><h2>Ownership</h2></a>
+<p><a href="where-rust-really-shines.html"><strong>Where Rust Really Shines</strong></a>
+★ <a href="authors.html#Manish%20Goregaokar">Manish Goregaokar</a>.
+A tale of hacking that illustrates how Rust's strong type system and
+memory safety makes it simple to modify difficult code. Don't
+understand how this pointer is accessed? That's fine. The compiler
+won't let you do anything bogus, and it's going to guide you to the
+correct solution.</p>
+<p><a href="the-problem-with-shared-mutability.html"><strong>The Problem With Single-threaded Shared Mutability</strong></a>
+★ <a href="authors.html#Manish%20Goregaokar">Manish Goregaokar</a>.
+In Rust, <code>&amp;mut T</code> is a mutable reference, but it might be better
+considered an <em>unaliased</em> reference, guaranteeing that there are no
+other live pointers to that data, and no other code will access
+it. The only way to write memory in Rust (without atomics) is through
+an unaliased reference. This provides clear benefits in multithreaded
+programs, where simultaneous access to data can result in bogus
+data. But isn't this too strict for single-threaded programs? Actually,
+mutable references solve subtle problems for those too.</p>
+<a class="header" href="intro.html#concurrency" id="concurrency"><h2>Concurrency</h2></a>
+<p><a href="fearless-concurrency.html"><strong>Fearless Concurrency with Rust</strong></a>
+★ <a href="authors.html#Aaron%20Turon">Aaron Turon</a>.
+Memory safety bugs and concurrency bugs often come down to code
+accessing data when it shouldn't. And the same feature that makes Rust
+memory safe - ownership - also let the compiler statically prevent
+common errors with conncurrent code.</p>
+<p><a href="how-rust-achieves-thread-safety.html"><strong>How Rust Achieves Thread Safety</strong></a>
+★ <a href="authors.html#Manish%20Goregaokar">Manish Goregaokar</a>.
+Ownership is the secret, unifying, sauce of Rust. Among other things
+it creates a simple conceptual framework for reasoning about
+concurrency. But under the hood there are mysterious things afoot in
+the type system to make it all work. Two simple traits are telling the
+compiler everything it needs to know about concurrency: <code>Send</code> and
+<code>Sync</code>. This is their story.</p>
+<a class="header" href="intro.html#traits" id="traits"><h2>Traits</h2></a>
+<p><a href="abstraction-without-overhead.html"><strong>Abstraction Without Overhead</strong></a>
+★ <a href="authors.html#Aaron%20Turon">Aaron Turon</a>.
+The cornerstone of the Rust design philosophy is to enable &quot;zero-cost abstractions&quot;.
+That is, the high-level abstractions in Rust optimize into the best low-level
+code you could write by hand. And Rust, perhaps more than any other language,
+comes close to achieving this ideal. This is how.</p>
+<p><a href="all-about-trait-objects.html"><strong>All About Trait Objects</strong></a>
+★ <a href="authors.html#Huon%20Wilson">Huon Wilson</a>.
+One of the most powerful parts of the Rust programming language is the trait
+system. They form the basis of Rust generics via polymorphic functions and
+types, and as so-called &quot;trait objects&quot;, they allow for dynamic polymorphism and
+heterogeneous uses of types. This chapter motivates trait objects and takes a
+peek under the hood to see how they are implemented at runtime; then explains
+the important advanced concepts of dynamically sized types and the <code>Sized</code>
+trait; finally, it explains in which situations traits can be used as trait
+objects, what is known as &quot;object safety&quot;.</p>
+<a class="header" href="intro.html#the-rust-language" id="the-rust-language"><h2>The Rust Language</h2></a>
+<p><a href="rusts-built-in-traits.html"><strong>Rust's Built-in Traits, the When, How &amp; Why</strong></a>
+★ <a href="authors.html#Andre%20Bogus">Andre Bogus</a>.
+Traits make all kinds of magic happen in Rust, from operator
+overloading, to thread-safety. Traits are shared vocabulary between
+Rust types, so the standard library defines a bunch of them, and you
+need to know them. Unravel the mystery of <code>PartialEq</code>, <code>Eq</code>,
+<code>PartialOrd</code>, <code>Ord</code>, <code>Add</code>, <code>Sub</code> and other operators, <code>Index</code>,
+<code>IndexMut</code>, the closure types <code>Fn</code>, <code>FnMut</code>, <code>FnOnce</code>, formatting with
+<code>Display</code> and <code>Debug</code>, <code>Copy</code> and <code>Clone</code>, <code>Drop</code>, <code>Default</code>, <code>Error</code>,
+<code>Hash</code>, <code>Iterator</code>, <code>From</code>, <code>Into</code>, the pointer conversions <code>Deref</code>,
+<code>DerefMut</code>, <code>AsRef</code>, <code>AsMut</code>, <code>Borrow</code>, <code>BorrowMut</code>, <code>ToOwned</code>,
+and thread-safety markers <code>Send</code>, <code>Sync</code>.</p>
+<p><a href="finding-closure-in-rust.html"><strong>Finding Closure in Rust</strong></a>
+★ <a href="authors.html#Huon%20Wilson">Huon Wilson</a>.
+Closures are functions that can directly use variables from their
+enclosing scope. They are a powerful tool in Rust, and come in several
+forms, reflecting Rust's ownership-based design. This chapter covers
+all the details, including the <code>Fn</code>, <code>FnMut</code>, and <code>FnOnce</code> traits,
+captures and the <code>move</code> keyword.</p>
+<a class="header" href="intro.html#unsafe-rust" id="unsafe-rust"><h2>Unsafe Rust</h2></a>
+<a class="header" href="intro.html#rust-in-practice" id="rust-in-practice"><h2>Rust in Practice</h2></a>
+<a class="header" href="intro.html#the-rust-toolbox" id="the-rust-toolbox"><h2>The Rust Toolbox</h2></a>
+<a class="header" href="intro.html#async-io" id="async-io"><h2>Async I/O</h2></a>
+<a class="header" href="intro.html#rust-culture" id="rust-culture"><h2>Rust Culture</h2></a>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+
+                
+                    <a href="authors.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+
+            
+                <a href="authors.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

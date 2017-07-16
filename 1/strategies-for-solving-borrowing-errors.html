@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Strategies for Solving 'cannot move out of' Borrowing Errors - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html" class="active"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <hr />
+<p>layout: post
+title: &quot;Strategies for solving 'cannot move out of' borrowing errors in Rust&quot;
+tags:</p>
+<ul>
+<li>rustlang
+status: publish
+type: post
+published: true</li>
+</ul>
+<hr />
+<p>The rules around <a href="https://doc.rust-lang.org/stable/book/references-and-borrowing.html#the-rules">references and borrowing</a> in Rust are fairly straight-forward. Given an owned variable, we are allowed to have as many <em>immutable</em> references to that variable as we want. Rust defaults to immutability, so even functions like <a href="https://doc.rust-lang.org/stable/std/primitive.str.html#method.trim">trim</a> are written in such a way that the result is a reference to the original string:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+   let name = &quot; Herman &quot;.to_string();
+   let trimmed_name = name.trim(); // == &amp;[1..n-1]
+}
+</code></pre></pre>
+<p>The only caveat is that I cannot <em>move</em> the <code>name</code> variable anymore. If I try to move <code>name</code>, the compiler will give me an error: <em>cannot move out of <code>name</code> because it is borrowed</em>.</p>
+<pre><code class="language-rust ignore">fn main() {
+   let name = &quot; Herman &quot;.to_string();
+   let trimmed_name = name.trim();
+
+   let owned_name = name; // move error
+}
+</code></pre>
+<p>The compiler knows that <code>trimmed_name</code> is a reference to <code>name</code>. As long as <code>trimmed_name</code> is still in scope, the compiler will not let us pass <code>name</code> to a function, reassign it or do any other <em>move</em> operation. We could <code>clone()</code> the <code>name</code> variable and then trim it, but we really just want to let the compiler know when we are done <em>borrowing</em> <code>name</code>. The key word here is <em>scope</em>. If the reference to <code>name</code> goes out of scope, the compiler will let us <em>move</em> <code>name</code> because it is no longer being <em>borrowed</em>. Let us wrap the call to <code>trim()</code> in curly braces to denote a different scope.</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+   let name = &quot; Herman &quot;.to_string();
+
+   {
+      let trimmed_name = name.trim();
+   }
+
+   let owned_name = name;
+}
+</code></pre></pre>
+<p>That is simple enough, but let us take it a step further. Suppose we wanted to get back the length of the trimmed string from within our scope. If we do that inside our curly braces, then <code>trimmed_name_len</code> will no longer exist once we leave that scope.</p>
+<pre><code class="language-rust ignore">fn main() {
+   let name = &quot; Herman &quot;.to_string();
+
+   {
+      let trimmed_name = name.trim();
+      let trimmed_name_len = trimmed_name.len();
+   }
+
+   println!(&quot;Length of trimmed string is {}&quot;, trimmed_name_len); // no such variable error
+   let owned_name = name;
+}
+</code></pre>
+<a class="header" href="strategies-for-solving-borrowing-errors.html#strategies" id="strategies"><h2>Strategies</h2></a>
+<p>There are a few ways to deal with this. They all look pretty similar, but have different trade-offs. We can return the value from a scoped block of code:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+   let name = &quot; Herman &quot;.to_string();
+
+   let trimmed_name_len = {
+      let trimmed_name = name.trim();
+      trimmed_name.len()
+   };
+
+   println!(&quot;Length of trimmed string is {}&quot;, trimmed_name_len);
+   let owned_name = name;
+}
+</code></pre></pre>
+<p>This is a cheap and quick way to force the reference to go out of scope. It does not require us to specify parameters or their types nor does it require us to specify the return type. It is not reusable though. We can get some more reuse if we use an anonymous function (or closure):</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+   let name = &quot; Herman &quot;.to_string();
+
+   let f = |name: &amp;str| {
+      let trimmed_name = name.trim();
+      trimmed_name.len()
+   };
+
+   let trimmed_name_len = f(&amp;name);
+
+   println!(&quot;Length of trimmed string is {}&quot;, trimmed_name_len);
+   let owned_name = name;
+}
+</code></pre></pre>
+<p>A closure requires us to specify parameters and their types, but makes specifying the return type optional. The way this is written, the anonymous function <code>f</code> is only usable within the function scope. If we want complete reusuability we can use a normal function:</p>
+<pre><pre class="playpen"><code class="language-rust">fn len_of_trimmed_string(name: &amp;str) -&gt; usize {
+      let trimmed_name = name.trim();
+      trimmed_name.len()
+}
+
+fn main() {
+   let name = &quot; Herman &quot;.to_string();
+
+   let trimmed_name_len = len_of_trimmed_string(name.as_ref());
+
+   println!(&quot;Length of trimmed string is {}&quot;, trimmed_name_len);
+   let owned_name = name;
+}
+</code></pre></pre>
+<p>These strategies only work if we are calling immutable functions. We are temporarily keeping the reference to get some other peice of information. This works really well that information is something like implements the <code>Copy</code> trait, such as numbers or booleans. If we wanted to do something like remove all spaces on a string like <code>&quot;H e r m a n&quot;</code> then we are mutating the string. We would have to call <code>name.clone()</code> in order to later <em>move</em> the original <code>name</code> variable.</p>
+<a class="header" href="strategies-for-solving-borrowing-errors.html#closure-without-parameters" id="closure-without-parameters"><h3>Closure Without Parameters</h3></a>
+<p>You may have wondered if we really did have to specify parameters when using a closure. If we try to access the <code>name</code> variable from within the closure, it will create a reference during compile time. That reference will continue to exist, even if we try to remove the closure <code>f</code> from scope. Example:</p>
+<pre><code class="language-rust ignore">fn main() {
+   let name = &quot; Herman &quot;.to_string();
+
+   let f = || {
+      let trimmed_name = name.trim();
+      trimmed_name.len()
+   };
+
+   let trimmed_name_len = f();
+
+   println!(&quot;Length of trimmed string is {}&quot;, trimmed_name_len);
+   let owned_name = name; // move error
+}
+</code></pre>
+<pre><code class="language-ignore">error: cannot move out of `name` because it is borrowed
+   let owned_name = name;
+               ^~~~~~~~~~
+note: borrow of `name` occurs here
+    let f = || {
+       let trimmed_name = name.trim();
+       trimmed_name.len()
+    };
+note: in expansion of closure expansion
+</code></pre>
+<a class="header" href="strategies-for-solving-borrowing-errors.html#real-world-example" id="real-world-example"><h2>Real World Example</h2></a>
+<p>The above examples are pretty contrived. However, you will run into this when you are breaking down functions into smaller parts. In this below example, I was using a <code>find_matches</code> function that required an input of type <code>&amp;str</code>. Given a <code>PathBuf</code>, I needed to call the immutable <code>file_name()</code> method on it and then convert it to a <code>&amp;str</code> by calling <code>to_str()</code> before calling <code>find_matches(file_name)</code>. In order to return a tuple of <code>(p, matches)</code>, I had to make sure reference created by <code>file_name</code> was out of scope. I chose to use a function, but could have use curly braces or a closure as we discussed above.</p>
+<pre><code class="language-rust ignore">fn find_matches(s: &amp;str) -&gt; f64 {
+   // ...
+}
+
+fn count_filename_matches(path: &amp;Path) -&gt; f64 {
+    let file_name = path.file_name()
+        .and_then(|f| f.to_str())
+        .unwrap_or_else(|| {
+            debug!(&quot;Unable to determine filename for {:?}&quot;, path);
+            &quot;&quot;
+        });
+
+    find_matches(file_name)
+}
+
+fn find_filename_matches_in_path(path: &amp;str) -&gt; Vec&lt;(PathBuf, f64)&gt; {
+    fs::read_dir(path).unwrap()
+        .map(|p| p.unwrap().path())
+        .map(|p| {
+            let matches = count_filename_matches(p.as_ref(), cmd);
+            (p, matches)
+        })
+        .filter(|&amp;(ref _p, matches)| {
+            matches &gt; 0.0
+        })
+        .collect()
+}
+</code></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="the-problem-with-shared-mutability.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="fearless-concurrency.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="the-problem-with-shared-mutability.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="fearless-concurrency.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

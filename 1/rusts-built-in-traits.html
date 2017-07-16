@@ -1,0 +1,549 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Rust's Built-in Traits, the When, How &amp; Why - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html" class="active"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="rusts-built-in-traits.html#rusts-built-in-traits-the-when-how--why" id="rusts-built-in-traits-the-when-how--why"><h1>Rust's Built-in Traits, the When, How &amp; Why</h1></a>
+<p>As the title not quite subtly hints, today I'm going to write about the
+<em>traits</em> that come with <a href="http://rust-lang.org">Rust</a>'s standard library,
+specifically from the context of a library writer yearning to give their users
+a good experience.</p>
+<p>Note that I define built-in as &quot;came with the box that you downloaded Rust
+in&quot;. This includes traits that have no special language semantics.</p>
+<p>Rust uses traits for a good number of things, from the quite obvious operator
+overloading to the very subtle like <code>Send</code> and <code>Sync</code>. Some traits can be
+<em>auto-derived</em> (which means you can just write
+<code>#[derive(Copy, Clone, PartialEq, Eq, Debug, Default, Hash, …)]</code> and get a
+magically appearing implementation that usually does the right thing. with
+Send and Sync, you actually have to actively opt out of implementing them.</p>
+<p>So I'll try to go from the obvious and specific to the nebulous and (perhaps)
+surprising:</p>
+<a class="header" href="rusts-built-in-traits.html#partialeqord" id="partialeqord"><h3>(Partial)–Eq/Ord</h3></a>
+<p><a href="http://doc.rust-lang.org/std/cmp/trait.PartialEq.html"><code>PartialEq</code></a> defines
+partial equality. This means the relation is
+<a href="https://en.wikipedia.org/wiki/Symmetric_relation">symmetric</a> (<code>a == b</code> →
+<code>b == a</code> for all <code>a</code> and <code>b</code> of the respective type) and
+<a href="https://en.wikipedia.org/wiki/Transitive_relation">transitive</a> (<code>a == b</code>
+∧ <code>b == c</code> → <code>a == c</code> for all <code>a</code>, <code>b</code> and <code>c</code> of the type).</p>
+<p><a href="http://doc.rust-lang.org/std/cmp/trait.Eq.html"><code>Eq</code></a> is used as a marker to
+declare that <code>PartialEq</code> is also
+<a href="https://en.wikipedia.org/wiki/Reflexive_relation">reflexive</a> (<code>a == a</code> for
+all <code>a</code> of the respective type). Counter-Example: The <code>f32</code> and <code>f64</code> types
+implement <code>PartialEq</code>, but not <code>Eq</code>, because <code>NAN != NAN</code>.</p>
+<p>It is useful to implement both traits, for a good number of <code>std</code>'s types use
+them as trait bounds for one thing or another, e.g. <code>Vec</code>'s <code>dedup()</code> function.
+Auto-deriving <code>PartialEq</code> will make the <code>eq</code>-method check equality of all parts
+of your type (e.g. for <code>struct</code>s, all parts will be checked, while for <code>enum</code>
+types, the variant along with all its contents is checked).</p>
+<p>Since <code>Eq</code> is basically empty (apart from a
+<a href="http://doc.rust-lang.org/src/core/cmp.rs.html#81">pre-defined marker method</a>
+that is used by the auto-deriving logic to ensure that it actually worked and
+probably shouldn't be used anywhere else), auto-deriving has no chance of doing
+something interesting, so it won't.</p>
+<p><a href="http://doc.rust-lang.org/std/cmp/trait.PartialOrd.html"><code>PartialOrd</code></a> defines
+a partial order, and extends the equality of <code>PartialEq</code> by the
+<a href="http://doc.rust-lang.org/std/cmp/enum.Ordering.html"><code>Ordering</code></a> relation.
+Partial in this case means there may be instances of your type that cannot be
+meaningfully compared.</p>
+<p><a href="http://doc.rust-lang.org/std/cmp/trait.Ord.html"><code>Ord</code></a> requires a full order
+relation. In contrast to <code>PartialEq</code>/<code>Eq</code>, those two traits actually have a
+different interface (the <code>partial_cmp(…)</code> method returns <code>Option&lt;Ordering&gt;</code>, so
+it can return <code>None</code> for incomparable instances, while <code>Ord</code>'s <code>cmp(…)</code> returns
+the <code>Ordering</code> directly), and their only relation is that if you wish to
+implement <code>Ord</code>, you have to implement <code>PartialOrd</code> as well, for the latter is
+a trait bound for the former.</p>
+<p>Auto-deriving both will order structs
+<a href="https://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>, enums
+by the appearance of the variant in the definition (unless you define values
+for the variants).</p>
+<p>Should you opt to implement the relation manually, be careful to ensure a stable
+result that follows the rules of ordering relations, lest your program break in
+confusing ways.</p>
+<p>The order imposed by (<code>Partial</code>)<code>Ord</code> is used for the <code>&lt;</code>, <code>&lt;=</code>, <code>=&gt;</code> and <code>&gt;</code>
+operators.</p>
+<a class="header" href="rusts-built-in-traits.html#arithmetic-operators" id="arithmetic-operators"><h3>Arithmetic Operators</h3></a>
+<p>The following table shows the relation between arithmetic operators and traits:</p>
+<table><thead><tr><th>Operator</th><th>Trait</th></tr></thead><tbody>
+<tr><td><code>a + b</code> </td><td><a href="http://doc.rust-lang.org/std/ops/trait.Add.html"><code>Add</code></a></td></tr>
+<tr><td><code>a - b</code> </td><td><a href="http://doc.rust-lang.org/std/ops/trait.Sub.html"><code>Sub</code></a></td></tr>
+<tr><td><code>-a</code>    </td><td><a href="http://doc.rust-lang.org/std/ops/trait.Neg.html"><code>Neg</code></a></td></tr>
+<tr><td><code>a * b</code> </td><td><a href="http://doc.rust-lang.org/std/ops/trait.Mul.html"><code>Mul</code></a></td></tr>
+<tr><td><code>a / b</code> </td><td><a href="http://doc.rust-lang.org/std/ops/trait.Div.html"><code>Div</code></a></td></tr>
+<tr><td><code>a % b</code> </td><td><a href="http://doc.rust-lang.org/std/ops/trait.Rem.html"><code>Rem</code></a></td></tr>
+</tbody></table>
+<p>Apart from <a href="http://doc.rust-lang.org/std/ops/trait.Rem.html"><code>Rem</code></a>, which is
+an abbreviation for <em>Remainder</em>, also  known as <code>mod</code> in some other languages,
+those are pretty obvious. The binary operator traits all have a <code>RHS</code>
+(=right-hand-side) generic type bound which defaults to <code>Self</code>, as well as an
+associated <code>Output</code> type that the implementation has to declare.</p>
+<p>This means you can implement e.g. addition of a <code>Foo</code> and a <code>Bar</code> to return a
+<code>Baz</code> if you so desire. Note that while the operations do not constrain their
+semantics in any way, it is strongly advisable not to make them mean something
+entirely different than their arithmetical counterparts shown above, lest your
+implementation become a
+<a href="http://www.urbandictionary.com/define.php?term=footgun">footgun</a> for other
+developers.</p>
+<p>Aside: Just before Rust 1.0.0, someone actually implemented <code>Add</code> for <code>String</code>
+and <code>Vec</code> to mean concatenation. It took yours truly (among others) a
+heartrending plea to the Rust gods until they mended this particular error at
+least for <code>Vec</code>. This means that you can write <code>my_string + &quot; etc.&quot;</code> as long
+as <code>my_string</code> is a <code>String</code> – note that this will actually consume
+<code>my_string</code> by value, which may be confusing to some.</p>
+<a class="header" href="rusts-built-in-traits.html#bit-operators" id="bit-operators"><h3>Bit-Operators</h3></a>
+<p>The following operators are defined to be used bitwise. Note that unlike the
+<code>!</code>-operator, the short-circuiting <code>&amp;&amp;</code> and <code>||</code> cannot be overloaded – because
+this would require them to avoid eagerly evaluating their arguments, which
+isn't easily possible in Rust – and even if it were possible, e.g. using
+closures as a workaround, it would just be confusing other developers.</p>
+<table><thead><tr><th>Operator</th><th>Trait</th></tr></thead><tbody>
+<tr><td><code>!a</code>    </td><td><a href="http://doc.rust-lang.org/std/ops/trait.Not.html"><code>Not</code></a></td></tr>
+<tr><td><code>a &amp; b</code> </td><td><a href="http://doc.rust-lang.org/std/ops/trait.BitAnd.html"><code>BitAnd</code></a></td></tr>
+<tr><td>`a </td><td> b` </td><td><a href="http://doc.rust-lang.org/std/ops/trait.BitOr.html"><code>BitOr</code></a></td></tr>
+<tr><td><code>a ^ b</code> </td><td><a href="http://doc.rust-lang.org/std/ops/trait.BitXor.html"><code>BitXor</code></a></td></tr>
+<tr><td><code>a &lt;&lt; b</code></td><td><a href="http://doc.rust-lang.org/std/ops/trait.Shl.html"><code>Shl</code></a></td></tr>
+<tr><td><code>a &gt;&gt; b</code></td><td><a href="http://doc.rust-lang.org/std/ops/trait.Shr.html"><code>Shr</code></a></td></tr>
+</tbody></table>
+<p>Like with all operators, be wary of implementing those for your type unless you
+have specific reason to, e.g. it may make sense to define some of them on
+<code>BitSet</code>s (which by the way are no longer part of the standard library as of
+Rust 1.3.0) or on types representing large integers.</p>
+<a class="header" href="rusts-built-in-traits.html#index-and-indexmut" id="index-and-indexmut"><h3>Index and IndexMut</h3></a>
+<p>The <a href="http://doc.rust-lang.org/std/ops/trait.Index.html"><code>Index</code></a> and
+<a href="http://doc.rust-lang.org/std/ops/trait.IndexMut.html"><code>IndexMut</code></a> traits
+specify the indexing operation with immutable and mutable results. The former
+is read-only, while the latter allows both assigning and mutating the value,
+that is calling a function that takes a <code>&amp;mut</code> argument (note that this may,
+but need not be self).</p>
+<p>You will most likely want to implement them with any sort of collection
+classes. Apart from those, use of those traits would be a
+<a href="http://www.urbandictionary.com/define.php?term=footgun">footgun</a> anyway.</p>
+<a class="header" href="rusts-built-in-traits.html#fn-fnmut-and-fnonce" id="fn-fnmut-and-fnonce"><h3>Fn, FnMut and FnOnce</h3></a>
+<p>the <code>Fn*</code>-traits abstract the act of calling something. The difference between
+those traits is simply how the <code>self</code> is taken:
+<a href="http://doc.rust-lang.org/std/ops/trait.Fn.html"><code>Fn</code></a> takes it by reference,
+<a href="http://doc.rust-lang.org/std/ops/trait.FnMut.html"><code>FnMut</code></a> by mutable
+reference and <a href="http://doc.rust-lang.org/std/ops/trait.FnOnce.html"><code>FnOnce</code></a>
+consumes it by value (which is after all why it can only be called once, as
+there is no <code>self</code> to call afterwards).</p>
+<p>Note that this distinction is just about <code>self</code>, not any of the other
+arguments. It is perfectly fine to call a <code>Fn</code> with mutably referenced or even
+owned/moved arguments.</p>
+<p>The traits are auto-derived for functions and closures and I have yet to see
+a different case where they are useful. stebalien also points out that they
+actually <em>cannot</em> be implemented in stable Rust.</p>
+<a class="header" href="rusts-built-in-traits.html#display-and-debug" id="display-and-debug"><h3>Display and Debug</h3></a>
+<p><a href="http://doc.rust-lang.org/std/fmt/trait.Display.html"><code>Display</code></a> and
+<a href="http://doc.rust-lang.org/std/fmt/trait.Debug.html"><code>Debug</code></a> are used for
+formatting values. The former is meant to produce user-facing output and as
+such cannot be auto-derived, while the latter will usually produce a JSON-like
+representation of your type and can safely be auto-derived for most types.</p>
+<p>Should you decide to implement <code>Debug</code> manually, you may want to distinguish
+between the normal <code>{:?}</code> format specifier and the pretty-printing <code>{:#?}</code> one.
+The easiest way to do this is to use the Debug Builder method. The
+<a href="http://doc.rust-lang.org/std/fmt/struct.Formatter.html"><code>Formatter</code></a> type has
+some (unfortunately unstable as of yet, but soon to be stabilized) very helpful
+methods, look for <code>debug_struct(&amp;mut self, &amp;str)</code>,
+<code>debug_tuple(&amp;mut self, &amp;str)</code>, etc.</p>
+<p>Otherwise you can do this by querying the <code>Formatter::flags()</code> method, which
+will have the <code>4</code> bit set (which I found out by
+<a href="https://play.rust-lang.org/?gist=f9024a36b7e0e61c1ce7&amp;version=stable">experiment</a>).
+Thus, if <code>(f.flags() &amp; 4) == 4</code> is <code>true</code>, the caller asked you to produce
+pretty-printed output. Note that this is expressly <em>not</em> a public part of
+<code>Debug</code>/<code>Formatter</code>'s interface, so the Rust gods could change this the moment
+I write this.</p>
+<p>Seriously, if you can help it, use auto-derived <code>Debug</code> or debug builders.</p>
+<p>Aside: It's not very common, but there may be cyclic object graphs in Rust,
+which would send the debug logic into infinite recursion (well, usually the
+application will crash with a stack overflow). In most cases, this is
+acceptable, because cycles <em>are</em> quite uncommon. In case you suspect your
+type to form cycles more often than average, you may want to do something
+about it.</p>
+<a class="header" href="rusts-built-in-traits.html#copy-and-clone" id="copy-and-clone"><h3>Copy and Clone</h3></a>
+<p>Those two traits take care of duplicating objects.</p>
+<p><a href="http://doc.rust-lang.org/std/marker/trait.Copy.html"><code>Copy</code></a> declares that
+your type can be safely copied. This means that if you copy the memory a value
+of your type resides in, you get a new valid value that has no references to
+data of the original. It can be auto-derived (and requires
+<a href="http://doc.rust-lang.org/std/clone/trait.Clone.html"><code>Clone</code></a>, because all
+<code>Copy</code>able types are also <code>Clone</code>able by definition). In fact there is no use
+in implementing it manually anywhere.</p>
+<p>There are exactly three reasons <em>not</em> to implement <code>Copy</code>:</p>
+<ol>
+<li>Your type cannot be <code>Copy</code>able, because it contains mutable references
+or implements <code>Drop</code>.</li>
+<li><s>Your type is so big that copying it would be prohibitively expensive (e.g.
+it could contain an <code>[f64; 65536]</code>)</s> Rust Guru eddyb notes that Rust
+would still copy the whole thing unless you work with references.</li>
+<li>You actually want <em>move semantics</em> for your type</li>
+</ol>
+<p>The third reason should be explained further. By default, Rust has <em>move</em>
+semantics – if you assign a value from <code>a</code> to <code>b</code>, <code>a</code> no longer holds the
+value. However, for types that have a <code>Copy</code> implementation, the value is
+actually copied (unless the original value is no longer used, in which case
+LLVM <em>may</em> elide the copy to improve performance). The
+<a href="http://doc.rust-lang.org/std/marker/trait.Copy.html">docs</a> for <code>Copy</code> go into
+more detail.</p>
+<p><a href="http://doc.rust-lang.org/std/clone/trait.Clone.html"><code>Clone</code></a> is a more
+generic solution that will take care of any references. You will probably want
+to auto-derive it in most cases (as being able to clone values is rather
+useful), and only implement it manually for things like custom refcounting
+schemes, garbage collection or something similar.</p>
+<p>In contrast to <code>Copy</code> which actually alters assignment semantics, <code>Clone</code> is
+explicit: It defines the <code>.clone()</code> method which you have to call manually to
+clone something.</p>
+<a class="header" href="rusts-built-in-traits.html#drop" id="drop"><h3>Drop</h3></a>
+<p>The <a href="http://doc.rust-lang.org/std/ops/trait.Drop.html"><code>Drop</code></a> trait is about
+giving back resources when things go out of scope. Much has been written about
+it, and how you shouldn't rely on it being called should something go wrong.
+Still, it's very nice especially for wrapping FFI constructs that have to
+somehow be reclaimed later, also it's used on files, sockets, database handles
+and the kitchen sink.</p>
+<p>Unless you have an instance where this applies, you should refrain from
+implementing <code>Drop</code> at all – your values will be <code>Drop</code>ped correctly by default
+anyway. A (temporary) exception is to insert some tracing output to find out
+when a specific value has been dropped.</p>
+<a class="header" href="rusts-built-in-traits.html#default" id="default"><h3>Default</h3></a>
+<p><a href="http://doc.rust-lang.org/std/default/trait.Default.html"><code>Default</code></a> is a trait
+to declare a default value for your type. It can be auto-derived, but <em>only</em>
+for <code>struct</code>s whose members all have a <code>Default</code> implementations.</p>
+<p>It is implemented for a great many types in the standard libraries, and also
+used in a surprising number of places. So if your type has a value that can
+be construed as being &quot;default&quot;, it is a good idea to implement this trait.</p>
+<p>A great thing with <code>struct</code>s that have a <code>Default</code> implementation, is you can
+instantiate them with only the non-default values like:</p>
+<pre><code class="language-rust ignore">let x = Foo { bar: baz, ..Default::default() }
+</code></pre>
+<p>and have all other fourtytwo fields of Foo be filled with default values. How
+cool is that? Honestly, the only single reason not to have <code>Default</code> is if
+your type has no single value that works as a default.</p>
+<a class="header" href="rusts-built-in-traits.html#error" id="error"><h3>Error</h3></a>
+<p><a href="http://doc.rust-lang.org/std/error/trait.Error.html"><code>Error</code></a> is a base trait
+for all values representing an error in Rust. For those coming from Java, it is
+akin to <code>Throwable</code> – and behaves similarly (apart from the fact that we
+neither <code>catch</code> nor <code>throw</code> them).</p>
+<p>It is a <em>very</em> good idea to implement <code>Error</code> for any type you intend to use in
+the latter part of
+<a href="http://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a>. Doing so will
+make your functions <em>much</em> more composable, especially when you can simply
+<a href="http://doc.rust-lang.org/std/boxed/struct.Box.html"><code>Box</code></a> the Error as a
+trait object.</p>
+<p>Look at the
+<a href="http://doc.rust-lang.org/nightly/book/error-handling.html#using-try!">Using <code>try!</code></a>
+section of the Rust book for further information.</p>
+<a class="header" href="rusts-built-in-traits.html#hash" id="hash"><h3>Hash</h3></a>
+<p>Hashing is the process of reducing a bag of data into a single value that still
+distinguishes different data items while returning the same value for equal
+items without requiring as much bits as the processed data.</p>
+<p>In Rust, the <a href="http://doc.rust-lang.org/std/hash/trait.Hash.html"><code>Hash</code></a> trait
+denotes values to which this process can be applied. Note that this trait does
+not relate any information about the hash <em>algorithm</em> used (this is
+encapsulated within the
+<a href="http://doc.rust-lang.org/std/hash/trait.Hasher.html"><code>Hasher</code></a> trait), it
+basically just orders the bits to be hashed.</p>
+<p>Aside: This is also the reason why
+<a href="http://doc.rust-lang.org/std/collections/struct.HashMap.html"><code>HashMap</code></a> does
+not implement <code>Hash</code> itself, because two equal hash maps could still store
+their contents in different order, resulting in different hashes, which would
+break the hashing contract. Even if the items were ordered (see <code>Ord</code> above),
+hashing them would require sorting, which would be too expensive to be useful.
+One could also xor the entry hash values, but that would require re-using the
+<code>Hasher</code>, which would at least require a <code>Clone</code> bound, which the interface
+lacks. In any event, use a
+<a href="http://doc.rust-lang.org/std/collections/struct.BTreeMap.html"><code>BTreeMap</code></a>
+as key for your maps if you must have maps as keys to a hashmap. In that case,
+you should probably also be thinking about a career change.</p>
+<p>Unless you have some very specific constraints regarding equality, you can
+safely auto-derive <code>Hash</code>. Should you choose to implement it manually, be
+careful not to break its contract, lest your programs fail in surprising and
+hard to debug ways.</p>
+<a class="header" href="rusts-built-in-traits.html#iterator-and-friends" id="iterator-and-friends"><h3>Iterator and Friends</h3></a>
+<p>Rust's <code>for</code> loops work can iterate over everything that implements
+<a href="http://doc.rust-lang.org/std/iter/trait.IntoIterator.html"><code>IntoIterator</code></a>.
+Yes, that includes
+<a href="http://doc.rust-lang.org/std/iter/trait.Iterator.html"><code>Iterator</code></a> itself.
+Apart from that, the <code>Iterator</code> trait has a lot of cool methods for working
+with the iterated values, like <code>filter</code>, <code>map</code>, <code>enumerate</code>, <code>fold</code>, <code>any</code>,
+<code>all</code>, <code>sum</code>, <code>min</code> and much more.</p>
+<p>Did I tell you I love iterators? If your type contains more than one value of
+something, and it makes sense to do the same thing to all of them, consider
+providing an <code>Iterator</code> over them just in case. :-)</p>
+<p>Implementing <code>Iterator</code> is actually pretty easy – you just need to declare the
+<code>Item</code> type and write the <code>next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;</code> method. This
+method should return <code>Some(value)</code> as long as you have values, then return
+<code>None</code> to stop the iteration.</p>
+<p>Note that if you have a <em>slice</em> of values (or an array or vec, from which you
+can <em>borrow</em> a slice), you can get its iterator directly, so you don't even
+need to implement it yourself. This may not be as cool as auto-deriving, but
+it's nice nonetheless.</p>
+<p>While writing <a href="https://github.com/llogiq/optional">optional</a>, I found that
+using a const slice's iterator is faster in the boolean case, but creating a
+slice of the value is still slower than copying it for most values. Your
+mileage may vary.</p>
+<a class="header" href="rusts-built-in-traits.html#from-into-and-various-variations" id="from-into-and-various-variations"><h3>From, Into and Various Variations</h3></a>
+<p>I said it before, whoever designed the
+<a href="http://doc.rust-lang.org/std/convert/trait.From.html"><code>From</code></a> and
+<a href="http://doc.rust-lang.org/std/convert/trait.Into.html"><code>Into</code></a> traits is a
+genius. They abstract over <em>conversions</em> between types (which are used quite
+often) and allow library authors to make their libraries much more
+interoperable, e.g. by using <code>Into&lt;T&gt;</code> instead of <code>T</code> as arguments.</p>
+<p>For obvious reasons, those traits cannot be auto-derived, but writing them
+should be trivial in most cases. If you choose to implement them – and you
+should wherever you find a worthwhile conversion! – implement <code>From</code> wherever
+possible, and failing that implement <code>Into</code>.</p>
+<p>Why? There is a blanket implementation of <code>Into&lt;U&gt;</code> for <code>T</code> where <code>U: From&lt;T&gt;</code>.
+This means if you have implemented <code>From</code>, you get an <code>Into</code> delivered to your
+home free of charge.</p>
+<p>Why not implement <code>From</code> everywhere? The orphan rule unfortunately forbids
+implementing <code>From</code> for types not defined in other crates. For example, I have
+an <code>Optioned&lt;T&gt;</code> type, that I may want to convert into an
+<a href="http://doc.rust-lang.org/std/option/enum.Option.html"><code>Option&lt;T&gt;</code></a>. Trying to
+implement <code>From</code>:</p>
+<pre><code class="language-rust ignore">impl&lt;T: Noned + Copy&gt; From&lt;Optioned&lt;T&gt;&gt; for Option&lt;T&gt; {
+    #[inline]
+    fn from(self) -&gt; Option&lt;T&gt; { self.map_or_else(|| none(), wrap) }
+}
+</code></pre>
+<p>I get an error: type parameter <code>T</code> must be used as the type parameter for some
+local type (e.g. <code>MyStruct&lt;T&gt;</code>); only traits defined in the current crate can
+be implemented for a type parameter <code>[E0210]</code></p>
+<p>Note that you can implement <code>From</code> and <code>Into</code> with multiple classes, you can
+have a <code>From&lt;Foo&gt;</code> and a <code>From&lt;Bar&gt;</code> for the same type.</p>
+<p>There are a good number of traits starting with <code>Into</code> – <code>IntoIterator</code>, which
+is stable and which we already have discussed above, just being one of them.
+There also is
+<a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html"><code>FromIterator</code></a>,
+which does the reverse, namely constructing a value of your type from an
+iterator of items.</p>
+<p>Then there is <a href="http://doc.rust-lang.org/std/str/trait.FromStr.html"><code>FromStr</code></a>
+for any types that can be parsed from a string, which is very useful for types
+that you want read from any textual source, e.g. configuration or user input.
+Note that its interface differs from <code>From&lt;&amp;str&gt;</code> in that it returns a
+<code>Result</code>, and thus allows to relate parsing errors to the caller.</p>
+<a class="header" href="rusts-built-in-traits.html#derefmut-asrefasmut-borrowmut-and-toowned" id="derefmut-asrefasmut-borrowmut-and-toowned"><h3>Deref(Mut), AsRef/AsMut, Borrow(Mut) and ToOwned</h3></a>
+<p>Those all have to do with references and borrowing, so I grouped them into one
+section.</p>
+<p>The prefix-<code>*</code>-operator <em>dereferences</em> a reference, producing the value. This
+is directly represented by the
+<a href="http://doc.rust-lang.org/std/ops/trait.Deref.html"><code>Deref</code></a> trait; if we
+require a mutable value (e.g. to assign somehing or call a mutating function),
+we invoke the
+<a href="http://doc.rust-lang.org/std/ops/trait.DerefMut.html"><code>DerefMut</code></a> trait.</p>
+<p>Note that this does not necessarily mean <em>consuming</em> the value – maybe we take
+a reference to it in the same expression, e.g. <code>&amp;*x</code> (which you will likely
+find in code that deals with special kinds of pointers, e.g. <code>syntax::ptr::P</code>
+is widely used in <a href="https://github.com/Manishearth/rust-clippy">clippy</a> and
+other lints / compiler plugins. Perhaps <code>as_ref()</code> would be clearer in those
+cases (see below), but here we are.</p>
+<p>The <code>Deref</code> trait has but one method: <code>fn deref(&amp;'a self) -&gt; &amp;'a Self::Target;</code>
+where <code>Target</code> is an associated type of the trait. The lifetime bound on the
+result requires that the returned value live as long as self. This requirement
+restricts the possible implementation strategies to two options:</p>
+<ol>
+<li>
+<p>Dereference to a value <em>within</em> your type, e.g. if you have a
+<code>struct Foo { b: Bar }</code>, you could dereference to <code>Bar</code>. Note that this doesn't
+mean you <em>should</em> do it, but it's possible and may in some cases be useful.
+This obviously works as long as the part's lifetime is the one of the whole,
+which is the default with Rust's lifetime elision.</p>
+</li>
+<li>
+<p>Dereference to a constant <code>'static</code> value – I
+<a href="https://github.com/llogiq/optional/blob/db2b4c742e41f4607e64b9e855ae4638d839e828/src/lib.rs#L76">do this</a>
+in optional to have <code>OptionBool</code> dereference to a const <code>Option&lt;bool&gt;</code>. This
+works because the result is guaranteed to outlive our value, because it is
+alive for the rest of the program. This is only useful if you have a finite
+value domain. Even then, it is probably clearer to use
+<a href="http://doc.rust-lang.org/std/convert/trait.Into.html"><code>Into</code></a> instead of
+<code>Deref</code>. I doubt that we will see this too often.</p>
+</li>
+</ol>
+<p><a href="http://doc.rust-lang.org/std/ops/trait.DerefMut.html"><code>DerefMut</code></a> only has the
+former strategy. Its usefulness is limited to implementing special kinds of
+pointers.</p>
+<p>To see why no other implementation can be possible, let's make a thought
+experiment: If we had a return value that is neither static, nor bound to the
+lifetime <code>'a</code> of our dereferenced value, it would by definition have a lifetime
+<code>'b</code> that is <em>distinct</em> from <code>'a</code>. There is no way we could unify those two
+lifetimes – QED.</p>
+<p>As for the other traits, they exist mainly to abstract away the act of
+borrowing / referencing for some types (because e.g. with <code>Vec</code>s it is possible
+to borrow a slice of them). As such, they fall into the same category as the
+<code>From</code>/<code>Into</code> traits – they don't get invoked behind the scenes, but exist to
+make some interfaces more adaptable.</p>
+<p>The relation between
+<a href="http://doc.rust-lang.org/std/borrow/trait.Borrow.html"><code>Borrow</code></a>,
+<a href="http://doc.rust-lang.org/std/convert/trait.AsRef.html"><code>AsRef</code></a>/<a href="http://doc.rust-lang.org/std/convert/trait.AsMut.html"><code>AsMut</code></a>
+and <a href="http://doc.rust-lang.org/std/borrow/trait.ToOwned.html"><code>ToOwned</code></a> is as
+follows:</p>
+<table><thead><tr><th>From↓ / To→  </th><th>Reference      </th><th>Owned</th></tr></thead><tbody>
+<tr><td><strong>Reference</strong></td><td><code>AsRef</code>/<code>AsMut</code></td><td><code>ToOwned</code></td></tr>
+<tr><td><strong>Owned</strong>    </td><td><code>Borrow</code>(<code>Mut</code>)</td><td>(perhaps <code>Copy</code> or <code>Clone</code>?)</td></tr>
+</tbody></table>
+<p>For an example where this applies, look no further than my earlier
+<a href="/2015/07/09/cow.html">detective story about <code>std::borrow::Cow</code></a>.</p>
+<p>Should you decide to implement <code>Borrow</code> and/or <code>BorrowMut</code>, you need to ensure
+that the result of <code>borrow()</code> has the same hash value as the borrowed original
+value, lest your program fail in strange and confusing ways.</p>
+<p>In fact, unless your type does something interesting with ownership (like
+<code>Cow</code> or <a href="https://github.com/Kimundi/owning-ref-rs"><code>owning_ref</code></a>), you should
+probably leave <code>Borrow</code>, <code>BorrowMut</code> and <code>ToOwned</code> alone and use a <code>Cow</code> if
+you want to abstract over owned/borrowed values.</p>
+<p>I have not yet divined in what cases <code>AsRef</code>/<code>AsMut</code> may be useful unless you
+count the predefined <code>impl</code>s that <code>std</code> already provides.</p>
+<a class="header" href="rusts-built-in-traits.html#send-and-sync" id="send-and-sync"><h3>Send and Sync</h3></a>
+<p>Those two traits testify that the types transfer trouble-free 'tween threads.</p>
+<p>You will never need to implement them – in fact Rust will do it for you by
+default unless you explicitly opt out (or your type contains a non-threadsafe
+part). You can opt out by saying:</p>
+<pre><code class="language-Rust">impl !Send for MyType {} // this type cannot be sent to other threads
+impl !Sync for MyType {} // nor can it be used by two of them
+</code></pre>
+<p>Note that this is currently not possible in stable Rust (which means that only
+<code>std</code> gets to pull this trick).</p>
+<p><a href="http://doc.rust-lang.org/std/marker/trait.Send.html"><code>Send</code></a> says that you can
+<em>move</em> your type between thread barriers, while
+<a href="http://doc.rust-lang.org/std/marker/trait.Send.html"><code>Sync</code></a> allows <em>sharing</em>
+a value between threads. Let's take a step back and look at what that means,
+probably best with an example.</p>
+<p>Say we have some problem that we intend to solve by calculating some values in
+parallel (because concurrency is the way, baby!). For that we need some
+immutable data that will be the same in all threads – we want <em>shared</em> data.
+This data needs to be <code>Sync</code>able.</p>
+<p>Next, we want to give some part of the problem to each thread. To do this, we
+need to <code>Send</code> it to them. But wait! How do we get the shared data to each
+thread? Easy: We <code>Send</code> a reference to it – this works because of the following
+blanket definition in the standard library:</p>
+<pre><code class="language-Rust">impl&lt;'a, T&gt; Send for &amp;'a T where T: Sync + ?Sized
+</code></pre>
+<p>This means if something can be <code>Sync</code>ed, you can <code>Send</code> a reference to it
+between threads. Cool.</p>
+<p>For a more thorough treatment, see Manish Goregaokar's
+<a href="http://manishearth.github.io/blog/2015/05/30/how-rust-achieves-thread-safety/">How Rust Achieves Thread Safety</a>
+or the <a href="http://doc.rust-lang.org/std/marker/trait.Sync.html"><code>Sync</code> docs</a>.</p>
+<hr />
+<p>Thanks go to stebalien and carols10cents for (proof)reading a draft of this and
+donating their time, effort and awesome comments! This post wouldn't have been
+half as good without them.</p>
+<p>Have I missed, or worse, misunderstood a trait (or a facet of one)? Please
+write your extension requests on
+<a href="https://www.reddit.com/r/rust/comments/3f77j0/blog_rusts_builtin_traits_the_when_how_why/">/r/rust</a>
+or <a href="https://users.rust-lang.org/t/blog-rusts-built-in-traits-the-when-how-and-why/2268">rust-lang users</a>.</p>
+<blockquote>
+<p><a href="https://huonw.github.io/blog/2015/05/finding-closure-in-rust/"><em>Originally published 2015-07-30</em></a></p>
+<p><em>License: TBD</em></p>
+</blockquote>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="finding-closure-in-rust.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="myths-and-legends-about-integer-overflow.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="finding-closure-in-rust.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="myths-and-legends-about-integer-overflow.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

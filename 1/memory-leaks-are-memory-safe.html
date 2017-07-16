@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Memory Leaks are Memory Safe - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html" class="active"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <hr />
+<p>title: Memory Leaks are Memory Safe
+layout: default</p>
+<p>description: &gt;
+Memory unsafety and memory leaks are distinct concepts, despite
+their names. Languages that are merely memory safe (both Rust and
+GC-reliant managed ones) have no guarantee of preventing memory leaks.</p>
+<p>comments:
+r_rust: &quot;https://www.reddit.com/r/rust/comments/4dgvvh/memory_leaks_are_memory_safe_huon_on_the_internet/&quot;
+users: &quot;https://users.rust-lang.org/t/memory-leaks-are-memory-safe/5288?u=huon&quot;
+--    r_programming: &quot;&quot;
+--    hn: &quot;&quot;</p>
+<hr />
+<p><a href="https://en.wikipedia.org/wiki/Memory_safety"><em>Memory unsafety</em></a> and <a href="https://en.wikipedia.org/wiki/Memory_leak"><em>memory leaks</em></a> are arguably the two
+categories of bugs that have received the most attention for
+prevention and mitigation. As their names suggest, they are in the
+same part of &quot;bug space&quot;, however they are in some ways diametric
+opposites, and solving one does not solve the other. The widespread
+use of memory-safe managed languages hammers this point home: they
+avoid some memory unsafety by presenting a &quot;leak everything&quot; model to
+programmers.</p>
+<p>Put simply: <strong>memory unsafety is doing something with invalid data,
+a memory leak is <em>not</em> doing something with valid data</strong>. In table
+form:</p>
+<table><thead><tr></tr></thead><tbody>
+<tr><td> Used           </td><td> 👍 </td><td> Memory unsafety </td></tr>
+<tr><td> Not used            </td><td> Memory leak </td><td> 👍 </td></tr>
+</tbody></table>
+<p>The best programs lie in the 👍 cells only: they manipulate valid
+things, and don't manipulate invalid ones. Passable programs might
+also have some valid data that they don't use (leak memory), but bad
+ones will try to use invalid data.</p>
+<p>When a language, such as Rust, advertises itself as memory <em>safe</em>, it
+isn't saying anything about whether memory <em>leaks</em> are impossible.</p>
+<a class="header" href="memory-leaks-are-memory-safe.html#consequences" id="consequences"><h2>Consequences</h2></a>
+<p>The most important difference between memory unsafety and memory leaks
+in practice is the scope of their possible results, with one easily
+very serious, and the other usually just annoying.</p>
+<p>Memory safety is a key building block in any other form of
+safety/program correctness. If a program is not memory safe, there are
+very few guarantees about its behaviour, due to the possibility of
+memory corruption. A malicious party interacting with a memory unsafe
+program may be able to exploit the unsafety to
+<a href="https://en.wikipedia.org/wiki/Heartbleed">read private keys straight out of a server's memory</a> or
+to execute arbitrary code on someone else's computer.</p>
+<p>On the other hand, a memory leak will generally, at worst, lead to a
+denial-of-service, where a useful program is killed due to using too
+much memory (and, as it grows to this stage, the computer may be
+rendered essentially inoperable due to memory pressure). This also can
+be caused by a malicious attacker, but the damage is usually very much
+more controlled. Of course, a denial-of-service can be extremely
+annoying, and there are places where this is a critical problem, but
+memory unsafety would generally be equally problematic---more likely,
+more problematic. (Additionally, given memory unsafety's inherent lack
+of control, a problem there could easily lead to a denial-of-service
+similar/identical to that which a memory leak can cause.)</p>
+<p>Given this, most programming languages choose to tolerate memory leaks
+(they allow data not be deallocated/cleaned up after the last time it
+is used), but not memory unsafety. That is, most &quot;memory safe
+languages&quot; guarantee all programs written in them have no
+unsafety<sup class="footnote-reference"><a href="memory-leaks-are-memory-safe.html#optin">1</a></sup>, and they only try---usually, try hard---to help
+programmers avoid leaks, but without making a hard promise.</p>
+<div class="footnote-definition" id="optin"><sup class="footnote-definition-label">1</sup>
+<p>More specifically, programming languages will guarantee that
+one can only get unsafety by explicitly opting in to it, in some
+form, such as via Python's <code>ctypes</code> module, or Rust's <code>unsafe</code>
+keyword.</p>
+<a class="header" href="memory-leaks-are-memory-safe.html#delete-free" id="delete-free"><h2><code>delete free</code></h2></a>
+<p>There are a few different ways to get memory unsafety, but there's one
+category (from the Wikipedia article) that stands out when we're
+discussing memory management:</p>
+<blockquote>
+<ul>
+<li><strong>Dynamic memory errors</strong> - incorrect management of dynamic memory and pointers:
+<ul>
+<li><strong>Dangling pointer</strong> - a pointer storing the address of an object that has been deleted.</li>
+<li><strong>Double free</strong> - repeated calls to free may prematurely free a new object at the same address. If the exact address has not been reused, other corruption may occur, especially in allocators that use free lists.</li>
+<li><strong>Invalid free</strong> - passing an invalid address to free can corrupt the heap.</li>
+<li><strong>Null pointer accesses</strong> will cause an exception or program termination in most environments, but can cause corruption in operating system kernels or systems without memory protection, or when use of the null pointer involves a large or negative offset.</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>In that list, only null pointer accesses aren't caused by deallocating
+memory---calling the <code>free</code> function to mark an allocation as
+unused/return it to the operating system---incorrectly. And thus, one
+way to be guaranteed to avoid three quarters of those possibilities is
+to just never call <code>free</code>: if memory is never released, it is
+impossible to suffer from the problems caused by releasing it. In
+terms of the table above, removing <code>free</code> is removing the &quot;Invalid
+data&quot; column: all data is always valid.</p>
+<p>Of course, just disallowing <code>free</code> has some downsides<sup class="footnote-reference"><a href="memory-leaks-are-memory-safe.html#lockfree">2</a></sup>, particularly
+making it very annoying to write programs that don't eventually use
+all available memory. However, computers are infallible in ways humans
+are not, so maybe we could allow them to call <code>free</code>...</p>
+</div>
+<div class="footnote-definition" id="lockfree"><sup class="footnote-definition-label">2</sup>
+<p>It also has some upsides beyond just less memory
+unsafety: if one is OK without <code>free</code>, it becomes much easier to
+write programs where the lifetime of data is unclear, which makes
+many concurrent algorithms easier to write. That said, there are
+schemes for writing such code when manual <code>free</code>s are required,
+such as <a href="https://en.wikipedia.org/wiki/Hazard_pointer">hazard pointers</a> and the simpler
+<a href="http://aturon.github.io/blog/2015/08/27/epoch/">epoch-based memory reclamation</a>.</p>
+</div>
+<a class="header" href="memory-leaks-are-memory-safe.html#optimising-leaks" id="optimising-leaks"><h2>Optimising leaks</h2></a>
+<p>A large fraction of modern code is written in languages designed to be
+memory safe, languages like Java, Javascript, Python and Ruby. They
+have no explicit <code>free</code>, and so automatically manage memory (hence
+&quot;managed language&quot;) via a <em>garbage collector</em> built into the runtime
+systems shipped with the languages' compilers and interpreters.</p>
+<p>At its core<sup class="footnote-reference"><a href="memory-leaks-are-memory-safe.html#layers">3</a></sup>, garbage collection is a way to make it feasible
+to expose a programming model where all allocations leak. Letting a
+garbage collector manage every allocation theoretically allows
+programs (and programmers) to pretend that memory is infinite, not
+needing to carefully track when memory isn't needed any more: programs
+do whatever they want, and the GC will automatically and dynamically
+free chunks of memory that are guaranteed to be unneeded, ensuring the
+program's memory use remains under control. Almost all garbage
+collectors determine neededness conservatively by finding things no longer
+accessible from the main program (the garbage collector itself needs
+to keep track of/have access to all allocations).</p>
+<div class="footnote-definition" id="layers"><sup class="footnote-definition-label">3</sup>
+<p>It's worth noting that the detailed knowledge of memory
+layout required for a top-flight garbage collectors lends itself
+to other tricks, such as allocations usually being a cheap pointer
+bump with a generational GC, and the ability for a moving GC to
+shift data around, improving cache locality (especially useful
+given the generally pointer-heavy nature of most managed
+languages). However, these tricks are orthogonal to both memory
+safety and memory leaks.</p>
+<p>In practice, the programmer has to think about non-infinite
+memory and its consequences a little more often than never, but memory
+unsafety concerns <em>are</em> removed, as desired. High-performance code
+often has to chose particular coding patterns to work-around
+deficiencies with garbage collectors (such as object pools to avoid
+touching the GC in tight loops), and one can accidentally create
+<a href="https://en.wikipedia.org/wiki/Lapsed_listener_problem">chains of references</a> that keep large trees of data
+unnecessarily alive.</p>
+<p>However, even in the face of practical concerns, the point stands:
+without <code>free</code>, there's no scope for some types of memory unsafety.</p>
+<!--(Due credit: I think I first heard an idea along the lines "GC is an
+optimisation for leaking" from
+[Alexis Beingessner](https://twitter.com/Gankro).)-->
+<a class="header" href="memory-leaks-are-memory-safe.html#less-leaky-abstractions" id="less-leaky-abstractions"><h2>Less leaky abstractions</h2></a>
+<p>Given my status, I'd be remiss to mention an alternative to the
+leak-everything managed paradigm: instead using a technique that
+crosses out the whole &quot;Invalid data&quot; column, one can be more precise
+and cross out only the &quot;Memory unsafety&quot; cell. The <a href="https://www.rust-lang.org/">Rust programming language</a> does this.</p>
+<p>Rust doesn't have C-style manual memory management, but rather
+RAII/scope-based resource management similar to C++, allowing types to
+have destructors for automatic clean-up. It does not literally have a
+<code>free</code> function users must remember to call (removing most of the
+&quot;manual&quot;), but the <a href="http://doc.rust-lang.org/std/mem/fn.drop.html"><code>drop</code></a> function serves the role of explicit
+<code>free</code>, allowing one to explicitly cause the destructor to be run on a
+value, thus invalidating it. In contrast to both C and C++, the
+language prevents use of such data at compile time to avoid memory
+unsafety.</p>
+<p>However, a programming model that's not &quot;leak everything&quot; doesn't mean
+it is &quot;leak nothing&quot;: the revised table for Rust (and anything
+similar) still has its memory leak cell.</p>
+<table><thead><tr></tr></thead><tbody>
+<tr><td> Used           </td><td> 👍 </td><td> Impossible </td></tr>
+<tr><td> Not used            </td><td> Memory leak </td><td> 👍 </td></tr>
+</tbody></table>
+<p>I'm not including this section because I think it's a great promotion
+of Rust (being allowed to have invalid data that one can't use doesn't
+exactly sound world-shaking<sup class="footnote-reference"><a href="memory-leaks-are-memory-safe.html#moves">4</a></sup>...), but because that is the hole
+which this article is filling. The similarity of the phrases &quot;memory
+leak&quot; and &quot;memory safety&quot; regularly tricks people who have read &quot;Rust
+is memory safe&quot; into thinking Rust is (just) preventing memory leaks,
+leading to legitimate doubts about what Rust offers instead of, say,
+modern C++ in the space of low-level systems languages.  <strong>Rust
+disallows memory unsafety, but memory leaks are possible</strong>.</p>
+</div>
+<div class="footnote-definition" id="moves"><sup class="footnote-definition-label">4</sup>
+<p>It's pretty useful, in that it allows move semantics to
+work, but that's an article for another time, perhaps.</p>
+<a class="header" href="memory-leaks-are-memory-safe.html#stdmemforget" id="stdmemforget"><h3><code>std::mem::forget</code></h3></a>
+<p>Finally, returning to the title, Rust has the <a href="https://doc.rust-lang.org/std/mem/fn.forget.html"><code>forget</code></a>
+function, which throws away a value without actually running the
+destructor while still marking it invalid as if freed normally, thus
+possibly leaking memory. For a long time, this was marked as <code>unsafe</code>,
+that is, Rust was implicitly including memory leaks as something the
+programmer must opt-in to, like the risk of memory unsafety. However,
+this was not correct in practice, as things like reference cycles and
+thread deadlock could cause memory to leak. Rust <a href="https://github.com/rust-lang/rfcs/blob/master/text/1066-safe-mem-forget.md">decided</a> to
+make <code>forget</code> safe, focusing its guarantees on just preventing memory
+unsafety and instead making only best-effort attempts
+towards preventing memory leaks (like essentially all other
+languages, memory safe and otherwise).</p>
+<a class="header" href="memory-leaks-are-memory-safe.html#not-all-is-lost" id="not-all-is-lost"><h3>Not all is lost!</h3></a>
+<p>Like modern C++, the efforts Rust makes are pretty good, with
+RAII/scope-based resource management (specifically destructors) being
+a powerful tool for managing memory and <a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html#locks">beyond</a> (and
+<a href="http://blog.skylight.io/rust-means-never-having-to-close-a-socket/">beyonder</a>), especially when combined with Rust's
+move-by-default semantics. The point about not being a guarantee is
+that (a) it's not trivial to make a useful <em>formal</em> definition of
+memory leak (at the very least, usefulness varies depending on the
+context), and (b) there are relatively rare edge-cases that seem to be
+impossible to statically prevent without non-trivial cost. The
+<a href="http://doc.rust-lang.org/stable/nomicon/leaking.html">wash-up</a> in Rust's standard library is all values have to be
+<em>memory safe</em> to leak, but they can still consider being leaked
+incorrect. In other words, one may get unwanted behaviour if a value
+is leaked, but the consequences will be more far controlled than a
+segfault or memory corruption.</p>
+<p>{% include comments.html c=page.comments %}</p>
+</div>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="what-does-rusts-unsafe-mean.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+
+            </div>
+
+            
+                <a href="what-does-rusts-unsafe-mean.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

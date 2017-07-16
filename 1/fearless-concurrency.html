@@ -1,0 +1,634 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fearless Concurrency - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="authors.html"><strong>2.</strong> About the Authors</a></li><li><strong>3.</strong> Why Rust?</li><li><ul class="section"><li><a href="understanding-over-guesswork.html"><strong>3.1.</strong> Understanding Over Guesswork</a></li><li><strong>3.2.</strong> An Alternative Introduction to Rust</li><li><strong>3.3.</strong> Learning Rust</li><li><strong>3.4.</strong> Rust and CSV Parsing</li></ul></li><li><strong>4.</strong> Ownership</li><li><ul class="section"><li><a href="where-rust-really-shines.html"><strong>4.1.</strong> Where Rust Really Shines</a></li><li><a href="the-problem-with-shared-mutability.html"><strong>4.2.</strong> The Problem With Single-threaded Shared Mutability</a></li><li><a href="strategies-for-solving-borrowing-errors.html"><strong>4.3.</strong> Strategies for Solving 'cannot move out of' Borrowing Errors</a></li><li><strong>4.4.</strong> Interior Mutability In Rust</li><li><strong>4.5.</strong> Wrapper Types in Rust: Choosing Your Guarantees</li></ul></li><li><strong>5.</strong> Concurrency</li><li><ul class="section"><li><a href="fearless-concurrency.html" class="active"><strong>5.1.</strong> Fearless Concurrency</a></li><li><a href="how-rust-achieves-thread-safety.html"><strong>5.2.</strong> How Rust Achieves Thread Safety</a></li><li><strong>5.3.</strong> Rayon: Data Parallelism in Rust</li></ul></li><li><strong>6.</strong> Traits</li><li><ul class="section"><li><a href="abstraction-without-overhead.html"><strong>6.1.</strong> Abstraction Without Overhead</a></li><li><a href="all-about-trait-objects.html"><strong>6.2.</strong> All About Trait Objects</a></li></ul></li><li><strong>7.</strong> The Rust Language</li><li><ul class="section"><li><a href="rust-reuse-and-recycle.html"><strong>7.1.</strong> The Many Kinds of Code Reuse in Rust</a></li><li><a href="enums-match-mutation-and-moves.html"><strong>7.2.</strong> Mixing Matching, Mutation, and Moves</a></li><li><a href="reading-rust-function-signatures.html"><strong>7.3.</strong> Reading Rust Function Signatures</a></li><li><a href="finding-closure-in-rust.html"><strong>7.4.</strong> Finding Closure in Rust</a></li><li><a href="rusts-built-in-traits.html"><strong>7.5.</strong> Rust's Built-in Traits, the When, How &amp; Why</a></li><li><a href="myths-and-legends-about-integer-overflow.html"><strong>7.6.</strong> Myths and Legends About Integer Overflow</a></li></ul></li><li><strong>8.</strong> Rust in Practice</li><li><ul class="section"><li><a href="effectively-using-iterators.html"><strong>8.1.</strong> Effectively Using Iterators</a></li></ul></li><li><strong>9.</strong> Unsafe Rust</li><li><ul class="section"><li><a href="what-does-rusts-unsafe-mean.html"><strong>9.1.</strong> What Does Rust's <code>unsafe</code> Mean</a></li><li><a href="memory-leaks-are-memory-safe.html"><strong>9.2.</strong> Memory Leaks are Memory Safe</a></li></ul></li><li><strong>10.</strong> The Rust Toolbox</li><li><strong>11.</strong> Async I/O</li><li><strong>12.</strong> Rust Culture</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="fearless-concurrency.html#fearless-concurrency-with-rust" id="fearless-concurrency-with-rust"><h1>Fearless Concurrency with Rust</h1></a>
+<p>The Rust project was initiated to solve two thorny problems:</p>
+<ul>
+<li>How do you do safe systems programming?</li>
+<li>How do you make concurrency painless?</li>
+</ul>
+<p>Initially these problems seemed orthogonal, but to our amazement, the
+solution turned out to be identical: <strong>the same tools that make Rust
+safe also help you tackle concurrency head-on</strong>.</p>
+<p>Memory safety bugs and concurrency bugs often come down to code
+accessing data when it shouldn't. Rust's secret weapon is <em>ownership</em>,
+a discipline for access control that systems programmers try to
+follow, but that Rust's compiler checks statically for you.</p>
+<p>For memory safety, this means you can program without a garbage
+collector <em>and</em> without fear of segfaults, because Rust will catch
+your mistakes.</p>
+<p>For concurrency, this means you can choose from a wide variety of
+paradigms (message passing, shared state, lock-free, purely
+functional), and Rust will help you avoid common pitfalls.</p>
+<p>Here's a taste of concurrency in Rust:</p>
+<ul>
+<li>
+<p>A <a href="http://static.rust-lang.org/doc/master/std/sync/mpsc/index.html">channel</a> transfers ownership of the messages sent along it,
+so you can send a pointer from one thread to another without fear of
+the threads later racing for access through that pointer. <strong>Rust's
+channels enforce thread isolation.</strong></p>
+</li>
+<li>
+<p>A <a href="http://static.rust-lang.org/doc/master/std/sync/struct.Mutex.html">lock</a> knows what data it protects, and Rust guarantees
+that the data can only be accessed when the lock is held. State is
+never accidentally shared. <strong>&quot;Lock data, not code&quot; is enforced in
+Rust.</strong></p>
+</li>
+<li>
+<p>Every data type knows whether it can safely be <a href="http://static.rust-lang.org/doc/master/std/marker/trait.Send.html">sent</a> between
+or <a href="http://static.rust-lang.org/doc/master/std/marker/trait.Sync.html">accessed</a> by multiple threads, and Rust enforces this safe
+usage; there are no data races, even for lock-free data structures.
+<strong>Thread safety isn't just documentation; it's law.</strong></p>
+</li>
+<li>
+<p>You can even <a href="http://static.rust-lang.org/doc/master/std/thread/fn.scoped.html">share stack frames</a> between threads, and Rust
+will statically ensure that the frames remain active while other
+threads are using them. <strong>Even the most daring forms of sharing are
+guaranteed safe in Rust</strong>.</p>
+</li>
+</ul>
+<p>All of these benefits come out of Rust's ownership model, and in fact
+locks, channels, lock-free data structures and so on are defined in
+libraries, not the core language. That means that Rust's approach to
+concurrency is <em>open ended</em>: new libraries can embrace new paradigms
+and catch new bugs, just by adding APIs that use Rust's ownership
+features.</p>
+<p>The goal of this post is to give you some idea of how that's done.</p>
+<a class="header" href="fearless-concurrency.html#background-ownership" id="background-ownership"><h3>Background: ownership</h3></a>
+<blockquote>
+<p>We'll start with an overview of Rust's ownership and borrowing
+systems. If you're already familiar with these, you can skip the two
+&quot;background&quot; sections and jump straight into concurrency. If you want
+a deeper introduction, I can't recommend
+<a href="http://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Yehuda Katz's post</a>
+highly enough. And
+<a href="http://doc.rust-lang.org/book/ownership.html">the Rust book</a> has all
+the details.</p>
+</blockquote>
+<p>In Rust, every value has an &quot;owning scope,&quot; and passing or returning a
+value means transferring ownership (&quot;moving&quot; it) to a new
+scope. Values that are still owned when a scope ends are automatically
+destroyed at that point.</p>
+<p>Let's look at some simple examples. Suppose we create a vector and
+push some elements onto it:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn make_vec() {
+    let mut vec = Vec::new(); // owned by make_vec's scope
+    vec.push(0);
+    vec.push(1);
+    // scope ends, `vec` is destroyed
+}
+
+#}</code></pre></pre>
+<p>The scope that creates a value also initially owns it. In this case,
+the body of <code>make_vec</code> is the owning scope for <code>vec</code>. The owner can do
+anything it likes with <code>vec</code>, including mutating it by pushing. At the
+end of the scope, <code>vec</code> is still owned, so it is automatically
+deallocated.</p>
+<p>Things get more interesting if the vector is returned or passed around:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn make_vec() -&gt; Vec&lt;i32&gt; {
+    let mut vec = Vec::new();
+    vec.push(0);
+    vec.push(1);
+    vec // transfer ownership to the caller
+}
+
+fn print_vec(vec: Vec&lt;i32&gt;) {
+    // the `vec` parameter is part of this scope, so it's owned by `print_vec`
+
+    for i in vec.iter() {
+        println!(&quot;{}&quot;, i)
+    }
+
+    // now, `vec` is deallocated
+}
+
+fn use_vec() {
+    let vec = make_vec(); // take ownership of the vector
+    print_vec(vec);       // pass ownership to `print_vec`
+}
+
+#}</code></pre></pre>
+<p>Now, just before <code>make_vec</code>'s scope ends, <code>vec</code> is moved out by
+returning it; it is not destroyed. A caller like <code>use_vec</code> then
+receives ownership of the vector.</p>
+<p>On the other hand, the <code>print_vec</code> function takes a <code>vec</code> parameter,
+and ownership of the vector is transferred <em>to</em> it by its
+caller. Since <code>print_vec</code> does not transfer the ownership any further,
+at the end of its scope the vector is destroyed.</p>
+<p>Once ownership has been given away, a value can no longer be used. For
+example, consider this variant of <code>use_vec</code>:</p>
+<pre><code class="language-rust ignore">fn use_vec() {
+    let vec = make_vec();  // take ownership of the vector
+    print_vec(vec);        // pass ownership to `print_vec`
+
+    for i in vec.iter() {  // continue using `vec`
+        println!(&quot;{}&quot;, i * 2)
+    }
+}
+</code></pre>
+<p>If you feed this version to the compiler, you'll get an  error:</p>
+<pre><code class="language-text">error: use of moved value: `vec`
+
+for i in vec.iter() {
+         ^~~
+</code></pre>
+<p>The compiler is saying <code>vec</code> is no longer available; ownership has
+been transferred elsewhere. And that's very good, because the vector
+has already been deallocated at this point!</p>
+<p>Disaster averted.</p>
+<a class="header" href="fearless-concurrency.html#background-borrowing" id="background-borrowing"><h3>Background: borrowing</h3></a>
+<p>The story so far isn't totally satisfying, because it's not our intent
+for <code>print_vec</code> to destroy the vector it was given. What we really
+want is to grant <code>print_vec</code> <em>temporary</em> access to the vector, and
+then continue using the vector afterwards.</p>
+<p>This is where <em>borrowing</em> comes in. If you have access to a value in
+Rust, you can lend out that access to the functions you call. <strong>Rust
+will check that these leases do not outlive the object being
+borrowed</strong>.</p>
+<p>To borrow a value, you make a <em>reference</em> to it (a kind of pointer),
+using the <code>&amp;</code> operator:</p>
+<pre><code class="language-rust ignore">fn print_vec(vec: &amp;Vec&lt;i32&gt;) {
+    // the `vec` parameter is borrowed for this scope
+
+    for i in vec.iter() {
+        println!(&quot;{}&quot;, i)
+    }
+
+    // now, the borrow ends
+}
+
+fn use_vec() {
+    let vec = make_vec();  // take ownership of the vector
+    print_vec(&amp;vec);       // lend access to `print_vec`
+    for i in vec.iter() {  // continue using `vec`
+        println!(&quot;{}&quot;, i * 2)
+    }
+    // vec is destroyed here
+}
+</code></pre>
+<p>Now <code>print_vec</code> takes a reference to a vector, and <code>use_vec</code> lends out
+the vector by writing <code>&amp;vec</code>. Since borrows are temporary, <code>use_vec</code>
+retains ownership of the vector; it can continue using it after the
+call to <code>print_vec</code> returns (and its lease on <code>vec</code> has expired).</p>
+<p>Each reference is valid for a limited scope, which the compiler will
+automatically determine. References come in two flavors:</p>
+<ul>
+<li>
+<p>Immutable references <code>&amp;T</code>, which allow sharing but not mutation.
+There can be multiple <code>&amp;T</code> references to the same value
+simultaneously, but the value cannot be mutated while those
+references are active.</p>
+</li>
+<li>
+<p>Mutable references <code>&amp;mut T</code>, which allow mutation but not sharing.
+If there is an <code>&amp;mut T</code> reference to a value, there can be no other
+active references at that time, but the value can be mutated.</p>
+</li>
+</ul>
+<p>Rust checks these rules at compile time; borrowing has no runtime
+overhead.</p>
+<p>Why have two kinds of references? Consider a function like:</p>
+<pre><code class="language-rust ignore">fn push_all(from: &amp;Vec&lt;i32&gt;, to: &amp;mut Vec&lt;i32&gt;) {
+    for i in from.iter() {
+        to.push(*i);
+    }
+}
+</code></pre>
+<p>This function iterates over each element of one vector, pushing it
+onto another. The iterator keeps a pointer into the vector at the
+current and final positions, stepping one toward the other.</p>
+<p>What if we called this function with the same vector for both arguments?</p>
+<pre><code class="language-rust ignore">push_all(&amp;vec, &amp;mut vec)
+</code></pre>
+<p>This would spell disaster! As we're pushing elements onto the vector,
+it will occasionally need to resize, allocating a new hunk of memory
+and copying its elements over to it. The iterator would be left with a
+dangling pointer into the old memory, leading to memory unsafety (with
+attendant segfaults or worse).</p>
+<p>Fortunately, Rust ensures that <strong>whenever a mutable borrow is active,
+no other borrows of the object are active</strong>, producing the message:</p>
+<pre><code class="language-text">error: cannot borrow `vec` as mutable because it is also borrowed as immutable
+push_all(&amp;vec, &amp;mut vec);
+                    ^~~
+</code></pre>
+<p>Disaster averted.</p>
+<a class="header" href="fearless-concurrency.html#message-passing" id="message-passing"><h3>Message passing</h3></a>
+<p>Now that we've covered the basic ownership story in Rust, let's see
+what it means for concurrency.</p>
+<p>Concurrent programming comes in many styles, but a particularly simple
+one is message passing, where threads or actors communicate by sending
+each other messages.  Proponents of the style emphasize the way that
+it ties together sharing and communication:</p>
+<blockquote>
+<p>Do not communicate by sharing memory; instead, share memory by
+communicating.</p>
+<p>--<a href="http://golang.org/doc/effective_go.html">Effective Go</a></p>
+</blockquote>
+<p><strong>Rust's ownership makes it easy to turn that advice into a
+compiler-checked rule</strong>. Consider the following channel API
+(<a href="http://static.rust-lang.org/doc/master/std/sync/mpsc/index.html">channels in Rust's standard library</a> are a bit different):</p>
+<pre><code class="language-rust ignore">fn send&lt;T: Send&gt;(chan: &amp;Channel&lt;T&gt;, t: T);
+fn recv&lt;T: Send&gt;(chan: &amp;Channel&lt;T&gt;) -&gt; T;
+</code></pre>
+<p>Channels are generic over the type of data they transmit (the <code>&lt;T: Send&gt;</code> part of the API). The <code>Send</code> part means that <code>T</code> must be
+considered safe to send between threads; we'll come back to that later
+in the post, but for now it's enough to know that <code>Vec&lt;i32&gt;</code> is
+<code>Send</code>.</p>
+<p>As always in Rust, passing in a <code>T</code> to the <code>send</code> function means
+transferring ownership of it. This fact has profound consequences: it
+means that code like the following will generate a compiler error.</p>
+<pre><code class="language-rust ignore">// Suppose chan: Channel&lt;Vec&lt;i32&gt;&gt;
+
+let mut vec = Vec::new();
+// do some computation
+send(&amp;chan, vec);
+print_vec(&amp;vec);
+</code></pre>
+<p>Here, the thread creates a vector, sends it to another thread, and
+then continues using it. The thread receiving the vector could mutate
+it as this thread continues running, so the call to <code>print_vec</code> could
+lead to race condition or, for that matter, a use-after-free bug.</p>
+<p>Instead, the Rust compiler will produce an error message on the call
+to <code>print_vec</code>:</p>
+<pre><code class="language-text">Error: use of moved value `vec`
+</code></pre>
+<p>Disaster averted.</p>
+<a class="header" href="fearless-concurrency.html#locks" id="locks"><h3>Locks</h3></a>
+<p>Another way to deal with concurrency is by having threads communicate
+through passive, shared state.</p>
+<p>Shared-state concurrency has a bad rap. It's easy to forget to acquire
+a lock, or otherwise mutate the wrong data at the wrong time, with
+disastrous results -- so easy that many eschew the style altogether.</p>
+<p>Rust's take is that:</p>
+<ol>
+<li>
+<p>Shared-state concurrency is nevertheless a fundamental programming
+style, needed for systems code, for maximal performance, and for
+implementing other styles of concurrency.</p>
+</li>
+<li>
+<p>The problem is really about <em>accidentally</em> shared state.</p>
+</li>
+</ol>
+<p>Rust aims to give you the tools to conquer shared-state concurrency
+directly, whether you're using locking or lock-free techniques.</p>
+<p>In Rust, threads are &quot;isolated&quot; from each other automatically, due to
+ownership. Writes can only happen when the thread has mutable access,
+either by owning the data, or by having a mutable borrow of it. Either
+way, <strong>the thread is guaranteed to be the only one with access at the
+time</strong>.  To see how this plays out, let's look at locks.</p>
+<p>Remember that mutable borrows cannot occur simultaneously with other
+borrows. Locks provide the same guarantee (&quot;mutual exclusion&quot;) through
+synchronization at runtime. That leads to a locking API that hooks
+directly into Rust's ownership system.</p>
+<p>Here is a simplified version (the <a href="http://static.rust-lang.org/doc/master/std/sync/struct.Mutex.html">standard library's</a>
+is more ergonomic):</p>
+<pre><code class="language-rust ignore">// create a new mutex
+fn mutex&lt;T: Send&gt;(t: T) -&gt; Mutex&lt;T&gt;;
+
+// acquire the lock
+fn lock&lt;T: Send&gt;(mutex: &amp;Mutex&lt;T&gt;) -&gt; MutexGuard&lt;T&gt;;
+
+// access the data protected by the lock
+fn access&lt;T: Send&gt;(guard: &amp;mut MutexGuard&lt;T&gt;) -&gt; &amp;mut T;
+</code></pre>
+<p>This lock API is unusual in several respects.</p>
+<p>First, the <code>Mutex</code> type is generic over a type <code>T</code> of <strong>the data
+protected by the lock</strong>. When you create a <code>Mutex</code>, you transfer
+ownership of that data <em>into</em> the mutex, immediately giving up access
+to it. (Locks are unlocked when they are first created.)</p>
+<p>Later, you can <code>lock</code> to block the thread until the lock is
+acquired. This function, too, is unusual in providing a return value,
+<code>MutexGuard&lt;T&gt;</code>. The <code>MutexGuard</code> automatically releases the lock when
+it is destroyed; there is no separate <code>unlock</code> function.</p>
+<p>The only way to access the lock is through the <code>access</code> function,
+which turns a mutable borrow of the guard into a mutable borrow of the
+data (with a shorter lease):</p>
+<pre><code class="language-rust ignore">fn use_lock(mutex: &amp;Mutex&lt;Vec&lt;i32&gt;&gt;) {
+    // acquire the lock, taking ownership of a guard;
+    // the lock is held for the rest of the scope
+    let mut guard = lock(mutex);
+
+    // access the data by mutably borrowing the guard
+    let vec = access(&amp;mut guard);
+
+    // vec has type `&amp;mut Vec&lt;i32&gt;`
+    vec.push(3);
+
+    // lock automatically released here, when `guard` is destroyed
+}
+</code></pre>
+<p>There are two key ingredients here:</p>
+<ul>
+<li>
+<p>The mutable reference returned by <code>access</code> cannot outlive the
+<code>MutexGuard</code> it is borrowing from.</p>
+</li>
+<li>
+<p>The lock is only released when the <code>MutexGuard</code> is destroyed.</p>
+</li>
+</ul>
+<p>The result is that <strong>Rust enforces locking discipline: it will not let
+you access lock-protected data except when holding the lock</strong>. Any
+attempt to do otherwise will generate a compiler error. For example,
+consider the following buggy &quot;refactoring&quot;:</p>
+<pre><code class="language-rust ignore">fn use_lock(mutex: &amp;Mutex&lt;Vec&lt;i32&gt;&gt;) {
+    let vec = {
+        // acquire the lock
+        let mut guard = lock(mutex);
+
+        // attempt to return a borrow of the data
+        access(&amp;mut guard)
+
+        // guard is destroyed here, releasing the lock
+    };
+
+    // attempt to access the data outside of the lock.
+    vec.push(3);
+}
+</code></pre>
+<p>Rust will generate an error pinpointing the problem:</p>
+<pre><code class="language-text">error: `guard` does not live long enough
+access(&amp;mut guard)
+            ^~~~~
+</code></pre>
+<p>Disaster averted.</p>
+<a class="header" href="fearless-concurrency.html#thread-safety-and-send" id="thread-safety-and-send"><h3>Thread safety and &quot;Send&quot;</h3></a>
+<p>It's typical to distinguish some data types as &quot;thread safe&quot; and
+others not. Thread safe data structures use enough internal
+synchronization to be safely used by multiple threads concurrently.</p>
+<p>For example, Rust ships with two kinds of &quot;smart pointers&quot; for
+reference counting:</p>
+<ul>
+<li>
+<p><code>Rc&lt;T&gt;</code> provides reference counting via normal reads/writes. It is
+not thread safe.</p>
+</li>
+<li>
+<p><code>Arc&lt;T&gt;</code> provides reference counting via <em>atomic</em> operations. It is
+thread safe.</p>
+</li>
+</ul>
+<p>The hardware atomic operations used by <code>Arc</code> are more expensive than
+the vanilla operations used by <code>Rc</code>, so it's advantageous to use <code>Rc</code>
+rather than <code>Arc</code>. On the other hand, it's critical that an <code>Rc&lt;T&gt;</code>
+never migrate from one thread to another, because that could lead to
+race conditions that corrupt the count.</p>
+<p>Usually, the only recourse is careful documentation; most languages
+make no <em>semantic</em> distinction between thread-safe and thread-unsafe
+types.</p>
+<p>In Rust, the world is divided into two kinds of data types: those that
+are <a href="http://static.rust-lang.org/doc/master/std/marker/trait.Send.html"><code>Send</code></a>, meaning they can be safely moved from one thread to
+another, and those that are <code>!Send</code>, meaning that it may not be safe
+to do so. If all of a type's components are <code>Send</code>, so is that type --
+which covers most types. Certain base types are not inherently
+thread-safe, though, so it's also possible to explicitly mark a type
+like <code>Arc</code> as <code>Send</code>, saying to the compiler: &quot;Trust me; I've verified
+the necessary synchronization here.&quot;</p>
+<p>Naturally, <code>Arc</code> is <code>Send</code>, and <code>Rc</code> is not.</p>
+<p>We already saw that the <code>Channel</code> and <code>Mutex</code> APIs work only with
+<code>Send</code> data. Since they are the point at which data crosses thread
+boundaries, they are also the point of enforcement for <code>Send</code>.</p>
+<p>Putting this all together, Rust programmers can reap the benefits of
+<code>Rc</code> and other thread-<em>unsafe</em> types with confidence, knowing that if
+they ever do accidentally try to send one to another thread, the Rust
+compiler will say:</p>
+<pre><code class="language-text">`Rc&lt;Vec&lt;i32&gt;&gt;` cannot be sent between threads safely
+</code></pre>
+<p>Disaster averted.</p>
+<a class="header" href="fearless-concurrency.html#sharing-the-stack-scoped" id="sharing-the-stack-scoped"><h3>Sharing the stack: &quot;scoped&quot;</h3></a>
+<p><em>Note: The API mentioned here is an old one which has been moved out of
+the standard library. You can find equivalent functionality in
+<a href="https://crates.io/crates/crossbeam"><code>crossbeam</code></a> (<a href="http://aturon.github.io/crossbeam-doc/crossbeam/fn.scope.html">documentation for <code>scope()</code></a>)
+and <a href="https://crates.io/crates/scoped_threadpool"><code>scoped_threadpool</code></a>
+(<a href="http://kimundi.github.io/scoped-threadpool-rs/scoped_threadpool/index.html#examples:">documentation for <code>scoped()</code></a>)</em></p>
+<p>So far, all the patterns we've seen involve creating data structures
+on the heap that get shared between threads. But what if we wanted to
+start some threads that make use of data living in our stack frame?
+That could be dangerous:</p>
+<pre><code class="language-rust ignore">fn parent() {
+    let mut vec = Vec::new();
+    // fill the vector
+    thread::spawn(|| {
+        print_vec(&amp;vec)
+    })
+}
+</code></pre>
+<p>The child thread takes a reference to <code>vec</code>, which in turn resides in
+the stack frame of <code>parent</code>. When <code>parent</code> exits, the stack frame is
+popped, but the child thread is none the wiser. Oops!</p>
+<p>To rule out such memory unsafety, Rust's basic thread spawning API
+looks a bit like this:</p>
+<pre><code class="language-rust ignore">fn spawn&lt;F&gt;(f: F) where F: 'static, ...
+</code></pre>
+<p>The <code>'static</code> constraint is a way of saying, roughly, that no borrowed
+data is permitted in the closure.  It means that a function like
+<code>parent</code> above will generate an error:</p>
+<pre><code class="language-text">error: `vec` does not live long enough
+</code></pre>
+<p>essentially catching the possibility of <code>parent</code>'s stack frame
+popping. Disaster averted.</p>
+<p>But there is another way to guarantee safety: ensure that the parent
+stack frame stays put until the child thread is done. This is the
+pattern of <em>fork-join</em> programming, often used for divide-and-conquer
+parallel algorithms. Rust supports it by providing a
+<a href="http://static.rust-lang.org/doc/master/std/thread/fn.scoped.html">&quot;scoped&quot;</a> variant of thread spawning:</p>
+<pre><code class="language-rust ignore">fn scoped&lt;'a, F&gt;(f: F) -&gt; JoinGuard&lt;'a&gt; where F: 'a, ...
+</code></pre>
+<p>There are two key differences from the <code>spawn</code> API above:</p>
+<ul>
+<li>
+<p>The use a parameter <code>'a</code>, rather than <code>'static</code>. This parameter
+represents a scope that encompasses all the borrows within the
+closure, <code>f</code>.</p>
+</li>
+<li>
+<p>The return value, a <code>JoinGuard</code>. As its name suggests, <code>JoinGuard</code>
+ensures that the parent thread joins (waits on) its child, by
+performing an implicit join in its destructor (if one hasn't happened
+explicitly already).</p>
+</li>
+</ul>
+<p>Including <code>'a</code> in <code>JoinGuard</code> ensures that the <code>JoinGuard</code> <strong>cannot
+escape the scope of any data borrowed by the closure</strong>.  In other
+words, Rust guarantees that the parent thread waits for the child to
+finish before popping any stack frames the child might have access to.</p>
+<p>Thus by adjusting our previous example, we can fix the bug and satisfy
+the compiler:</p>
+<pre><code class="language-rust ignore">fn parent() {
+    let mut vec = Vec::new();
+    // fill the vector
+    let guard = thread::scoped(|| {
+        print_vec(&amp;vec)
+    });
+    // guard destroyed here, implicitly joining
+}
+</code></pre>
+<p>So in Rust, you can freely borrow stack data into child threads,
+confident that the compiler will check for sufficient synchronization.</p>
+<a class="header" href="fearless-concurrency.html#data-races" id="data-races"><h3>Data races</h3></a>
+<p>At this point, we've seen enough to venture a strong statement about
+Rust's approach to concurrency: <strong>the compiler prevents all <em>data races</em>.</strong></p>
+<blockquote>
+<p>A data race is any unsynchronized, concurrent access to data
+involving a write.</p>
+</blockquote>
+<p>Synchronization here includes things as low-level as atomic
+instructions. Essentially, this is a way of saying that you cannot
+accidentally &quot;share state&quot; between threads; all (mutating) access to
+state has to be mediated by <em>some</em> form of synchronization.</p>
+<p>Data races are just one (very important) kind of race condition, but
+by preventing them, Rust often helps you prevent other, more subtle
+races as well. For example, it's often important that updates to
+different locations appear to take place <em>atomically</em>: other threads
+see either all of the updates, or none of them. In Rust, having <code>&amp;mut</code>
+access to the relevant locations at the same time <strong>guarantees
+atomicity of updates to them</strong>, since no other thread could possibly
+have concurrent read access.</p>
+<p>It's worth pausing for a moment to think about this guarantee in the
+broader landscape of languages. Many languages provide memory safety
+through garbage collection. But garbage collection doesn't give you
+any help in preventing data races.</p>
+<p>Rust instead uses ownership and borrowing to provide its two key value
+propositions:</p>
+<ul>
+<li>Memory safety without garbage collection.</li>
+<li>Concurrency without data races.</li>
+</ul>
+<a class="header" href="fearless-concurrency.html#the-future" id="the-future"><h3>The future</h3></a>
+<p>When Rust first began, it baked channels directly into the language,
+taking a very opinionated stance on concurrency.</p>
+<p>In today's Rust, concurrency is <em>entirely</em> a library affair;
+everything described in this post, including <code>Send</code>, is defined in the
+standard library, and could be defined in an external library instead.</p>
+<p>And that's very exciting, because it means that Rust's concurrency
+story can endlessly evolve, growing to encompass new paradigms and
+catch new classes of bugs. Libraries like <a href="https://github.com/carllerche/syncbox">syncbox</a> and
+<a href="https://github.com/huonw/simple_parallel">simple_parallel</a> are taking some of the first steps,
+and we expect to invest heavily in this space in the next few
+months. Stay tuned!</p>
+<blockquote>
+<p><a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html"><em>Originally published 2015-04-10</em></a></p>
+<p><em>License: TBD</em></p>
+</blockquote>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="strategies-for-solving-borrowing-errors.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="how-rust-achieves-thread-safety.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="strategies-for-solving-borrowing-errors.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="how-rust-achieves-thread-safety.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
