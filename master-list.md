@@ -170,6 +170,8 @@ focus.
     - [Overhead Analysis of the RTFM Framework](http://blog.japaric.io/rtfm-overhead/)
     - [The ITM and the Quest for Faster Logging](http://blog.japaric.io/itm/)
     - [A CPU Monitor for the RTFM Framework](http://blog.japaric.io/cpu-monitor/)
+- WASM
+  - [Making WebAssembly better for Rust and all languages](https://hacks.mozilla.org/2018/03/making-webassembly-better-for-rust-for-all-languages/)
 - The Rust Toolbox
   - Travis on the Train
     - [Helping Travis Catch the `rustc` Train](http://huonw.github.io/blog/2015/04/helping-travis-catch-the-rustc-train/)
