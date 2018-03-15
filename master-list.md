@@ -254,3 +254,4 @@ focus.
 - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
 - [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
 - [Roguelike Tutorial in Rust + tcod](https://tomassedovic.github.io/roguelike-tutorial/)
+- [Learning Rust](https://learning-rust.github.io)
