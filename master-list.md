@@ -114,6 +114,7 @@ focus.
   - [Where Are You `From::from`?](https://llogiq.github.io/2015/11/27/from-into.html)
   - [Rustic Bits](https://llogiq.github.io/2016/02/11/rustic.html)
   - [Convenient and Idiomatic Conversions in Rust](https://ricardomartins.cc/2016/08/03/convenient_and_idiomatic_conversions_in_rust)
+  - [Pretty State Machine Patterns](https://hoverbear.org/2016/10/12/rust-state-machine-pattern/)
 - Macros
   - [A Practical Introduction to Rust Macros](https://danielkeep.github.io/practical-intro-to-macros.html)
   - Macros In Rust
@@ -149,6 +150,8 @@ focus.
   - [Designing Futures for Rust](http://aturon.github.io/blog/2016/09/07/futures-design/)
   - [Asynchronous Rust for Fun and Profit](http://xion.io/post/programming/rust-async-closer-look.html)
   - [Understanding the Tokio Reactor Core](https://www.coredump.ch/2017/07/05/understanding-the-tokio-reactor-core/)
+- Web Programming
+  - [Touring a Fast, Safe, and Complete(ish) Web Service in Rust](https://brandur.org/rust-web)
 - Performance
   - [Benchmarking In Rust](https://llogiq.github.io/2015/06/16/bench.html)
   - [Profiling Rust Applications on Linux](https://llogiq.github.io/2015/07/15/profiling.html)
@@ -170,6 +173,7 @@ focus.
     - [Overhead Analysis of the RTFM Framework](http://blog.japaric.io/rtfm-overhead/)
     - [The ITM and the Quest for Faster Logging](http://blog.japaric.io/itm/)
     - [A CPU Monitor for the RTFM Framework](http://blog.japaric.io/cpu-monitor/)
+  - [Writing A Driver in Rust Using Embedded-Hal Traits for the RN4870 BLE Module](http://byronwasti.com/post/writing_a_ble_driver_in_rust/)
 - WASM
   - [Making WebAssembly better for Rust and all languages](https://hacks.mozilla.org/2018/03/making-webassembly-better-for-rust-for-all-languages/)
 - The Rust Toolbox
