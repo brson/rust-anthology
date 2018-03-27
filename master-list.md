@@ -229,6 +229,7 @@ focus.
   - [Rust Makes Invariants Explicit](https://medium.com/@robertgrosse/rust-makes-implicit-invariants-explicit-baf4cf17ae50)
   - [Why Type Systems Matter](https://matthias-endler.de/2017/why-type-systems-matter/)
   - [Building a Microservice in Rust](https://insanitybit.github.io/2017/07/10/building-a-microservice-in-rust)
+  - [100 Days of Rust, or, A Series of Brick Walls](https://brandur.org/fragments/rust-brick-walls)
 
 ## Cheat Sheets
 
