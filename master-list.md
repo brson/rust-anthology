@@ -163,6 +163,7 @@ focus.
   - [Rust Performance Pitfalls](https://llogiq.github.io/2017/06/01/perf-pitfalls.html)
   - [Optimizing `Rc` Memory Usage in Rust](https://medium.com/@robertgrosse/optimizing-rc-memory-usage-in-rust-6652de9e119e)
   - [Why Is A Rust Executable Large?](https://lifthrasiir.github.io/rustlog/why-is-a-rust-executable-large.html)
+  - [Building Tiny Rust Binaries for Embedded Linux](https://jamesmunns.com/update/2018/04/01/tinyrocket.html)
 - Systems Programming
   - [Making Terminal Applications in Rust with Termion](http://ticki.github.io/blog/making-terminal-applications-in-rust-with-termion/)
   - [Rust + Nix = Easier Unix Systems Programming](http://kamalmarhubi.com/blog/2016/04/13/rust-nix-easier-unix-systems-programming-3/)
