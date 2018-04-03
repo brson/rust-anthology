@@ -232,6 +232,7 @@ focus.
   - [Building a Microservice in Rust](https://insanitybit.github.io/2017/07/10/building-a-microservice-in-rust)
   - [100 Days of Rust, or, A Series of Brick Walls](https://brandur.org/fragments/rust-brick-walls)
   - [Exploring 4 Languages: Integrity and Consistency](http://www.chriskrycho.com/2018/exploring-4-languages-integrity-and-consistency.html)
+  - [Cutting Corners vs. Productivity](https://llogiq.github.io/2018/04/03/corners.html)
 
 ## Cheat Sheets
 
