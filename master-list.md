@@ -152,6 +152,7 @@ focus.
   - [Understanding the Tokio Reactor Core](https://www.coredump.ch/2017/07/05/understanding-the-tokio-reactor-core/)
 - Web Programming
   - [Touring a Fast, Safe, and Complete(ish) Web Service in Rust](https://brandur.org/rust-web)
+  - [Making a 100% Statically-Linked, Single-File Web App with React and Rust](https://anderspitman.net/2018/04/04/static-react-rust-webapp/)
 - Performance
   - [Benchmarking In Rust](https://llogiq.github.io/2015/06/16/bench.html)
   - [Profiling Rust Applications on Linux](https://llogiq.github.io/2015/07/15/profiling.html)
