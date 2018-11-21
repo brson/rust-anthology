@@ -222,7 +222,7 @@ focus.
     - [Rust is Needed Now More than Ever](https://llogiq.github.io/2016/12/27/retro.html)
     - [Rust is About Boldness](https://www.reddit.com/r/rust/comments/5lo6ny/rust_is_about_boldness/)
     - [Rust is About Better Citizenship](https://kasma1990.gitlab.io/2017/01/01/rust-is-about-better-citizenship/)
-    - [Rust Marketing Pitch](https://kasma1990.gitlab.io/2017/01/01/rust-is-about-better-citizenship/)
+    - [Rust Marketing Pitch](https://santiagopastorino.com/rust-marketing-pitch/)
 - Uncategorized Chapters
   - Let’s Stop Ascribing Meaning to Code Points
     - [Let’s Stop Ascribing Meaning to Code Points](http://manishearth.github.io/blog/2017/01/14/stop-ascribing-meaning-to-unicode-code-points/)
