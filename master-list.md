@@ -283,3 +283,4 @@ focus.
 - https://blog.adamant-lang.org/2019/rust-lifetime-visualization-ideas/
 - http://pling.jondgoodwin.com/post/lifetimes/
 - https://github.com/rust-lang-nursery/rust-cookbook/issues/502 re errors
+- https://github.com/rust-lang-nursery/rust-cookbook/issues/502#issue-387418261
