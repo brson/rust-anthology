@@ -30,6 +30,7 @@ focus.
 - Experience Reports
   - [My Experience Writing Enjarify in Rust](https://medium.com/@robertgrosse/my-experience-rewriting-enjarify-in-rust-723089b406ad)
   - [Rust: A Scala Engineer's Perspective](https://beachape.com/blog/2017/05/24/rust-from-scala/)
+  - [Giving up on wlroots-rs](http://way-cooler.org/blog/2019/04/29/rewriting-way-cooler-in-c.html)
 - Ownership
   - [Where Rust Really Shines](https://manishearth.github.io/blog/2015/05/03/where-rust-really-shines/)
   - [Rust Means Never Having to Close a Socket](http://blog.skylight.io/rust-means-never-having-to-close-a-socket/)
