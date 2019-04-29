@@ -264,3 +264,22 @@ focus.
 - [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
 - [Roguelike Tutorial in Rust + tcod](https://tomassedovic.github.io/roguelike-tutorial/)
 - [Learning Rust](https://learning-rust.github.io)
+
+## Completely Unevaluated Links
+
+- https://dtolnay.github.io/rust-quiz/18
+- https://github.com/dtolnay/semver-trick
+- https://medium.com/@edwardpku/being-an-intermediate-rust-programmer-in-one-day-37283bb1b0b0?from=timeline&isappinstalled=0
+- https://blog.rust-lang.org/2018/12/21/Procedural-Macros-in-Rust-2018.html
+- https://rust-lang-nursery.github.io/api-guidelines/documentation.html#documentation
+- https://rust-random.github.io/book/
+- https://stjepang.github.io/2019/01/29/lock-free-rust-crossbeam-in-2019.html
+- https://limpet.net/mbrubeck/2019/02/07/rust-a-unique-perspective.html
+- https://doc.rust-lang.org/nomicon/aliasing.html
+- https://manishearth.github.io/blog/2015/05/17/the-problem-with-shared-mutability/
+- https://www.rust-lang.org/production
+- https://www.reddit.com/r/rust/comments/aohq6u/rust_velocity_and_defect_rates/eg189gu/
+- https://rufflewind.com/2017-02-15/rust-move-copy-borrow
+- https://blog.adamant-lang.org/2019/rust-lifetime-visualization-ideas/
+- http://pling.jondgoodwin.com/post/lifetimes/
+- https://github.com/rust-lang-nursery/rust-cookbook/issues/502 re errors
