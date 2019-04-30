@@ -283,5 +283,6 @@ focus.
 - https://rufflewind.com/2017-02-15/rust-move-copy-borrow
 - https://blog.adamant-lang.org/2019/rust-lifetime-visualization-ideas/
 - http://pling.jondgoodwin.com/post/lifetimes/
-- https://github.com/rust-lang-nursery/rust-cookbook/issues/502 re errors
 - https://github.com/rust-lang-nursery/rust-cookbook/issues/502#issue-387418261
+- https://smallcultfollowing.com/babysteps/blog/2012/11/18/imagine-never-hearing-the-phrase-aliasable/
+- https://manishearth.github.io/blog/2017/03/18/inhtpinhtpamaa/
