@@ -286,3 +286,4 @@ focus.
 - https://github.com/rust-lang-nursery/rust-cookbook/issues/502#issue-387418261
 - https://smallcultfollowing.com/babysteps/blog/2012/11/18/imagine-never-hearing-the-phrase-aliasable/
 - https://manishearth.github.io/blog/2017/03/18/inhtpinhtpamaa/
+- https://areweasyncyet.rs/ - contains async blog posts
