@@ -265,6 +265,7 @@ focus.
 - [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
 - [Roguelike Tutorial in Rust + tcod](https://tomassedovic.github.io/roguelike-tutorial/)
 - [Learning Rust](https://learning-rust.github.io)
+- [Unsafe Code Guidelines](https://rust-lang.github.io/unsafe-code-guidelines/)
 
 ## Completely Unevaluated Links
 
