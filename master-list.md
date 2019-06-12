@@ -288,3 +288,4 @@ focus.
 - https://smallcultfollowing.com/babysteps/blog/2012/11/18/imagine-never-hearing-the-phrase-aliasable/
 - https://manishearth.github.io/blog/2017/03/18/inhtpinhtpamaa/
 - https://areweasyncyet.rs/ - contains async blog posts
+- https://medium.com/@richardanaya/a-journey-through-rust-lifetimes-5a08782c7091
