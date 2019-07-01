@@ -289,3 +289,8 @@ focus.
 - https://manishearth.github.io/blog/2017/03/18/inhtpinhtpamaa/
 - https://areweasyncyet.rs/ - contains async blog posts
 - https://medium.com/@richardanaya/a-journey-through-rust-lifetimes-5a08782c7091
+- https://gill.net.in/posts/auth-microservice-rust-actix-web1.0-diesel-complete-tutorial/
+- https://medium.com/@ly.lee/hosting-embedded-rust-apps-on-apache-mynewt-with-stm32-blue-pill-c86b119fe5f?sk=f58f4cf6c608fded4b354063e474a93b
+- http://thume.ca/2019/04/29/comparing-compilers-in-rust-haskell-c-and-python/
+  - https://news.ycombinator.com/item?id=20192645
+- http://patshaughnessy.net/2018/3/15/how-rust-implements-tagged-unions
