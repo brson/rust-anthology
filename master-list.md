@@ -294,3 +294,4 @@ focus.
 - http://thume.ca/2019/04/29/comparing-compilers-in-rust-haskell-c-and-python/
   - https://news.ycombinator.com/item?id=20192645
 - http://patshaughnessy.net/2018/3/15/how-rust-implements-tagged-unions
+- https://raphaelgomes.dev/blog/articles/2019-07-01-sharing-references-between-python-and-rust.html
