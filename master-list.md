@@ -295,3 +295,5 @@ focus.
   - https://news.ycombinator.com/item?id=20192645
 - http://patshaughnessy.net/2018/3/15/how-rust-implements-tagged-unions
 - https://raphaelgomes.dev/blog/articles/2019-07-01-sharing-references-between-python-and-rust.html
+- https://dev.to/sendilkumarn/increase-rust-and-webassembly-performance-382h
+- https://medium.com/dwelo-r-d/we-rewrote-our-iot-platform-in-rust-and-got-away-with-it-2c8867c61b67
