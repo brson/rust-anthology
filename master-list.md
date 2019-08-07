@@ -297,3 +297,4 @@ focus.
 - https://raphaelgomes.dev/blog/articles/2019-07-01-sharing-references-between-python-and-rust.html
 - https://dev.to/sendilkumarn/increase-rust-and-webassembly-performance-382h
 - https://medium.com/dwelo-r-d/we-rewrote-our-iot-platform-in-rust-and-got-away-with-it-2c8867c61b67
+- https://www.ncameron.org/blog/migrating-a-crate-from-futures-0-1-to-0-3/
