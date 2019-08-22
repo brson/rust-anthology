@@ -298,3 +298,4 @@ focus.
 - https://dev.to/sendilkumarn/increase-rust-and-webassembly-performance-382h
 - https://medium.com/dwelo-r-d/we-rewrote-our-iot-platform-in-rust-and-got-away-with-it-2c8867c61b67
 - https://www.ncameron.org/blog/migrating-a-crate-from-futures-0-1-to-0-3/
+- https://raphlinus.github.io/rust/2019/08/21/rust-bloat.html
