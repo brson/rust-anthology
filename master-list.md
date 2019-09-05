@@ -299,3 +299,8 @@ focus.
 - https://medium.com/dwelo-r-d/we-rewrote-our-iot-platform-in-rust-and-got-away-with-it-2c8867c61b67
 - https://www.ncameron.org/blog/migrating-a-crate-from-futures-0-1-to-0-3/
 - https://raphlinus.github.io/rust/2019/08/21/rust-bloat.html
+- https://tmandry.gitlab.io/blog/posts/optimizing-await-1/
+- https://tmandry.gitlab.io/blog/posts/optimizing-await-2/
+- https://aturon.github.io/tech/2018/04/24/async-borrowing/
+- https://rust-lang.github.io/async-book/
+- https://cheats.rs/
