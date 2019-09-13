@@ -304,3 +304,5 @@ focus.
 - https://aturon.github.io/tech/2018/04/24/async-borrowing/
 - https://rust-lang.github.io/async-book/
 - https://cheats.rs/
+- https://hsivonen.fi/string-length/
+- https://github.com/ferrous-systems/elements-of-rust/
