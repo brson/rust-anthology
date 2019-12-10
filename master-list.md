@@ -308,3 +308,4 @@ focus.
 - https://github.com/ferrous-systems/elements-of-rust/
 - https://arxiv.org/pdf/1902.01906.pdf
 - http://blog.pnkfx.org/blog/2019/11/18/rust-bug-minimization-patterns/
+- https://docs.rs/dtolnay/*/dtolnay/macro._03__soundness_bugs.html
