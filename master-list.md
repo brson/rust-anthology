@@ -311,3 +311,9 @@ focus.
 - https://docs.rs/dtolnay/*/dtolnay/macro._03__soundness_bugs.html
 - https://blog.dbrgn.ch/2019/12/24/testing-for-no-std-compatibility/
 - http://cliffle.com/blog/m4vga-in-rust/
+- https://stevedonovan.github.io/rustifications/2018/08/18/rust-closures-are-hard.html
+- https://stackoverflow.blog/2020/01/20/what-is-rust-and-why-is-it-so-popular/
+- https://gregoryszorc.com/blog/2020/01/13/mercurial%27s-journey-to-and-reflections-on-python-3/
+- http://cliffle.com/p/dangerust/
+- http://dtrace.org/blogs/bmc/2018/09/28/the-relative-performance-of-c-and-rust/
+- https://pitdicker.github.io/Interior-mutability-patterns/
