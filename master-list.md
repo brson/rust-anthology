@@ -317,3 +317,5 @@ focus.
 - http://cliffle.com/p/dangerust/
 - http://dtrace.org/blogs/bmc/2018/09/28/the-relative-performance-of-c-and-rust/
 - https://pitdicker.github.io/Interior-mutability-patterns/
+- https://medium.com/tadaweb/security-by-design-a-brief-introduction-to-rust-378060e45038
+- https://jitter.company/blog/2020/01/28/measuring-space-time-behaviours-of-piano-keys-with-rust/
