@@ -7,9 +7,11 @@ are actually a lot of great Rust docs out there right now, and a lot
 of great Rust writers! This project aims to collect their work into a
 single book.
 
-[See the current draft](https://brson.github.io/rust-anthology).
+__Note: As of February 2020, this project is only lightly maintained. The only
+notable thing here is [the master list](master-list.md), which I add to
+occassionally.__
 
-You might also be interested in [the master list](master-list.md).
+[See the current draft](https://brson.github.io/rust-anthology).
 
 [![Travis Build Status][travis-build-status-svg]][travis-build-status]
 

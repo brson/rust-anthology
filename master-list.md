@@ -13,6 +13,9 @@ focus.
 [lf]: #additional-long-form-reading
 [rl]: https://github.com/ctjhoa/rust-learning
 
+__Note: As of February 2020, I am only adding "unevaluated links" to the bottom
+of this page. Someday I will get around to re-organizing this list.__
+
 ## Anthology 1 candidates
 
 - Introduction
