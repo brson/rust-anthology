@@ -324,3 +324,7 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://jitter.company/blog/2020/01/28/measuring-space-time-behaviours-of-piano-keys-with-rust/
 - https://blog.discordapp.com/why-discord-is-switching-from-go-to-rust-a190bbca2b1f
 - https://matklad.github.io/2020/02/14/why-rust-is-loved.html
+- https://fasterthanli.me/blog/2020/i-want-off-mr-golangs-wild-ride/
+- https://fasterthanli.me/blog/2020/a-half-hour-to-learn-rust/
+- https://lucumr.pocoo.org/2020/1/1/async-pressure/
+- https://www.pietroalbini.org/blog/shipping-a-compiler-every-six-weeks/
