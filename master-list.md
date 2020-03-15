@@ -328,3 +328,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://fasterthanli.me/blog/2020/a-half-hour-to-learn-rust/
 - https://lucumr.pocoo.org/2020/1/1/async-pressure/
 - https://www.pietroalbini.org/blog/shipping-a-compiler-every-six-weeks/
+- https://oribenshir.github.io/afternoon_rusting/blog/copy-on-write
