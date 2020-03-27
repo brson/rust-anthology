@@ -329,3 +329,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://lucumr.pocoo.org/2020/1/1/async-pressure/
 - https://www.pietroalbini.org/blog/shipping-a-compiler-every-six-weeks/
 - https://oribenshir.github.io/afternoon_rusting/blog/copy-on-write
+- https://os.phil-opp.com/async-await/
