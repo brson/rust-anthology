@@ -8,8 +8,8 @@ of great Rust writers! This project aims to collect their work into a
 single book.
 
 __Note: As of February 2020, this project is only lightly maintained. The only
-notable thing here is [the master list](master-list.md), which I add to
-occassionally.__
+notable thing here is [the master list](master-list.md), the final "unevaluated"
+section which I add to occassionally.__
 
 [See the current draft](https://brson.github.io/rust-anthology).
 
