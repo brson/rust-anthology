@@ -334,3 +334,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://blog.logrocket.com/how-to-write-crap-rust-code/
 - https://ferrous-systems.com/blog/zero-sized-references/
 - https://msrc-blog.microsoft.com/2020/04/29/the-safety-boat-kubernetes-and-rust/
+- https://richardanaya.github.io/tour_of_rust/
