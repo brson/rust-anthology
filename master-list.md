@@ -336,3 +336,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://msrc-blog.microsoft.com/2020/04/29/the-safety-boat-kubernetes-and-rust/
 - https://richardanaya.github.io/tour_of_rust/
 - https://fnordig.de/2020/05/02/rust-in-an-instant/
+- https://ferrous-systems.com/blog/stable-async-on-embedded/
