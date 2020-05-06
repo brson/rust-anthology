@@ -337,3 +337,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://richardanaya.github.io/tour_of_rust/
 - https://fnordig.de/2020/05/02/rust-in-an-instant/
 - https://ferrous-systems.com/blog/stable-async-on-embedded/
+- http://kvark.github.io/web/gpu/native/2020/05/03/point-of-webgpu-native.html
