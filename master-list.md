@@ -339,3 +339,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://ferrous-systems.com/blog/stable-async-on-embedded/
 - http://kvark.github.io/web/gpu/native/2020/05/03/point-of-webgpu-native.html
 - https://nikic.github.io/2020/05/10/Make-LLVM-fast-again.html
+- https://medium.com/@polyglot_factotum/rust-concurrency-the-single-writer-principle-applied-aada2cdc6fb0
