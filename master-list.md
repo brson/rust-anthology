@@ -341,3 +341,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://nikic.github.io/2020/05/10/Make-LLVM-fast-again.html
 - https://medium.com/@polyglot_factotum/rust-concurrency-the-single-writer-principle-applied-aada2cdc6fb0
 - https://github.com/pretzelhammer/rust-blog/blob/master/posts/learning-rust-in-2020.md
+- https://nickwilcox.github.io/blog/autovec/
