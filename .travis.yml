@@ -1,5 +1,5 @@
 language: rust
-dist: trusty
+dist: bionic
 rust: stable
 
 env:
@@ -10,7 +10,8 @@ before_install:
   - export PATH=$HOME/.cargo/bin:$PATH
 
 install:
-  - cargo install mdbook
+  # - cargo install mdbook # wait for https://github.com/rust-lang/mdBook/pull/1153 to make it into release
+  - cargo install --git https://github.com/rust-lang/mdBook.git mdbook
 
 script:
   - ./build.sh
