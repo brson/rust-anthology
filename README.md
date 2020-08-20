@@ -31,8 +31,15 @@ section which I add to occassionally.__
 
 ## Building
 
-Rust Anthology is built with [mdbook]. To build:
+Rust Anthology is built with [mdbook].
+> Make sure Rust is already installed. To install
 
+```
+$ curl https://sh.rustup.rs -sSf | sh
+```
+
+ To build:
+ 
 ```
 cargo install mdbook
 mdbook build
