@@ -34,23 +34,23 @@ section which I add to occassionally.__
 Rust Anthology is built with [mdbook].
 > Make sure Rust is already installed. To install
 
-```
+```shell
 $ curl https://sh.rustup.rs -sSf | sh
 ```
 
  To build:
  
-```
-cargo install mdbook
-mdbook build
+```shell
+$ cargo install mdbook
+$ mdbook build
 ```
 
 [mdbook]: https://github.com/azerupi/mdBook
 
 Testing is again with mdbook:
 
-```
-mdbook test
+```shell
+$ mdbook test
 ```
 
 ## Contributing
