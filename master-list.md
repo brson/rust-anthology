@@ -344,3 +344,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://nickwilcox.github.io/blog/autovec/
 - https://github.com/pretzelhammer/rust-blog/blob/master/posts/common-rust-lifetime-misconceptions.md
 - http://dtrace.org/blogs/bmc/2020/10/11/rust-after-the-honeymoon/
+- https://blog.darklang.com/why-dark-didnt-choose-rust/
