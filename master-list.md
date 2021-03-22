@@ -346,3 +346,5 @@ of this page. Someday I will get around to re-organizing this list.__
 - http://dtrace.org/blogs/bmc/2020/10/11/rust-after-the-honeymoon/
 - https://blog.darklang.com/why-dark-didnt-choose-rust/
 - https://foundation.rust-lang.org/posts/2021-02-08-hello-world/
+- https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/
+- https://cacm.acm.org/magazines/2021/4/251364-safe-systems-programming-in-rust/fulltext
