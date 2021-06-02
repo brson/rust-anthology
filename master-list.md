@@ -348,3 +348,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://foundation.rust-lang.org/posts/2021-02-08-hello-world/
 - https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/
 - https://cacm.acm.org/magazines/2021/4/251364-safe-systems-programming-in-rust/fulltext
+- [Rust verification tools 2021](https://alastairreid.github.io/automatic-rust-verification-tools-2021/)
