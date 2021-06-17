@@ -52,7 +52,7 @@ of this page. Someday I will get around to re-organizing this list.__
   - [Wrapper Types in Rust: Choosing Your Guarantees](https://manishearth.github.io/blog/2015/05/27/wrapper-types-in-rust-choosing-your-guarantees/)
 - Traits
   - [Abstraction Without Overhead](https://blog.rust-lang.org/2015/05/11/traits.html)
-  - [Going Down the Rabbit Hole with Rust Traits](http://www.jonathanturner.org/2016/02/down-the-rabbit-hole-with-traits.html)
+  - [Going Down the Rabbit Hole with Rust Traits](http://www.jonathanturner.org/down-the-rabbit-hole-with-traits/)
   - Huon's Trait Object Quadrilogy (All About Trait Objects)
     - [Peeking Inside Trait Objects](https://huonw.github.io/blog/2015/01/peeking-inside-trait-objects/)
     - [The `Sized` Trait](https://huonw.github.io/blog/2015/01/the-sized-trait/)
