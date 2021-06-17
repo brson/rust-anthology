@@ -220,7 +220,7 @@ of this page. Someday I will get around to re-organizing this list.__
     - [Rust is About Productivity](http://www.ncameron.org/blog/rust-is-about-productivity/)
     - [Rust is Its Community](https://mgattozzi.com/rust-is)
     - [My Thoughts on Rust in 2017](https://medium.com/@Hisako1337/rust-in-2017-8f2b57a67d9b#.3eegqri2g)
-    - [Rust is Software's Salvation](https://redox-os.org/news/rust-is-softwares-salvation-17/)
+    - [Rust is Software's Salvation](https://gist.github.com/jackpot51/9ff676afc26e7ad0af1ead5d3bf93ff6)
     - [Rust is My Magic Whistle](http://anowell.com/posts/why-rust.html)
     - [Rust is Something Old Made New](http://panpanick.ninja/30-12-2016.html)
     - [Rust is Needed Now More than Ever](https://llogiq.github.io/2016/12/27/retro.html)
@@ -252,7 +252,7 @@ of this page. Someday I will get around to re-organizing this list.__
 - [Rust By Example](https://www.rustbyexample.com)
 - [rustlings](https://github.com/carols10cents/rustlings)
 - [exercism.io](http://www.exercism.io/languages/rust)
-- [Rust Cookbook](https://brson.github.io/rust-cookbook)
+- [Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/)
 
 ## Additional Long-Form Reading
 
@@ -265,7 +265,7 @@ of this page. Someday I will get around to re-organizing this list.__
 - [Rust 101](https://www.ralfj.de/projects/rust-101/main.html)
 - [The Little Book of Rust Macros](https://danielkeep.github.io/tlborm/)
 - [The Rust FFI Omnibus](http://jakegoulding.com/rust-ffi-omnibus/?updated=2015-11-08)
-- [Discovery: Discover the World of Microcontrollers Through Rust](https://japaric.github.io/discovery/)
+- [Discovery: Discover the World of Microcontrollers Through Rust](https://rust-embedded.github.io/discovery/)
 - [Roguelike Tutorial in Rust + tcod](https://tomassedovic.github.io/roguelike-tutorial/)
 - [Learning Rust](https://learning-rust.github.io)
 - [Unsafe Code Guidelines](https://rust-lang.github.io/unsafe-code-guidelines/)
