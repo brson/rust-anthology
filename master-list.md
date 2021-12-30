@@ -256,6 +256,7 @@ of this page. Someday I will get around to re-organizing this list.__
 
 ## Additional Long-Form Reading
 
+- [The Little Book of Rust Books](https://lborb.github.io/book/)
 - [The Rust Book (2nd Edition)](https://doc.rust-lang.org/nightly/book/second-edition/)
 - [The Rust Book (1st Edition)](https://doc.rust-lang.org/nightly/book/first-edition/)
 - [The Unstable Book](https://doc.rust-lang.org/nightly/unstable-book/)
