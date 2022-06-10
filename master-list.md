@@ -87,6 +87,7 @@ of this page. Someday I will get around to re-organizing this list.__
   - A Rusty Tale of Shared Memories and Passed Messages
     - [Part 1](https://www.worthe-it.co.za/programming/2017/06/19/a-rusty-tale-of-shared-memories-and-passed-messages-1.html)
     - [Part 2](https://www.worthe-it.co.za/programming/2017/07/11/a-rusty-tale-of-shared-memories-and-passed-messages-2.html)
+  - [Must Be This Tall to Write Multithreaded Code](https://bholley.net/blog/2015/must-be-this-tall-to-write-multi-threaded-code.html)
 - Rust in Practice
   - [Rust Error Handling](http://blog.burntsushi.net/rust-error-handling/)
   - [Why your first FizzBuzz implementation may not work](https://chrismorgan.info/blog/rust-fizzbuzz.html)
