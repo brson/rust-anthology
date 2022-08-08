@@ -351,3 +351,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/
 - https://cacm.acm.org/magazines/2021/4/251364-safe-systems-programming-in-rust/fulltext
 - [Rust verification tools 2021](https://alastairreid.github.io/automatic-rust-verification-tools-2021/)
+- [Using `unwrap()` in Rust is okay](https://blog.burntsushi.net/unwrap/)
