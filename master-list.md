@@ -271,6 +271,7 @@ of this page. Someday I will get around to re-organizing this list.__
 - [Roguelike Tutorial in Rust + tcod](https://tomassedovic.github.io/roguelike-tutorial/)
 - [Learning Rust](https://learning-rust.github.io)
 - [Unsafe Code Guidelines](https://rust-lang.github.io/unsafe-code-guidelines/)
+- [Rust in Easy English](https://dhghomon.github.io/easy_rust/Chapter_1.html)
 
 ## Completely Unevaluated Links
 
