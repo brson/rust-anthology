@@ -117,7 +117,7 @@ Operator|Trait
 --------|-----
 `!a`    |[`Not`](http://doc.rust-lang.org/std/ops/trait.Not.html)
 `a & b` |[`BitAnd`](http://doc.rust-lang.org/std/ops/trait.BitAnd.html)
-`a | b` |[`BitOr`](http://doc.rust-lang.org/std/ops/trait.BitOr.html)
+`a \| b` |[`BitOr`](http://doc.rust-lang.org/std/ops/trait.BitOr.html)
 `a ^ b` |[`BitXor`](http://doc.rust-lang.org/std/ops/trait.BitXor.html)
 `a << b`|[`Shl`](http://doc.rust-lang.org/std/ops/trait.Shl.html)
 `a >> b`|[`Shr`](http://doc.rust-lang.org/std/ops/trait.Shr.html)
