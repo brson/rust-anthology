@@ -353,3 +353,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - https://cacm.acm.org/magazines/2021/4/251364-safe-systems-programming-in-rust/fulltext
 - [Rust verification tools 2021](https://alastairreid.github.io/automatic-rust-verification-tools-2021/)
 - [Using `unwrap()` in Rust is okay](https://blog.burntsushi.net/unwrap/)
+- [A Guide to Error Handling in Rust](https://nrc.github.io/error-docs/)
