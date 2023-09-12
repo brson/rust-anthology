@@ -354,3 +354,4 @@ of this page. Someday I will get around to re-organizing this list.__
 - [Rust verification tools 2021](https://alastairreid.github.io/automatic-rust-verification-tools-2021/)
 - [Using `unwrap()` in Rust is okay](https://blog.burntsushi.net/unwrap/)
 - [A Guide to Error Handling in Rust](https://nrc.github.io/error-docs/)
+- [Accidentally Quadratic: Rust hash iteration+reinsertion](https://accidentallyquadratic.tumblr.com/post/153545455987/rust-hash-iteration-reinsertion)
