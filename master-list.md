@@ -103,8 +103,8 @@ of this page. Someday I will get around to re-organizing this list.__
   - [Working With C Unions in Rust FFI](http://hermanradtke.com/2016/03/17/unions-rust-ffi.html)
   - [Quick tip: the `#[cfg_attr]` attribute](https://chrismorgan.info/blog/rust-cfg_attr.html)
   - Using the `Option` Type Effectively
-    - [Part 1](http://blog.8thlight.com/dave-torre/2015/03/11/the-option-type.html)
-    - [Part 2](http://blog.8thlight.com/uku-taht/2015/04/29/using-the-option-type-effectively.html)
+    - [Part 1](https://8thlight.com/insights/the-option-type)
+    - [Part 2](https://8thlight.com/insights/using-the-option-type-effectively)
   - [ripgrep code review](https://web.archive.org/web/20190401042439/http://blog.mbrt.it/2016-12-01-ripgrep-code-review/)
   - [gnome-class: Integrating Rust and the GNOME object system](http://smallcultfollowing.com/babysteps/blog/2017/05/02/gnome-class-integrating-rust-and-the-gnome-object-system/)
   - [Exploring Rust's standard library: system calls and errors](https://people.gnome.org/~federico/blog/rust-libstd-syscalls-and-errors.html)
